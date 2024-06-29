@@ -1,0 +1,31 @@
+services:
+  pinnacle-db:
+    container_name: pinnacle-db
+    build:
+      context: .
+      dockerfile: docker/postgres/Dockerfile
+      args:
+        - "UID:${UID}:-1000"
+        - "GID:${GID}:-1000"
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  pinnacle-api:
+    container_name: pinnacle-api
+    build:
+      context: .
+      dockerfile: docker/python/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    restart: on-failure
+    volumes:
+      - ./api:/app
+
+volumes:
+  db-data:
