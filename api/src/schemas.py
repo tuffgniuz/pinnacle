@@ -1,7 +1,23 @@
 import uuid
 
 from pydantic import BaseModel
-from sqlalchemy import UUID
+
+
+class IssueCreateSchema(BaseModel):
+    description: str | None
+    state_id: str
+
+
+class IssueReadSchema(BaseModel):
+    id: uuid.UUID
+    order: int
+    description: str
+
+
+class IssueUpdateSchema(BaseModel):
+    description: str | None
+    order: int | None
+    state_id: str | None
 
 
 class StateCreateSchema(BaseModel):
@@ -11,8 +27,4 @@ class StateCreateSchema(BaseModel):
 class StateReadSchema(BaseModel):
     id: uuid.UUID
     name: str
-
-
-class IssueCreateSchema(BaseModel):
-    description: str | None
-    state_id: str
+    issues: list[IssueReadSchema]

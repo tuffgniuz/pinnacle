@@ -2,6 +2,7 @@ from typing import Sequence
 
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.db import get_async_session
 from src.models import Issue, State
 from src.repositories import IssueRepository, StateRepository
@@ -21,13 +22,6 @@ class IssueService:
 
         return await self.repository.create(issue)
 
-    async def get_next_order_value(self, state_id: str) -> int:
-        issue = await self.repository.get_first_for_state(state_id)
-
-        if issue is None:
-            return 1
-        return issue.order + 1
-
     async def get_by_id_or_none(self, id: str) -> Issue | None:
         issue = await self.repository.get(id)
 
@@ -39,12 +33,46 @@ class IssueService:
     async def filter_by_state(self, state_id: str) -> Sequence[Issue]:
         return await self.repository.filter_by(state_id=state_id)
 
-    async def update(self, id: str, **kwargs) -> Issue | None:
-        # handle updating the issue
-        # probably will need to have a utility function that handles the sorting logic
-        # this utility function wil then only be triggered if a change in order is detected
-        # whether that be inside the same state or in a new state
-        issue = await self.get_by_id_or_none(id)
+    async def update(self, issue_id: str, update_data: dict) -> Issue | None:
+        issue = await self.get_by_id_or_none(issue_id)
+
+        if not issue:
+            raise ValueError("Issue not found")
+
+        current_state_id = issue.state_id
+        new_state_id = update_data.get("state_id", current_state_id)
+        new_order = update_data.get("order")
+
+        if new_state_id != current_state_id:
+            issue.state_id = new_state_id
+            await self.repository.update(issue, state_id=new_state_id)
+
+            current_state_issues = await self.filter_by_state(current_state_id)
+            current_state_issues = sorted(current_state_issues, key=lambda x: x.order)
+
+            for index, current_issue in enumerate(current_state_issues):
+                current_issue.order = index + 1
+            await self.session.commit()
+
+        if new_order is not None:
+            issues = await self.filter_by_state(new_state_id)
+            issues = sorted(issues, key=lambda x: x.order)
+
+            issues = [i for i in issues if i.id != issue_id]
+            issues.insert(new_order, issue)
+
+            for index, target_issue in enumerate(issues):
+                target_issue.order = index + 1
+            await self.session.commit()
+
+        return await self.repository.update(issue, **update_data)
+
+    async def get_next_order_value(self, state_id: str) -> int:
+        issue = await self.repository.get_first_for_state(state_id)
+
+        if issue is None:
+            return 1
+        return issue.order + 1
 
 
 class StateService:
