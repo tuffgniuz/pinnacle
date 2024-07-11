@@ -1,6 +1,6 @@
 from typing import Sequence
 
-from sqlalchemy import UUID, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 

@@ -10,6 +10,7 @@ sqlalchemy = "*"
 alembic = "*"
 pydantic-settings = "*"
 asyncpg = "*"
+fastapi-users = {extras = ["redis", "oath", "sqlalchemy"], version = "*"}
 
 [dev-packages]
 

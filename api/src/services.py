@@ -3,7 +3,7 @@ from typing import Sequence
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.db import get_async_session
+from src.core.dependencies.db import get_async_session
 from src.models import Issue, State
 from src.repositories import IssueRepository, StateRepository
 
