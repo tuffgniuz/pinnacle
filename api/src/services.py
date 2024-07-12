@@ -5,7 +5,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.dependencies.db import get_async_session
 from src.models import Issue, State
-from src.repositories import IssueRepository, StateRepository
+from src.repositories import IssueRepository, ProjectRepository, StateRepository
+
+
+class ProjectService:
+    def __init__(self, session: AsyncSession = Depends(get_async_session)):
+        self.session = session
+        self.repository = ProjectRepository(self.session)
 
 
 class IssueService:
