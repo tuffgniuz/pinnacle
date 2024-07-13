@@ -2,34 +2,8 @@ from typing import Sequence
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
-from src.models import Issue, Project, State
-from src.repositories.generic_repository_mixin import GenericRepositoryMixin
-
-
-class ProjectRepository:
-
-    def __init__(self, session: AsyncSession):
-        self.session = session
-        self.mixin = GenericRepositoryMixin(Project, self.session)
-
-
-class StateRepository:
-
-    def __init__(self, session: AsyncSession):
-        self.session = session
-
-    async def create(self, state: State) -> State:
-        self.session.add(state)
-        await self.session.commit()
-        await self.session.refresh(state)
-        return state
-
-    async def get_all(self) -> Sequence[State]:
-        stmt = select(State).options(selectinload(State.issues))
-        result = await self.session.execute(stmt)
-        return result.scalars().all()
+from src.core.models import Issue
 
 
 class IssueRepository:

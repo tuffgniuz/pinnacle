@@ -3,15 +3,22 @@ from typing import Sequence
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.core.auth.users import get_current_user
 from src.core.dependencies.db import get_async_session
-from src.models import Issue, State
-from src.repositories import IssueRepository, ProjectRepository, StateRepository
+from src.core.models import Issue, State, User
+from src.core.repositories.issue_repository import IssueRepository
+from src.core.repositories.state_repository import StateRepository
 
 
-class ProjectService:
-    def __init__(self, session: AsyncSession = Depends(get_async_session)):
+class WorkflowService:
+
+    def __init__(
+        self,
+        current_user: User = Depends(get_current_user),
+        session: AsyncSession = Depends(get_async_session),
+    ):
+        self.current_user = current_user
         self.session = session
-        self.repository = ProjectRepository(self.session)
 
 
 class IssueService:
