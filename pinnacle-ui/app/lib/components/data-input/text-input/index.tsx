@@ -15,14 +15,14 @@ const TextInput: FC<{
       className="
         bg-transparent 
         outline 
-        outline-1 
-        outline-accent-dark-400
-        focus:outline-neutral-dark-200
+        outline-2 
+        dark:outline-accent-dark-600
+        outline-primary-light
         transition-all
         duration-300
         ease-in-out
-        rounded-md 
-        p-2
+        rounded-lg
+        p-4
       "
     />
   );

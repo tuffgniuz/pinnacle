@@ -15,16 +15,24 @@ const OAuthLinks: FC = () => {
               flex items-center justify-center gap-2 
               border dark:border-accent-dark-600 
               rounded-xl 
-              px-4 py-2
+              p-4
             "
         >
-          <FaGithub size="18" />
+          <span className="bg-neutral-light-500 text-text-light-100 rounded-full p-1">
+            <FaGithub size="18" />
+          </span>
         </Link>
         <Link
           href=""
-          className="w-full flex items-center justify-center gap-5 border dark:border-accent-dark-600 rounded-xl px-4 py-2"
+          className="
+            w-full 
+            flex items-center justify-center gap-5 
+            border dark:border-accent-dark-600 
+            rounded-xl p-2"
         >
-          <FaGoogle size="18" />
+          <span className="bg-neutral-light-500 text-text-light-100 rounded-full p-1">
+            <FaGoogle size="18" />
+          </span>
         </Link>
       </div>
     </>
