@@ -3,6 +3,13 @@ from pathlib import Path
 from pydantic_settings import BaseSettings
 
 
+class JWTSettings(BaseSettings):
+    jwt_secret: str
+
+    class Config:
+        env_file = str(Path(__file__).resolve().parent.parent.parent.parent / ".env")
+
+
 class OAuthSettings(BaseSettings):
     google_oauth_client_id: str
     google_oauth_client_secret: str
@@ -24,5 +31,6 @@ class PostgresSettings(BaseSettings):
         env_file = str(Path(__file__).resolve().parent.parent.parent.parent / ".env")
 
 
+jwt_settings = JWTSettings()
 oauth_settings = OAuthSettings()
 pg_settings = PostgresSettings()

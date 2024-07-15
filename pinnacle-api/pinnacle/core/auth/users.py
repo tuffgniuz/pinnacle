@@ -9,15 +9,14 @@ from fastapi_users.authentication import (
     RedisStrategy,
 )
 
+from pinnacle.core.config.settings import jwt_settings
 from pinnacle.core.dependencies.db import get_user_db
 from pinnacle.core.models import User
 
-SECRET = "SECRET"
-
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
-    reset_password_token_secret = SECRET
-    verification_token_secret = SECRET
+    reset_password_token_secret = jwt_settings.jwt_secret
+    verification_token_secret = jwt_settings.jwt_secret
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):
