@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="/res/pinnacle.svg" />
+<img src="/res/pinnacle.svg" height="250" width="250" />
 
 # Pinnacle - Secure Development From The Ground Up
 
