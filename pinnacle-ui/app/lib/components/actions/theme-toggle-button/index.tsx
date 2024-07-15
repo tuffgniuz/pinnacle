@@ -11,7 +11,7 @@ const ThemeToggleButton: FC = () => {
     <button
       onClick={toggleTheme}
       className="
-        dark:bg-accent-dark-500
+        dark:bg-background-dark
         bg-accent-light-300
         rounded-md
         p-2

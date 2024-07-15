@@ -18,7 +18,13 @@ export default function RootLayout({
     <ThemeProvider>
       <html lang="en">
         <body
-          className={`bg-background-light dark:bg-background-dark text-text-light-100 dark:text-text-dark-900 transition-all duration-300 ease-in-out ${rubik.className}`}
+          className={`
+            bg-background-light 
+            dark:bg-accent-dark-500 
+            text-text-light-100 
+            dark:text-text-dark-900 
+            transition-all duration-300 ease-in-out 
+            ${rubik.className}`}
         >
           {children}
         </body>

@@ -14,6 +14,16 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
+  pinnacle-redis:
+    container_name: pinnacle-rdis
+    build:
+      context: .
+      dockerfile: docker/redis/Dockerfile
+    ports:
+      - "6389:6379"
+    volumes: redis-data:/data
+    restart: always
+
   pinnacle-api:
     container_name: pinnacle-api
     build:
@@ -29,3 +39,4 @@ services:
 
 volumes:
   db-data:
+  redis-data:

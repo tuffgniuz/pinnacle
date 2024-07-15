@@ -16,7 +16,7 @@ const TextInput: FC<{
         bg-transparent 
         outline 
         outline-1 
-        outline-accent-dark-500
+        outline-accent-dark-400
         focus:outline-neutral-dark-200
         transition-all
         duration-300
