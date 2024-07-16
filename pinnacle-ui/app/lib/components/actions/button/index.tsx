@@ -6,6 +6,7 @@ const Button: FC<{
   rounded?: "sm" | "md" | "lg" | "xl";
   fullWidth?: boolean;
   type?: "button" | "submit";
+  className?: string | undefined;
   onSubmit?: () => void;
   onClick?: () => void;
 }> = ({
@@ -14,6 +15,7 @@ const Button: FC<{
   fullWidth,
   onSubmit,
   onClick,
+  className,
   type = "button",
   rounded = "md",
 }) => {
@@ -34,7 +36,7 @@ const Button: FC<{
       type={type}
       onSubmit={onSubmit}
       onClick={onClick}
-      className={`${buttonCls}`}
+      className={`${buttonCls} ${className}`}
     >
       {icon && icon}
       {value && value}

@@ -1,5 +1,3 @@
-"use server";
-
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const registerUser = async (
@@ -7,27 +5,28 @@ export const registerUser = async (
   email: string,
   password: string,
 ) => {
-  try {
-    const response = await fetch(`${BASE_URL}/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fullname,
-        email,
-        password,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error registering user:", error);
-    throw error;
-  }
+  console.info(`fullname: ${fullname}, email: ${email}, password: ${password}`);
+  // try {
+  //   const response = await fetch(`${BASE_URL}/auth/register`, {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       fullname,
+  //       email,
+  //       password,
+  //     }),
+  //   });
+  //
+  //   if (!response.ok) {
+  //     throw new Error(`HTTP error! status: ${response.status}`);
+  //   }
+  //
+  //   const data = await response.json();
+  //   return data;
+  // } catch (error) {
+  //   console.error("Error registering user:", error);
+  //   throw error;
+  // }
 };
 
 export const getGithubAuthorizationUrl = async () => {
@@ -36,7 +35,6 @@ export const getGithubAuthorizationUrl = async () => {
     const data = await response.json();
     return data.authorization_url;
   } catch (error) {
-    console.error("Error fetching Github authorization URL:", error);
     throw error;
   }
 };

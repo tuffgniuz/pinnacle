@@ -1,7 +1,7 @@
 import uuid
 
 import redis.asyncio
-from fastapi import Depends, Request
+from fastapi import Depends, Request, Response
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
 from fastapi_users.authentication import (
     AuthenticationBackend,
@@ -12,15 +12,29 @@ from fastapi_users.authentication import (
 from pinnacle.core.config.settings import jwt_settings
 from pinnacle.core.dependencies.db import get_user_db
 from pinnacle.core.models import User
-from pinnacle.utils.logger import logger
+
+# from pinnacle.utils.logger import logger
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
     reset_password_token_secret = jwt_settings.jwt_secret
     verification_token_secret = jwt_settings.jwt_secret
 
+    async def on_after_login(
+        self,
+        user: User,
+        request: Request | None = None,
+        response: Response | None = None,
+    ):
+        print("On after login: ", response)
+
     async def on_after_register(self, user: User, request: Request | None = None):
-        logger.info(f"User with email {user.email} has successfully been registered")
+        print(f"User with email {user.email} has successfully been registered")
+
+    async def on_after_request_verify(
+        self, user: User, token: str, request: Request | None = None
+    ):
+        print(f"Verification token: {token} for user with mail ${user.email}")
 
 
 async def get_user_manager(user_db=Depends(get_user_db)):
