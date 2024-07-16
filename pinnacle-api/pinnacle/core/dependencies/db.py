@@ -5,7 +5,7 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from pinnacle.core.config.settings import pg_settings
-from pinnacle.core.models import User
+from pinnacle.core.models import OAuthAccount, User
 
 DB_URL = f"postgresql+asyncpg://{pg_settings.postgres_user}:{pg_settings.postgres_password}@{pg_settings.postgres_host}:{pg_settings.postgres_port}/{pg_settings.postgres_db}"
 
@@ -19,4 +19,4 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
 
 
 async def get_user_db(session: AsyncSession = Depends(get_async_session)):
-    yield SQLAlchemyUserDatabase(session, User)
+    yield SQLAlchemyUserDatabase(session, User, OAuthAccount)

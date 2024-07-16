@@ -1,15 +1,27 @@
+"use client";
+import { FC, useEffect, useState } from "react";
 import Link from "next/link";
-import { FC } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
 
+import { getGithubAuthorizationUrl } from "@/app/lib/actions";
+
 const OAuthLinks: FC = () => {
+  const [githubAuthUrl, setGithubAuthUrl] = useState<string>("");
+
+  useEffect(() => {
+    (async () => {
+      const url = await getGithubAuthorizationUrl();
+      setGithubAuthUrl(url);
+    })();
+  }, []);
+
   return (
     <>
       <p className="mb-5">Or continue with</p>
 
       <div className="flex gap-2">
         <Link
-          href=""
+          href={githubAuthUrl}
           className="
               w-full 
               flex items-center justify-center gap-2 
@@ -23,7 +35,7 @@ const OAuthLinks: FC = () => {
           </span>
         </Link>
         <Link
-          href=""
+          href={`${process.env.PUBLIC_NEXT_API_URL}/auth/github/authorize`}
           className="
             w-full 
             flex items-center justify-center gap-5 

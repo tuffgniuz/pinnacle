@@ -61,7 +61,7 @@ class OAuthAccount(SQLAlchemyBaseOAuthAccountTableUUID, Base):
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
-    fullname: Mapped[str] = mapped_column(String(1000), unique=True, nullable=False)
+    fullname: Mapped[str] = mapped_column(String(1000), unique=True, nullable=True)
 
     projects: Mapped[list["Project"]] = relationship(
         "Project", secondary=user_project_association, back_populates="users"
@@ -69,7 +69,7 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     issues: Mapped[list["Issue"]] = relationship(
         "Issue", secondary=user_issue_association, back_populates="assignees"
     )
-    oath_accounts: Mapped[list["OAuthAccount"]] = relationship(
+    oauth_accounts: Mapped[list["OAuthAccount"]] = relationship(
         "OAuthAccount", lazy="joined"
     )
 

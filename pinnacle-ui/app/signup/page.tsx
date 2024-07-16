@@ -2,6 +2,7 @@ import { FC } from "react";
 import AuthHeader from "../lib/components/navigation/auth-header";
 import OAuthLinks from "../lib/components/navigation/oauth-links";
 import Link from "next/link";
+import SignupForm from "../lib/components/forms/signup-form";
 
 const Signup: FC = () => {
   return (
@@ -18,6 +19,9 @@ const Signup: FC = () => {
               Login
             </Link>
           </p>
+
+          <SignupForm />
+
           <OAuthLinks />
         </div>
       </div>
