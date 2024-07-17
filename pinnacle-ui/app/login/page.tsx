@@ -1,19 +1,16 @@
-import { FC } from "react";
+import { NextPage } from "next";
 
 import Link from "next/link";
-import TextInput from "../lib/components/data-input/text-input";
 import AuthHeader from "../lib/components/navigation/auth-header";
 import OAuthLinks from "../lib/components/navigation/oauth-links";
-import Button from "../lib/components/actions/button";
-import Label from "../lib/components/forms/label";
-import FormGroup from "../lib/components/forms/form-group";
+import LoginForm from "../lib/components/forms/login-form";
+import Container from "../lib/components/layout/container";
 
-const Login: FC = () => {
+const Login: NextPage = () => {
   return (
     <>
       <AuthHeader />
-
-      <div className="w-2/6 mx-auto">
+      <Container width="w-2/6">
         <h1 className="text-4xl text-center font-semibold mb-5">
           Welcome back.
         </h1>
@@ -25,18 +22,7 @@ const Login: FC = () => {
           </Link>
         </p>
 
-        {/* Login form */}
-        <form className="mb-5">
-          <FormGroup>
-            <Label value="Your email" />
-            <TextInput placeholder="Enter your email..." />
-          </FormGroup>
-          <FormGroup>
-            <Label value="Your password" />
-            <TextInput type="password" placeholder="Enter you password" />
-          </FormGroup>
-          <Button value="Login" fullWidth />
-        </form>
+        <LoginForm />
 
         <div className="my-5">
           <Link href="" className="underline underline-offset-4">
@@ -44,9 +30,8 @@ const Login: FC = () => {
           </Link>
         </div>
 
-        {/* OAuth clients authentication */}
         <OAuthLinks />
-      </div>
+      </Container>
     </>
   );
 };

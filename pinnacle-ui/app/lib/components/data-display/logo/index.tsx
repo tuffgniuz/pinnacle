@@ -3,14 +3,24 @@ import { FC } from "react";
 import Image from "next/image";
 
 import { useTheme } from "@/app/lib/context/theme-context";
+import Link from "next/link";
 
-const Logo: FC = () => {
+const Logo: FC<{ size?: number }> = ({ size = 35 }) => {
   const { theme } = useTheme();
 
   return theme === "dark" ? (
-    <Image src="/icons/pinnacle-light.svg" alt="logo" width="35" height="35" />
+    <Link href="/">
+      <Image
+        src="/icons/pinnacle-light.svg"
+        alt="logo"
+        width={size}
+        height={size}
+      />
+    </Link>
   ) : (
-    <Image src="/icons/pinnacle.svg" alt="logo" width="35" height="35" />
+    <Link href="/">
+      <Image src="/icons/pinnacle.svg" alt="logo" width="35" height="35" />
+    </Link>
   );
 };
 

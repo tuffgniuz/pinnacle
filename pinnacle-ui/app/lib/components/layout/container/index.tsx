@@ -10,9 +10,11 @@ const Container: FC<{
   className?: string;
 }> = ({ children, width, className }) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className={`mx-auto ${width} ${className}`}>{children}</div>
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <div className={`mx-auto ${width} ${className}`}>{children}</div>
+      </QueryClientProvider>
+    </>
   );
 };
 

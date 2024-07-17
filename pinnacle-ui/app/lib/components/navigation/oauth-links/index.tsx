@@ -6,14 +6,14 @@ import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { getGithubAuthorizationUrl } from "@/app/lib/actions";
 
 const OAuthLinks: FC = () => {
-  const [githubAuthUrl, setGithubAuthUrl] = useState<string>("");
-
-  useEffect(() => {
-    (async () => {
-      const url = await getGithubAuthorizationUrl();
-      setGithubAuthUrl(url);
-    })();
-  }, []);
+  // const [githubAuthUrl, setGithubAuthUrl] = useState<string>("");
+  //
+  // useEffect(() => {
+  //   (async () => {
+  //     const url = await getGithubAuthorizationUrl();
+  //     setGithubAuthUrl(url);
+  //   })();
+  // }, []);
 
   return (
     <>
@@ -21,7 +21,7 @@ const OAuthLinks: FC = () => {
 
       <div className="flex gap-2">
         <Link
-          href={githubAuthUrl}
+          href=""
           className="
               w-full 
               flex items-center justify-center gap-2 

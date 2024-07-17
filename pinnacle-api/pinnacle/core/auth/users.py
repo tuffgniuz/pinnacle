@@ -3,11 +3,8 @@ import uuid
 import redis.asyncio
 from fastapi import Depends, Request, Response
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
-from fastapi_users.authentication import (
-    AuthenticationBackend,
-    BearerTransport,
-    RedisStrategy,
-)
+from fastapi_users.authentication import (AuthenticationBackend,
+                                          BearerTransport, RedisStrategy)
 
 from pinnacle.core.config.settings import jwt_settings
 from pinnacle.core.dependencies.db import get_user_db
@@ -26,7 +23,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         request: Request | None = None,
         response: Response | None = None,
     ):
-        print("On after login: ", response)
+        print(f"User with email {user.email} has logged in")
 
     async def on_after_register(self, user: User, request: Request | None = None):
         print(f"User with email {user.email} has successfully been registered")
