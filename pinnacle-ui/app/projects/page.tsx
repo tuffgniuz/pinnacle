@@ -3,24 +3,26 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { LucideRocket } from "lucide-react";
 
-import Container from "../lib/components/layout/container";
+// import Container from "../lib/components/layout/container";
 import Navbar from "../lib/components/navigation/navbar";
 
 import withAuth from "../lib/hocs/withAuth";
+import ProjectList from "../lib/components/data-display/project-list";
 
 const Projects: NextPage = () => {
   return (
     <>
       <Navbar />
-      <Container className="px-5">
+      <div className="px-5">
         <Link
           href="/projects/new"
-          className="inline-flex items-center gap-2 bg-accent-light-300 dark:bg-accent-dark-300 text-text-light-900 dark:text-accent-dark-900 p-4 rounded-lg"
+          className="transition-all duration-300 ease-in-out inline-flex items-center gap-2 bg-accent-light-300 dark:bg-accent-dark-300 text-text-light-900 dark:text-accent-dark-900 p-4 rounded-lg"
         >
           <LucideRocket size={18} />
           Create project
         </Link>
-      </Container>
+      </div>
+      <ProjectList />
     </>
   );
 };

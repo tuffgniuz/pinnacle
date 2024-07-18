@@ -26,7 +26,7 @@ const Navbar: FC<{ showProjectLinks?: boolean }> = ({ showProjectLinks }) => {
   };
 
   return (
-    <nav className="h-20 flex items-center justify-between px-5 mb-10">
+    <nav className="h-20 flex items-center justify-between px-5 mb-5">
       <div className="flex items-center gap-5">
         <Logo />
         {currentUser && <h1>{currentUser.fullname}</h1>}

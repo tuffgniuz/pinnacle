@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getCurrentUser } from "../actions";
-import { User } from "../models";
 import { useSelector } from "react-redux";
 import { RootState } from "../stores/store";
+import { User } from "../types/models";
 
 const useCurrentUser = () => {
   const token = useSelector((state: RootState) => state.auth.token);

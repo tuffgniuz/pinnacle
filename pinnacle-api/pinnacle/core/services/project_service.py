@@ -36,11 +36,11 @@ class ProjectService(AbstractGenericService):
         if project.methodology == ProjectMethodology.SCRUM:
             project.has_backlog = True
 
-        async with self.session.begin():
-            new_project = self.project_repository.generics.save(project)
-            await self.session.flush()
-            await self.create_default_workflow_and_states(new_project)
-            await self.session.refresh(new_project)
+        new_project = self.project_repository.generics.save(project)
+        await self.session.flush()
+        await self.create_default_workflow_and_states(new_project)
+        await self.session.refresh(new_project)
+        await self.session.commit()
 
         return new_project
 

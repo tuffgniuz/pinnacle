@@ -9,6 +9,7 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      colors: {},
       colors: {
         "background-light": {
           DEFAULT: "#f8f9fa",
@@ -201,6 +202,11 @@ const config: Config = {
           700: "#b7daf2",
           800: "#cfe6f6",
           900: "#e7f3fb",
+        },
+        sky_magenta: {
+          DEFAULT: "#AE759F",
+          "500": "#ae759f",
+          "600": "#be90b2",
         },
       },
     },

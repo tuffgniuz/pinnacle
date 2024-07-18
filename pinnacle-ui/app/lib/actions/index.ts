@@ -1,3 +1,5 @@
+import { ProjectMethodology } from "../types/enums";
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const registerUser = async (
@@ -100,12 +102,16 @@ export const getGithubAuthorizationUrl = async () => {
 export const createProject = async (
   token: string | null,
   name: string,
-  methodology: string,
+  methodology: ProjectMethodology,
   description?: string,
 ) => {
+  console.log(methodology);
   const response = await fetch(`${BASE_URL}/api/v1/projects`, {
     method: "POST",
-    headers: { Authorization: `${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ name, description, methodology }),
   });
 
