@@ -19,9 +19,7 @@ const useLoginUser = () => {
       loginUser(username, password),
     onSuccess: (data) => {
       const { access_token } = data;
-      console.log(access_token);
-      const user = {};
-      dispatch(loginSuccess({ user, token: access_token }));
+      dispatch(loginSuccess({ token: access_token }));
       router.push("/projects");
     },
     onError: (error) => {

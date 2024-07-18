@@ -1,11 +1,14 @@
+"use client";
 import { FC } from "react";
 import Link from "next/link";
 
 import { LucideX } from "lucide-react";
 
 import Logo from "../../data-display/logo";
+import useCurrentUser from "@/app/lib/hooks/useCurrentUser";
 
-const AuthHeader: FC = () => {
+const FormPageHeader: FC = () => {
+  const { data: currentUser } = useCurrentUser();
   return (
     <header
       className="
@@ -18,8 +21,8 @@ const AuthHeader: FC = () => {
       "
     >
       <div className="w-4/6 mx-auto flex items-center justify-between">
-        <Logo />
-        <Link href="/" className="">
+        <Logo href={currentUser && "/projects"} />
+        <Link href={currentUser ? "/projects" : "/"} className="">
           <LucideX />
         </Link>
       </div>
@@ -27,4 +30,4 @@ const AuthHeader: FC = () => {
   );
 };
 
-export default AuthHeader;
+export default FormPageHeader;

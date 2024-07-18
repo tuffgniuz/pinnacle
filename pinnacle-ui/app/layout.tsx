@@ -3,6 +3,7 @@ import { Rubik } from "next/font/google";
 import { ThemeProvider } from "./lib/context/theme-context";
 import "./globals.css";
 import ReduxProvider from "./lib/components/wrappers/redux-provider";
+import QueryClientContainer from "./lib/components/wrappers/query-client-container";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -16,22 +17,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ReduxProvider>
-      <ThemeProvider>
-        <html lang="en">
-          <body
-            className={`
+    <QueryClientContainer>
+      <ReduxProvider>
+        <ThemeProvider>
+          <html lang="en">
+            <body
+              className={`
             bg-background-light 
             dark:bg-accent-dark-500 
             text-text-light-100 
             dark:text-text-dark-900 
             transition-all duration-300 ease-in-out 
             ${rubik.className}`}
-          >
-            {children}
-          </body>
-        </html>
-      </ThemeProvider>
-    </ReduxProvider>
+            >
+              {children}
+            </body>
+          </html>
+        </ThemeProvider>
+      </ReduxProvider>
+    </QueryClientContainer>
   );
 }

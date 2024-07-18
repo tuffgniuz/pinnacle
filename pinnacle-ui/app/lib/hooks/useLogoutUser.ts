@@ -9,6 +9,8 @@ const useLogoutUser = () => {
   const dispatch = useDispatch();
   const token = useSelector((state: RootState) => selectToken(state));
 
+  console.log(token);
+
   const handleLogout = useCallback(async () => {
     if (!token) {
       console.error("No token found for logout");

@@ -1,7 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../stores/store";
-import { logout, selectToken } from "../stores/authSlice";
-
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const registerUser = async (
@@ -68,6 +64,26 @@ export const logoutUser = async (token: string) => {
     });
   } catch (error) {
     throw new Error(`failed to logout ${error}`);
+  }
+};
+
+export const getCurrentUser = async (token: string) => {
+  try {
+    console.info("Trying to get current user...");
+    const response = await fetch(`${BASE_URL}/users/me`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok)
+      throw new Error(
+        `HTTP error! status ${response.status} - ${response.statusText}`,
+      );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(`failed to get current user ${error}`);
   }
 };
 

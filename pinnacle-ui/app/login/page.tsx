@@ -1,15 +1,15 @@
 import { NextPage } from "next";
 
 import Link from "next/link";
-import AuthHeader from "../lib/components/navigation/auth-header";
 import OAuthLinks from "../lib/components/navigation/oauth-links";
 import LoginForm from "../lib/components/forms/login-form";
 import Container from "../lib/components/layout/container";
+import FormPageHeader from "../lib/components/navigation/form-page-header";
 
 const Login: NextPage = () => {
   return (
     <>
-      <AuthHeader />
+      <FormPageHeader />
       <Container width="w-2/6">
         <h1 className="text-4xl text-center font-semibold mb-5">
           Welcome back.
