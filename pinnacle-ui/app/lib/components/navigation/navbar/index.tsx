@@ -10,7 +10,7 @@ import Link from "next/link";
 import Logo from "../../data-display/logo";
 import UserNavItems from "../user-nav-items";
 
-const Navbar: FC = () => {
+const Navbar: FC<{ showProjectLinks?: boolean }> = ({ showProjectLinks }) => {
   const router = useRouter();
   const {
     data: currentUser,
@@ -36,7 +36,7 @@ const Navbar: FC = () => {
           <li>
             <ThemeToggleButton />
           </li>
-          {currentUser && <UserNavItems />}
+          {currentUser && showProjectLinks && <UserNavItems />}
         </ul>
         <span>|</span>
         <ul>

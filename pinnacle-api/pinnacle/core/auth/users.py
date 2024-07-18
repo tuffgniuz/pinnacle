@@ -3,8 +3,11 @@ import uuid
 import redis.asyncio
 from fastapi import Depends, Request, Response
 from fastapi_users import BaseUserManager, FastAPIUsers, UUIDIDMixin
-from fastapi_users.authentication import (AuthenticationBackend,
-                                          BearerTransport, RedisStrategy)
+from fastapi_users.authentication import (
+    AuthenticationBackend,
+    BearerTransport,
+    RedisStrategy,
+)
 
 from pinnacle.core.config.settings import jwt_settings
 from pinnacle.core.dependencies.db import get_user_db
@@ -44,7 +47,7 @@ redis = redis.asyncio.from_url("redis://pinnacle-redis:6379", decode_responses=T
 
 
 def get_redis_strategy() -> RedisStrategy:
-    return RedisStrategy(redis, lifetime_seconds=3600)
+    return RedisStrategy(redis, lifetime_seconds=None)
 
 
 auth_backend = AuthenticationBackend(

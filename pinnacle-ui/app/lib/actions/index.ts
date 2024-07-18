@@ -97,4 +97,25 @@ export const getGithubAuthorizationUrl = async () => {
   }
 };
 
-export const getUserProjects = () => {};
+export const createProject = async (
+  token: string | null,
+  name: string,
+  methodology: string,
+  description?: string,
+) => {
+  const response = await fetch(`${BASE_URL}/api/v1/projects`, {
+    method: "POST",
+    headers: { Authorization: `${token}` },
+    body: JSON.stringify({ name, description, methodology }),
+  });
+
+  if (!response.ok)
+    throw new Error(
+      `HTTP error! status ${response.status} - ${response.statusText}`,
+    );
+
+  const data = await response.json();
+  return data;
+};
+
+export const getProjects = () => {};

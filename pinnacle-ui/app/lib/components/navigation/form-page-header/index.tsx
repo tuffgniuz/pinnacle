@@ -7,7 +7,7 @@ import { LucideX } from "lucide-react";
 import Logo from "../../data-display/logo";
 import useCurrentUser from "@/app/lib/hooks/useCurrentUser";
 
-const FormPageHeader: FC = () => {
+const FormPageHeader: FC<{ title?: string | undefined }> = ({ title }) => {
   const { data: currentUser } = useCurrentUser();
   return (
     <header
@@ -21,7 +21,10 @@ const FormPageHeader: FC = () => {
       "
     >
       <div className="w-4/6 mx-auto flex items-center justify-between">
-        <Logo href={currentUser && "/projects"} />
+        <div className="flex items-center gap-5">
+          <Logo href={currentUser && "/projects"} />
+          {title && <h1 className="text-lg">{title}</h1>}
+        </div>
         <Link href={currentUser ? "/projects" : "/"} className="">
           <LucideX />
         </Link>

@@ -9,6 +9,7 @@ from pinnacle.core.schemas.user_schemas import UserCreate, UserRead, UserUpdate
 
 def include_routers(app: FastAPI):
     app.include_router(project_router, prefix="/api/v1", tags=["projects"])
+    # fastapi-users routes
     app.include_router(
         users.get_register_router(UserRead, UserCreate), prefix="/auth", tags=["auth"]
     )

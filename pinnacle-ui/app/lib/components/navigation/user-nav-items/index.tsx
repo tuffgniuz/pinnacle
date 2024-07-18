@@ -2,7 +2,12 @@ import { FC } from "react";
 
 import withAuth from "@/app/lib/hocs/withAuth";
 import Navlink from "../navlink";
-import { LucideKanban, LucideSettings } from "lucide-react";
+import {
+  LucideKanban,
+  LucideListCheck,
+  LucideSettings,
+  LucideShieldCheck,
+} from "lucide-react";
 
 const UserNavItems: FC = () => {
   const iconSize = 18;
@@ -13,6 +18,20 @@ const UserNavItems: FC = () => {
           href="/"
           icon={<LucideKanban size={iconSize} />}
           value="Board"
+        />
+      </li>
+      <li>
+        <Navlink
+          href="/"
+          icon={<LucideListCheck size={18} />}
+          value={"Backlog"}
+        />
+      </li>
+      <li>
+        <Navlink
+          href="/"
+          icon={<LucideShieldCheck size={18} />}
+          value="Security Controls"
         />
       </li>
       <li>

@@ -20,13 +20,14 @@ const Button: FC<{
   rounded = "md",
 }) => {
   const buttonCls = `
-    bg-neutral-light-500 
-    dark:bg-text-dark
+    bg-accent-light-300 
+    dark:bg-accent-dark-300
     text-center 
-    text-text-light-100
+    text-text-light-900
+    dark:text-text-dark-900
     font-semibold
     p-4
-    ${icon && value ? "flex items-center gap-2" : ""} 
+    ${icon && value ? "flex items-center justify-center gap-2" : ""} 
     rounded-${rounded} 
     ${fullWidth ? "w-full" : ""}
   `;
