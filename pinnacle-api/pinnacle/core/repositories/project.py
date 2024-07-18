@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from pinnacle.core.models import Project
@@ -25,3 +26,17 @@ class ProjectRepository:
         self.generics: GenericRepository[Project] = GenericRepository(
             Project, self.session
         )
+
+    async def find_all_by_user(self, user):
+        """
+        Finds all projects associated with the given user.
+
+        Args:
+            user (User): The user to find projects for.
+
+        Returns:
+            Sequence[Project]: A list of all projects associated with the user.
+        """
+        stmt = select(Project).where(Project.users.contains(user))
+        result = await self.session.execute(stmt)
+        return result.scalars().all()

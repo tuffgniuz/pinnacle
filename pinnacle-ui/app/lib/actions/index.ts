@@ -105,23 +105,42 @@ export const createProject = async (
   methodology: ProjectMethodology,
   description?: string,
 ) => {
-  console.log(methodology);
-  const response = await fetch(`${BASE_URL}/api/v1/projects`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name, description, methodology }),
-  });
+  try {
+    const response = await fetch(`${BASE_URL}/api/v1/projects`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, description, methodology }),
+    });
 
-  if (!response.ok)
-    throw new Error(
-      `HTTP error! status ${response.status} - ${response.statusText}`,
-    );
+    if (!response.ok)
+      throw new Error(
+        `HTTP error! status ${response.status} - ${response.statusText}`,
+      );
 
-  const data = await response.json();
-  return data;
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
 };
 
-export const getProjects = () => {};
+export const getProjects = async (token: string | null) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/v1/projects`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok)
+      throw new Error(
+        `HTTP error! status ${response.status} - ${response.statusText}`,
+      );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { createProject } from "../../actions";
 import { RootState } from "../../stores/store";
@@ -9,6 +9,7 @@ import { ProjectMethodology } from "../../types/enums";
 
 const useProjectCreate = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const token = useSelector((state: RootState) => state.auth.token);
   const [projectName, setProjectName] = useState<string>("");
   const [projectDescription, setProjectDescription] = useState<string>("");
@@ -26,6 +27,7 @@ const useProjectCreate = () => {
       );
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
       router.push("/projects");
     },
   });

@@ -68,9 +68,7 @@ class ProjectService(AbstractGenericService):
         return project
 
     async def get_all_projects_for_current_user(self) -> Sequence[Project]:
-        return await self.project_repository.generics.find_all_by(
-            users=self.current_user
-        )
+        return await self.project_repository.find_all_by_user(self.current_user)
 
     async def create_default_workflow_and_states(self, project: Project):
         default_workflow_name = generate_workflow_name(str(project.name_key))
