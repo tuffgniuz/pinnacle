@@ -16,7 +16,7 @@ const TextArea: FC<{
       onChange={onChange}
       className={`
         bg-transparent 
-        outline outline-2 
+        outline outline-1
         dark:outline-accent-dark-600 
         rounded-lg 
         p-4

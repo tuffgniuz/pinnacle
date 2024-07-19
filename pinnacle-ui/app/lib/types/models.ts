@@ -42,6 +42,7 @@ export type State = {
 export type Issue = {
   id: string;
   order: number;
+  issue_key: string;
   title: string;
   description?: string;
   effort?: number;

@@ -1,10 +1,10 @@
 import { FC, FormEvent } from "react";
 import { LucidePlus } from "lucide-react";
+import { Project } from "@/app/lib/types/models";
 import TextInput from "../../data-input/text-input";
 import Button from "../../actions/button";
 import useToggleElement from "@/app/lib/hooks/useToggleElement";
 import useIssueCreate from "@/app/lib/hooks/projects/useIssueCreate";
-import { Project } from "@/app/lib/types/models";
 
 const IssueCreateForm: FC<{ project: Project; stateId?: string }> = ({
   project,

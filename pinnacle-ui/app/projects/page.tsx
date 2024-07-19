@@ -3,7 +3,6 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { LucideRocket } from "lucide-react";
 
-// import Container from "../lib/components/layout/container";
 import Navbar from "../lib/components/navigation/navbar";
 
 import withAuth from "../lib/hocs/withAuth";

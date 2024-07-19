@@ -145,7 +145,7 @@ export const getProjects = async (token: string | null) => {
   }
 };
 
-export const getActiveWorkflow = async (
+export const getProjectWithActiveWorkflow = async (
   token: string | null,
   projectNameKey: string,
 ) => {

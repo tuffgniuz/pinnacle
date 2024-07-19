@@ -7,37 +7,13 @@ from pinnacle.core.repositories.generic import GenericRepository
 
 
 class ProjectRepository:
-    """
-    Repository class for Project model, providing an interface for
-    common database operations using the GenericRepository.
-
-    Attributes:
-        session (AsyncSession): The SQLAlchemy asynchronous session.
-        generics (GenericRepository[Project]): The generic repository instance for Project model.
-    """
-
     def __init__(self, session: AsyncSession):
-        """
-        Initializes the ProjectRepository with the given session.
-
-        Args:
-            session (AsyncSession): The SQLAlchemy asynchronous session.
-        """
         self.session: AsyncSession = session
         self.generics: GenericRepository[Project] = GenericRepository(
             Project, self.session
         )
 
     async def find_all_by_user(self, user):
-        """
-        Finds all projects associated with the given user.
-
-        Args:
-            user (User): The user to find projects for.
-
-        Returns:
-            Sequence[Project]: A list of all projects associated with the user.
-        """
         stmt = (
             select(Project)
             .options(selectinload(Project.users))
@@ -47,15 +23,6 @@ class ProjectRepository:
         return result.scalars().all()
 
     async def find_by_id(self, project_id: str) -> Project | None:
-        """
-        Finds a project by its ID with users eagerly loaded.
-
-        Args:
-            project_id (str): The ID of the project to find.
-
-        Returns:
-            Project | None: The project with the given ID, or None if not found.
-        """
         stmt = (
             select(Project)
             .options(selectinload(Project.users))
@@ -65,15 +32,6 @@ class ProjectRepository:
         return result.scalars().first()
 
     async def find_by_name_key(self, name_key: str) -> Project | None:
-        """
-        Finds a project by its name key with users eagerly loaded.
-
-        Args:
-            name_key (str): The name key of the project to find.
-
-        Returns:
-            Project | None: The project with the given name key, or None if not found.
-        """
         stmt = (
             select(Project)
             .options(selectinload(Project.users))

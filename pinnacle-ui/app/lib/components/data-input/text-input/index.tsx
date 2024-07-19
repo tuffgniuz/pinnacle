@@ -44,9 +44,11 @@ const TextInput: FC<{
       className={`
         bg-transparent 
         outline 
-        outline-2 
+        outline-1
         dark:outline-accent-dark-600
         outline-primary-light
+        focus:outline-sky_magenta-600
+        dark:focus:outline-sky_magenta-600
         transition-all
         duration-300
         ease-in-out
