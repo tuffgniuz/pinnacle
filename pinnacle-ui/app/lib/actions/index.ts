@@ -144,3 +144,27 @@ export const getProjects = async (token: string | null) => {
     throw error;
   }
 };
+
+export const getActiveWorkflow = async (
+  token: string | null,
+  projectNameKey: string,
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/api/v1/projects/active-workflow/${projectNameKey}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
+    if (!response.ok)
+      throw new Error(
+        `HTTP error! status ${response.status} - ${response.statusText}`,
+      );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

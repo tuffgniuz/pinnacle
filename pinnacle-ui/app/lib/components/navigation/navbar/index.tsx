@@ -10,7 +10,10 @@ import Link from "next/link";
 import Logo from "../../data-display/logo";
 import UserNavItems from "../user-nav-items";
 
-const Navbar: FC<{ showProjectLinks?: boolean }> = ({ showProjectLinks }) => {
+const Navbar: FC<{ title?: string; showProjectLinks?: boolean }> = ({
+  title,
+  showProjectLinks,
+}) => {
   const router = useRouter();
   const {
     data: currentUser,
@@ -28,8 +31,14 @@ const Navbar: FC<{ showProjectLinks?: boolean }> = ({ showProjectLinks }) => {
   return (
     <nav className="h-20 flex items-center justify-between px-5 mb-5">
       <div className="flex items-center gap-5">
-        <Logo />
-        {currentUser && <h1>{currentUser.fullname}</h1>}
+        <Logo href={currentUser && "/projects"} />
+        {currentUser && (
+          <h1 className="flex items-center gap-3">
+            <span>{currentUser.fullname}</span>
+            {currentUser && title && <span>/</span>}
+            {title && <span className="font-semibold">{title}</span>}
+          </h1>
+        )}
       </div>
       <div className="flex items-center gap-5">
         <ul className="flex items-center gap-5">

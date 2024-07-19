@@ -45,7 +45,7 @@ class ProjectService(AbstractGenericService):
         return new_project
 
     async def get_by_id_or_none(self, project_id: str) -> Project | None:
-        project = await self.project_repository.generics.find_by_id(project_id)
+        project = await self.project_repository.find_by_id(project_id)
 
         if not project:
             self._raise_not_found_exception(f"Project with {project_id} not found")
@@ -53,7 +53,7 @@ class ProjectService(AbstractGenericService):
         return project
 
     async def get_by_name_key_or_none(self, name_key: str) -> Project | None:
-        project = await self.project_repository.generics.find_one_by(name_key=name_key)
+        project = await self.project_repository.find_by_name_key(name_key)
         if not project:
             self._raise_not_found_exception(detail="Project not found")
         return project
@@ -69,6 +69,9 @@ class ProjectService(AbstractGenericService):
 
     async def get_all_projects_for_current_user(self) -> Sequence[Project]:
         return await self.project_repository.find_all_by_user(self.current_user)
+
+    async def get_project_with_active_workflow(self, name_key: str) -> Project | None:
+        return await self.project_repository.find_project_with_active_workflow(name_key)
 
     async def create_default_workflow_and_states(self, project: Project):
         default_workflow_name = generate_workflow_name(str(project.name_key))

@@ -32,13 +32,13 @@ class WorkflowService(AbstractGenericService):
 
         return await self.workflow_repository.generics.save(new_workflow)
 
-    async def get_active_workflow(self, project_id: str) -> Workflow:
-        await self.project_service.get_by_id_or_none(project_id)
+    async def get_active_workflow(self, project_name_key: str) -> Workflow:
+        project = await self.project_service.get_project_for_current_user_or_none(
+            project_name_key
+        )
 
-        return (
-            await self.workflow_repository.find_active_workflow_with_states_and_issues(
-                project_id
-            )
+        return await self.workflow_repository.find_active_workflow_with_states_and_issues(
+            project.id  # type: ignore
         )
 
 

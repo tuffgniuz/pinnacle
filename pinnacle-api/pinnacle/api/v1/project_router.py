@@ -17,3 +17,10 @@ async def create_project(
 @router.get("/projects")
 async def get_all_projects(service: ProjectService = Depends(get_project_service)):
     return await service.get_all_projects_for_current_user()
+
+
+@router.get("/projects/active-workflow/{name_key}")
+async def get_project_with_active_workflow(
+    name_key: str, service: ProjectService = Depends(get_project_service)
+):
+    return await service.get_project_with_active_workflow(name_key)

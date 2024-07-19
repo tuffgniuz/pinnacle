@@ -17,4 +17,16 @@ export type Project = {
   has_backlog: boolean;
   methodology: ProjectMethodology;
   security_level: SecurityLevel;
+  workflows: Workflow[];
+};
+
+export type Workflow = {
+  id: string;
+  name: string;
+  goal?: string;
+  start_date?: Date;
+  end_date?: Date;
+  is_active: boolean;
+  completed: boolean;
+  project_id: string;
 };
