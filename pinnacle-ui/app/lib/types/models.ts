@@ -1,4 +1,4 @@
-import { ProjectMethodology, SecurityLevel } from "./enums";
+import { IssuePriority, ProjectMethodology, SecurityLevel } from "./enums";
 
 export type User = {
   id: string;
@@ -29,4 +29,30 @@ export type Workflow = {
   is_active: boolean;
   completed: boolean;
   project_id: string;
+  states: State[];
+};
+
+export type State = {
+  id: string;
+  name: string;
+  is_final_state: boolean;
+  issues: Issue[];
+};
+
+export type Issue = {
+  id: string;
+  order: number;
+  title: string;
+  description?: string;
+  effort?: number;
+  priority?: IssuePriority;
+  project_id: string;
+  workflow_id?: string;
+  state_id?: string;
+  labels: Label[];
+};
+
+export type Label = {
+  id: string;
+  name: string;
 };

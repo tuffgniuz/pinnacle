@@ -39,7 +39,7 @@ class GenericRepository(Generic[T]):
         self.session.add(item)
         return item
 
-    async def find_by_id(self, item_id: str) -> Optional[T]:
+    async def find_by_id(self, item_id: str | None = None) -> T | None:
         """
         Finds an item by its ID.
 
@@ -49,6 +49,8 @@ class GenericRepository(Generic[T]):
         Returns:
             Optional[T]: The item with the given ID, or None if not found.
         """
+        if item_id is None:
+            return None
         return await self.session.get(self.model, item_id)
 
     async def find_all(self) -> Sequence[T]:

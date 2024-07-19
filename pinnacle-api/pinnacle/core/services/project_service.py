@@ -1,3 +1,4 @@
+import logging
 from datetime import UTC, datetime
 from typing import Sequence
 
@@ -14,6 +15,8 @@ from pinnacle.core.repositories.state import StateRepository
 from pinnacle.core.repositories.workflow import WorkflowRepository
 from pinnacle.core.services.abstract_generic_service import AbstractGenericService
 from pinnacle.utils.text import generate_project_name_key, generate_workflow_name
+
+logger = logging.getLogger(__name__)
 
 
 class ProjectService(AbstractGenericService):
@@ -49,6 +52,8 @@ class ProjectService(AbstractGenericService):
 
         if not project:
             self._raise_not_found_exception(f"Project with {project_id} not found")
+
+        logger.info("Project found")
 
         return project
 

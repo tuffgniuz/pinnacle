@@ -4,6 +4,7 @@ const Button: FC<{
   icon?: ReactNode;
   value?: string;
   rounded?: "sm" | "md" | "lg" | "xl";
+  padding?: "sm" | "md";
   fullWidth?: boolean;
   type?: "button" | "submit";
   className?: string | undefined;
@@ -17,16 +18,16 @@ const Button: FC<{
   onClick,
   className,
   type = "button",
-  rounded = "md",
+  rounded = "lg",
+  padding = "md",
 }) => {
   const buttonCls = `
     bg-accent-light-300 
-    dark:bg-accent-dark-300
+    dark:bg-background-dark
     text-center 
     text-text-light-900
     dark:text-text-dark-900
-    font-semibold
-    p-4
+    ${padding === "sm" ? "p-2" : padding === "md" ? "p-4" : ""}
     ${icon && value ? "flex items-center justify-center gap-2" : ""} 
     rounded-${rounded} 
     ${fullWidth ? "w-full" : ""}

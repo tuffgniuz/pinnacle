@@ -1,7 +1,4 @@
 import { FC } from "react";
-
-import withAuth from "@/app/lib/hocs/withAuth";
-import Navlink from "../navlink";
 import {
   LucideKanban,
   LucideListCheck,
@@ -9,7 +6,11 @@ import {
   LucideShieldCheck,
 } from "lucide-react";
 
-const UserNavItems: FC = () => {
+import withAuth from "@/app/lib/hocs/withAuth";
+import Navlink from "../navlink";
+import { Project } from "@/app/lib/types/models";
+
+const UserNavItems: FC<{ project: Project }> = ({ project }) => {
   const iconSize = 18;
   return (
     <>
@@ -20,13 +21,15 @@ const UserNavItems: FC = () => {
           value="Board"
         />
       </li>
-      <li>
-        <Navlink
-          href="/"
-          icon={<LucideListCheck size={18} />}
-          value={"Backlog"}
-        />
-      </li>
+      {project.has_backlog && (
+        <li>
+          <Navlink
+            href="/"
+            icon={<LucideListCheck size={18} />}
+            value={"Backlog"}
+          />
+        </li>
+      )}
       <li>
         <Navlink
           href="/"

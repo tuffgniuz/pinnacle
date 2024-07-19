@@ -3,8 +3,8 @@ from datetime import date
 
 from fastapi_users_db_sqlalchemy import (SQLAlchemyBaseOAuthAccountTableUUID,
                                          SQLAlchemyBaseUserTableUUID)
-from sqlalchemy import (UUID, Boolean, Column, Date, Enum, ForeignKey, Integer,
-                        String, Table)
+from sqlalchemy import (UUID, Boolean, Column, Date, Enum, Float, ForeignKey,
+                        Integer, String, Table)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -230,13 +230,15 @@ class Issue(Base):
     id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4
     )
-    order: Mapped[int] = mapped_column(Integer, nullable=False)
+    order: Mapped[float] = mapped_column(Float, nullable=False)
+    issue_key: Mapped[str] = mapped_column(String, nullable=False)
     title: Mapped[str] = mapped_column(String(200), nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=True)
     effort: Mapped[int] = mapped_column(Integer, nullable=True)
     priority: Mapped[IssuePriority] = mapped_column(Enum(IssuePriority), nullable=True)
+    ready_for_development: Mapped[bool] = mapped_column(Boolean, default=False)
 
-    state_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("state.id"))
+    state_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("state.id"), nullable=True)
     state: Mapped["State"] = relationship("State", back_populates="issues")
 
     workflow_id: Mapped[UUID] = mapped_column(

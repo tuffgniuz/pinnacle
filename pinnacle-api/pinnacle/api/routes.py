@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from pinnacle.api.v1.issue_router import router as issue_router
 from pinnacle.api.v1.project_router import router as project_router
 from pinnacle.api.v1.workflow_router import router as workflow_router
 from pinnacle.core.auth.oauth_clients import github_oauth_client
@@ -11,6 +12,7 @@ from pinnacle.core.schemas.user_schemas import UserCreate, UserRead, UserUpdate
 def include_routers(app: FastAPI):
     app.include_router(project_router, prefix="/api/v1", tags=["projects"])
     app.include_router(workflow_router, prefix="/api/v1", tags=["workflows"])
+    app.include_router(issue_router, prefix="/api/v1", tags=["issues"])
     # fastapi-users routes
     app.include_router(
         users.get_register_router(UserRead, UserCreate), prefix="/auth", tags=["auth"]

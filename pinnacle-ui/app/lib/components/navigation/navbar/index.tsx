@@ -9,11 +9,13 @@ import ThemeToggleButton from "../../actions/theme-toggle-button";
 import Link from "next/link";
 import Logo from "../../data-display/logo";
 import UserNavItems from "../user-nav-items";
+import { Project } from "@/app/lib/types/models";
 
-const Navbar: FC<{ title?: string; showProjectLinks?: boolean }> = ({
-  title,
-  showProjectLinks,
-}) => {
+const Navbar: FC<{
+  title?: string;
+  project?: Project;
+  showProjectLinks?: boolean;
+}> = ({ title, project, showProjectLinks }) => {
   const router = useRouter();
   const {
     data: currentUser,
@@ -45,7 +47,9 @@ const Navbar: FC<{ title?: string; showProjectLinks?: boolean }> = ({
           <li>
             <ThemeToggleButton />
           </li>
-          {currentUser && showProjectLinks && <UserNavItems />}
+          {currentUser && showProjectLinks && (
+            <UserNavItems project={project} />
+          )}
         </ul>
         <span>|</span>
         <ul>

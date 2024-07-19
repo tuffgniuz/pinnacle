@@ -168,3 +168,38 @@ export const getActiveWorkflow = async (
     throw error;
   }
 };
+
+export const createIssue = async (
+  token: string | null,
+  title: string | undefined,
+  projectId: string,
+  workflowId: string,
+  stateId?: string,
+) => {
+  try {
+    console.log("Trying to create new issue...");
+    console.log("title: ", title);
+    console.log("projectId: ", projectId);
+    console.log("stateId: ", stateId);
+    const response = await fetch(`${BASE_URL}/api/v1/issues`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: title,
+        project_id: projectId,
+        workflow_id: workflowId,
+        state_id: stateId,
+      }),
+    });
+
+    if (!response.ok)
+      throw new Error(
+        `HTTP error! status ${response.status} - ${response.statusText}`,
+      );
+  } catch (error) {
+    throw error;
+  }
+};

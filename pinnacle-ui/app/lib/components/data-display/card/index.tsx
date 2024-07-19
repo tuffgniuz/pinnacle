@@ -9,10 +9,11 @@ const Card: FC<{
     <div
       onClick={onClick}
       className={`
-        bg-background-dark-500 dark:bg-accent-light 
+        bg-background-dark-500 dark:bg-accent-dark-400
         rounded-lg 
         flex flex-col 
-        items-center justify-center p-4 
+        p-4 
+        transition-all duration-300 ease-in-out
         ${className}
       `}
     >

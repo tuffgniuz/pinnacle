@@ -1,4 +1,10 @@
-import { ChangeEventHandler, FC, HTMLInputAutoCompleteAttribute } from "react";
+import {
+  ChangeEventHandler,
+  FC,
+  FocusEventHandler,
+  HTMLInputAutoCompleteAttribute,
+  LegacyRef,
+} from "react";
 
 const TextInput: FC<{
   type?: "text" | "search" | "password";
@@ -7,6 +13,11 @@ const TextInput: FC<{
   placeholder?: string;
   value?: string | number | readonly string[] | undefined;
   onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
+  padding?: "sm" | "md";
+  className?: string | undefined;
+  fullWidth?: boolean;
+  ref?: LegacyRef<HTMLInputElement> | undefined;
+  onBlur?: FocusEventHandler<HTMLInputElement> | undefined;
 }> = ({
   type = "text",
   autoFocus = false,
@@ -14,6 +25,11 @@ const TextInput: FC<{
   placeholder,
   value,
   onChange,
+  padding = "md",
+  className,
+  fullWidth,
+  ref,
+  onBlur,
 }) => {
   return (
     <input
@@ -23,7 +39,9 @@ const TextInput: FC<{
       autoComplete={autoComplete}
       value={value}
       onChange={onChange}
-      className="
+      ref={ref}
+      onBlur={onBlur}
+      className={`
         bg-transparent 
         outline 
         outline-2 
@@ -33,8 +51,10 @@ const TextInput: FC<{
         duration-300
         ease-in-out
         rounded-lg
-        p-4
-      "
+        ${padding === "sm" ? "p-2" : padding === "md" ? "p-4" : ""}
+        ${fullWidth ? "w-full" : ""}
+        ${className}
+      `}
     />
   );
 };
