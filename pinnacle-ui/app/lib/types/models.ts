@@ -18,6 +18,7 @@ export type Project = {
   methodology: ProjectMethodology;
   security_level: SecurityLevel;
   workflows: Workflow[];
+  issues: Issue[];
 };
 
 export type Workflow = {
@@ -30,6 +31,7 @@ export type Workflow = {
   completed: boolean;
   project_id: string;
   states: State[];
+  issues: Issue[];
 };
 
 export type State = {

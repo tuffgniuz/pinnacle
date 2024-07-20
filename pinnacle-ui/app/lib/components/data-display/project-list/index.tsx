@@ -28,7 +28,10 @@ const ProjectList: FC = () => {
             >
               <td className="p-4 text-text-light-300">{project.name_key}</td>
               <td className="p-4 cursor-pointer">
-                <Link href={`/projects/${project.name_key}/board`}>
+                <Link
+                  href={`/projects/${project.name_key}/board`}
+                  className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 -ml-2 rounded-md p-2 transition-all duration-300 ease-in-out"
+                >
                   {project.name}
                 </Link>
               </td>

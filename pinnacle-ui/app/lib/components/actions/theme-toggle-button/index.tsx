@@ -21,9 +21,9 @@ const ThemeToggleButton: FC = () => {
       "
     >
       {theme === "dark" ? (
-        <LucideSun color="#d4d8dc" />
+        <LucideSun color="#d4d8dc" size={20} />
       ) : (
-        <LucideMoon color="#eff0f2" />
+        <LucideMoon color="#eff0f2" size={20} />
       )}
     </button>
   );

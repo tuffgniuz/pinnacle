@@ -2,9 +2,11 @@
 
 import { NextPage } from "next";
 import { useParams } from "next/navigation";
+
 import Navbar from "@/app/lib/components/navigation/navbar";
 import Container from "@/app/lib/components/layout/container";
 import StateLanes from "@/app/lib/components/data-display/state-lanes";
+
 import withAuth from "@/app/lib/hocs/withAuth";
 import useProjectWithActiveWorkfow from "@/app/lib/hooks/projects/useProjectWithActiveWorkflow";
 

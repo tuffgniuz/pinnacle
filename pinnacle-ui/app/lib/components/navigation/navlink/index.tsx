@@ -3,8 +3,8 @@ import { Url } from "next/dist/shared/lib/router/router";
 import Link from "next/link";
 
 const Navlink: FC<{
-  icon?: ReactNode;
-  value?: string;
+  icon?: ReactNode | undefined;
+  value?: ReactNode | string | undefined;
   href: Url;
   className?: string | undefined;
 }> = ({ icon, value, href, className }) => {

@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from pinnacle.core.models import Project, State, Workflow
+from pinnacle.core.models import Issue, Project, State, Workflow
 from pinnacle.core.repositories.generic import GenericRepository
 
 
@@ -45,12 +45,22 @@ class ProjectRepository:
             select(Project)
             .options(
                 selectinload(Project.workflows)
+                .load_only(Workflow.id, Workflow.name, Workflow.is_active)
+                .selectinload(Workflow.issues)
+                .load_only(Issue.id, Issue.title, Issue.description),
+                selectinload(Project.workflows)
                 .selectinload(Workflow.states)
+                .load_only(State.id, State.name)
                 .selectinload(State.issues)
+                .load_only(Issue.id, Issue.title, Issue.description),
             )
-            .join(Workflow, Workflow.project_id == Project.id)
             .filter(Project.name_key == name_key)
-            .filter(Workflow.is_active == True)
         )
         result = await self.session.execute(stmt)
-        return result.scalars().first()
+        project = result.scalars().first()
+
+        if project:
+            # Filter out only the active workflows
+            project.workflows = [wf for wf in project.workflows if wf.is_active]
+
+        return project
