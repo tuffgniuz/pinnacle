@@ -78,6 +78,25 @@ class IssueService(AbstractGenericService):
 
         return new_issue
 
+    async def get_by_id_or_none(self, id: str) -> Issue | None:
+        issue = await self.issue_repository.get_one_and_inload_all(id)
+
+        if not issue:
+            self._raise_not_found_exception("Issue not found")
+
+        return issue
+
+    async def update(self, id: str, update_data: dict) -> Issue:
+        issue = await self.get_by_id_or_none(id)
+
+        updated_issue = await self.issue_repository.generics.update(issue, update_data)
+
+        await self.session.flush()
+        await self.session.refresh(updated_issue)
+        await self.session.commit()
+
+        return updated_issue
+
     async def get_issues_by_state(self, state_id: str) -> Sequence[Issue]:
         await self.state_service.get_state_by_id_or_none(state_id)
 

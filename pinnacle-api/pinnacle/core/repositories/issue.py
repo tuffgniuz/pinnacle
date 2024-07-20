@@ -2,6 +2,7 @@ import logging
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from pinnacle.core.models import Issue
 from pinnacle.core.repositories.generic import GenericRepository
@@ -14,6 +15,19 @@ class IssueRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
         self.generics: GenericRepository[Issue] = GenericRepository(Issue, self.session)
+
+    async def get_one_and_inload_all(self, id: str) -> Issue | None:
+        stmt = (
+            select(Issue)
+            .options(
+                selectinload(Issue.labels),
+                selectinload(Issue.assignees),
+                selectinload(Issue.security_controls),
+            )
+            .filter_by(id=id)
+        )
+        result = await self.session.execute(stmt)
+        return result.scalars().first()
 
     async def get_highest_order(
         self, project_id: str, state_id: str | None = None

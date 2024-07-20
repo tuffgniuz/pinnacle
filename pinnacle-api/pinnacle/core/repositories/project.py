@@ -57,7 +57,6 @@ class ProjectRepository:
                     Issue.issue_key,
                     Issue.order,
                     Issue.title,
-                    Issue.description,
                 ),
             )
             .filter(Project.name_key == name_key)
