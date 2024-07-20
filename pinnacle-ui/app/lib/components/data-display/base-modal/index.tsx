@@ -5,11 +5,26 @@ import { createPortal } from "react-dom";
 const BaseModal: FC<{
   show?: boolean;
   onClose?: () => void;
-  hasCloseButton?: boolean;
   children: ReactNode;
+  position?: "centered" | "side-r";
   className?: string | undefined;
-}> = ({ show = false, onClose, hasCloseButton, children, className }) => {
+}> = ({
+  show = false,
+  onClose,
+  children,
+  className,
+  position = "centered",
+}) => {
   const ref = useRef<HTMLDivElement>(null);
+  const modalCenteredClasses = "flex justify-center items-center";
+  const modalSideRClasses = "flex justify-end items-center";
+  const fullscreenClasses = "";
+  const positionClass =
+    position === "centered"
+      ? modalCenteredClasses
+      : position === "side-r"
+        ? modalSideRClasses
+        : "";
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape" && onClose) {
@@ -43,17 +58,12 @@ const BaseModal: FC<{
   return createPortal(
     <div
       ref={ref}
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      className={`z-1000 fixed inset-0 bg-black bg-opacity-50 ${positionClass}`}
     >
       <div
-        className={`bg-background-light dark:bg-accent-dark-500 rounded-lg ${className}`}
+        className={`bg-background-light dark:bg-accent-dark-500 rounded-lg ${position === "side-r" ? "h-screen" : ""} ${className}`}
       >
         {children}
-        {hasCloseButton && (
-          <button onClick={onClose} className="mt-4">
-            Close
-          </button>
-        )}
       </div>
     </div>,
     modalRoot,

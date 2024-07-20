@@ -83,7 +83,7 @@ const Navbar: FC<{
                   size={20}
                   color={theme === "dark" ? "#d4d8dc" : "#eff0f2"}
                 />
-                <div className="absolute top-0 right-0 bg-neutral-dark-200 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2">
+                <div className="z-999 absolute top-0 right-0 bg-neutral-dark-200 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2">
                   {projects?.length}
                 </div>
               </Link>

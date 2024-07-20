@@ -1,7 +1,10 @@
 from typing import Generic, Optional, Sequence, Type, TypeVar
+from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from pinnacle.core.models import User
 
 T = TypeVar("T")
 
@@ -114,3 +117,10 @@ class GenericRepository(Generic[T]):
             item (T): The item to delete.
         """
         await self.session.delete(item)
+
+    async def _find_user_by_ids(self, user_ids: list[str]) -> Sequence[User]:
+        placeholders = ", ".join(f":id_{i}" for i in range(len(user_ids)))
+        stmt = text(f'SELECT * FROM "user" WHERE id IN ({placeholders})')
+        params = {f"id_{i}": str(user_id) for i, user_id in enumerate(user_ids)}
+        result = await self.session.execute(stmt, params)
+        return result.scalars().all()

@@ -1,14 +1,18 @@
 import logging
 from typing import Sequence
+from uuid import UUID
 
 from fastapi import Depends
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from pinnacle.core.auth.users import get_current_user
 from pinnacle.core.dependencies.db import get_async_session
 from pinnacle.core.models import Issue, User
 from pinnacle.core.repositories.issue import IssueRepository
-from pinnacle.core.services.abstract_generic_service import AbstractGenericService
+from pinnacle.core.repositories.user import UserRepository
+from pinnacle.core.services.abstract_generic_service import \
+    AbstractGenericService
 from pinnacle.core.services.project_service import ProjectService
 from pinnacle.core.services.state_service import StateService
 from pinnacle.utils.text import generate_issue_key
@@ -26,6 +30,7 @@ class IssueService(AbstractGenericService):
         self.current_user = current_user
         self.session = session
         self.issue_repository = IssueRepository(self.session)
+        self.user_repository = UserRepository(self.session)
         self.state_service = StateService(self.current_user, self.session)
         self.project_service = ProjectService(self.current_user, self.session)
 
@@ -89,13 +94,43 @@ class IssueService(AbstractGenericService):
     async def update(self, id: str, update_data: dict) -> Issue:
         issue = await self.get_by_id_or_none(id)
 
-        updated_issue = await self.issue_repository.generics.update(issue, update_data)
+        if "assignees" in update_data:
+            assignee_ids = [assignee_id for assignee_id in update_data["assignees"]]
+            assignees = await self.issue_repository.generics._find_user_by_ids(
+                assignee_ids
+            )
+            issue.assignees = assignees  # type: ignore
+
+        updated_dict = {
+            key: value for key, value in update_data.items() if key != "assignees"
+        }
+
+        updated_issue = await self.issue_repository.generics.update(issue, updated_dict)
 
         await self.session.flush()
         await self.session.refresh(updated_issue)
         await self.session.commit()
 
         return updated_issue
+
+    async def add_assignee(self, user_id: str, issue_id: str) -> Issue:
+        user = await self.user_repository.generics.find_by_id(user_id)
+
+        if not user:
+            self._raise_not_found_exception("User not found")
+
+        issue = await self.get_by_id_or_none(issue_id)
+
+        if not issue:
+            self._raise_not_found_exception("Issue not found")
+
+        issue.assignees.append(user)  # type: ignore
+
+        # await self.session.flush()
+        await self.session.commit()
+        await self.session.refresh(issue)
+
+        return issue
 
     async def get_issues_by_state(self, state_id: str) -> Sequence[Issue]:
         await self.state_service.get_state_by_id_or_none(state_id)

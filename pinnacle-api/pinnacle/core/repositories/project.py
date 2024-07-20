@@ -45,19 +45,12 @@ class ProjectRepository:
             select(Project)
             .options(
                 selectinload(Project.workflows)
-                .load_only(Workflow.id, Workflow.name, Workflow.is_active)
                 .selectinload(Workflow.issues)
-                .load_only(Issue.id, Issue.title, Issue.description),
+                .selectinload(Issue.assignees),
                 selectinload(Project.workflows)
                 .selectinload(Workflow.states)
-                .load_only(State.id, State.name)
                 .selectinload(State.issues)
-                .load_only(
-                    Issue.id,
-                    Issue.issue_key,
-                    Issue.order,
-                    Issue.title,
-                ),
+                .selectinload(Issue.assignees),
             )
             .filter(Project.name_key == name_key)
         )

@@ -1,0 +1,21 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import { RootState } from "../../stores/store";
+import { addAssigneeToIssue } from "../../actions";
+
+const useAddAssignee = (issueId: string) => {
+  const queryClient = useQueryClient();
+  const token = useSelector((state: RootState) => state.auth.token);
+  const mutation = useMutation({
+    mutationFn: async (userId: string) => {
+      return await addAssigneeToIssue(token, userId, issueId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["workflow"] });
+    },
+  });
+
+  return { mutation };
+};
+
+export default useAddAssignee;

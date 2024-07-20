@@ -2,7 +2,11 @@ import logging
 
 from fastapi import APIRouter, Depends
 
-from pinnacle.core.schemas.issue_schemas import IssueCreateSchema, IssueUpdateSchema
+from pinnacle.core.schemas.issue_schemas import (
+    IssueAddAssigneeSchema,
+    IssueCreateSchema,
+    IssueUpdateSchema,
+)
 from pinnacle.core.services.issue_service import IssueService, get_issue_service
 
 router = APIRouter()
@@ -19,6 +23,15 @@ async def create_issue(
     project_id = create_schema.project_id
     workflow_id = create_schema.workflow_id
     return await service.create(issue_data, project_id, workflow_id, state_id)
+
+
+@router.patch("/issues/{issue_id}/update/assignee")
+async def add_assignee(
+    issue_id: str,
+    request: IssueAddAssigneeSchema,
+    service: IssueService = Depends(get_issue_service),
+):
+    return await service.add_assignee(request.user_id, issue_id)
 
 
 @router.get("/issues/{id}")

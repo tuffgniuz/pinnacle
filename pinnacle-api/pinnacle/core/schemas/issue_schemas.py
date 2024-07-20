@@ -12,13 +12,17 @@ class IssueCreateSchema(BaseModel):
     state_id: str | None
 
 
+class IssueAddAssigneeSchema(BaseModel):
+    user_id: str
+
+
 class IssueUpdateSchema(BaseModel):
-    title: str | None
-    workflow_id: str | None
-    state_id: str | None
-    description: str | None
-    effort: int | None
-    priority: IssuePriority | None
-    ready_for_development: bool
-    labels: list[LabelReadSchema] | None
-    assignees: list[UserRead] | None
+    # title: str | None
+    # workflow_id: str | None
+    # state_id: str | None
+    # description: str | None
+    # effort: int | None
+    # priority: IssuePriority | None
+    # ready_for_development: bool
+    # labels: list[str] | None
+    assignees: list[str] | None

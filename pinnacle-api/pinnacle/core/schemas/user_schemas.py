@@ -7,7 +7,7 @@ class UserCreate(BaseUserCreate):
 
 
 class UserRead(BaseUser):
-    fullname: str
+    fullname: str | None
 
 
 class UserUpdate(BaseUserUpdate):

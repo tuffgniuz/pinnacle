@@ -1,4 +1,5 @@
-import { ProjectMethodology } from "../types/enums";
+import { IssuePriority, ProjectMethodology } from "../types/enums";
+import { Label, User } from "../types/models";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -215,4 +216,69 @@ export const createIssue = async (
   } catch (error) {
     throw error;
   }
+};
+
+export const getIssue = async (token: string | null, id: string) => {
+  const response = await fetch(`${BASE_URL}/api/v1/issues/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok)
+    throw new Error(
+      `HTTP error! status ${response.status} - ${response.statusText}`,
+    );
+  const data = await response.json();
+  return data;
+};
+
+interface UpdateIssueParams {
+  title?: string;
+  workflowId?: string;
+  stateId?: string;
+  description?: string;
+  effort?: number;
+  priority?: IssuePriority;
+  readyForDevelopment?: boolean;
+  labels?: Label[];
+  assignees?: { id: string }[];
+}
+
+export const updateIssue = async (
+  token: string | null,
+  issueId: string,
+  updateData: any,
+) => {
+  console.log(updateData);
+  await fetch(`${BASE_URL}/api/v1/issues/${issueId}`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateData),
+  });
+};
+
+export const addAssigneeToIssue = async (
+  token: string | null,
+  user_id: string,
+  issue_id: string,
+) => {
+  const response = await fetch(
+    `${BASE_URL}/api/v1/issues/${issue_id}/update/assignee`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id }),
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to add assignee to issue");
+  }
+
+  return response.json();
 };

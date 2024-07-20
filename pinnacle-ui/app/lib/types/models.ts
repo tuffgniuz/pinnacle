@@ -1,7 +1,7 @@
 import { IssuePriority, ProjectMethodology, SecurityLevel } from "./enums";
 
 export type User = {
-  id: string;
+  id: any;
   fullname?: string;
   email: string;
   is_active: boolean;
@@ -54,6 +54,7 @@ export type Issue = {
   workflow_id?: string;
   state_id?: string;
   labels: Label[];
+  assignees: User[];
 };
 
 export type Label = {
