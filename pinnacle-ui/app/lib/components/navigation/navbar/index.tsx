@@ -13,6 +13,7 @@ import Logo from "../../data-display/logo";
 import UserNavItems from "../user-nav-items";
 import Avatar from "../../data-display/avatar";
 import { useTheme } from "@/app/lib/context/theme-context";
+import useProjects from "@/app/lib/hooks/projects/useProjects";
 
 const Navbar: FC<{
   title?: string;
@@ -28,6 +29,7 @@ const Navbar: FC<{
     // error: currentUserError,
   } = useCurrentUser();
   const { handleLogout } = useLogoutUser();
+  const { data: projects } = useProjects();
 
   const onLogoutClick = async () => {
     await handleLogout();
@@ -72,15 +74,20 @@ const Navbar: FC<{
             <ThemeToggleButton />
           </li>
           <li>
-            <Link
-              href="/projects"
-              className="inline-flex bg-accent-light-300 dark:bg-background-dark p-2 rounded-md"
-            >
-              <LucideTarget
-                size={20}
-                color={theme === "dark" ? "#d4d8dc" : "#eff0f2"}
-              />
-            </Link>
+            <div className="relative inline-flex">
+              <Link
+                href="/projects"
+                className="flex items-center bg-accent-light-300 dark:bg-background-dark p-2 rounded-md"
+              >
+                <LucideTarget
+                  size={20}
+                  color={theme === "dark" ? "#d4d8dc" : "#eff0f2"}
+                />
+                <div className="absolute top-0 right-0 bg-neutral-dark-200 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2">
+                  {projects?.length}
+                </div>
+              </Link>
+            </div>
           </li>
           <li>
             <Link

@@ -52,7 +52,13 @@ class ProjectRepository:
                 .selectinload(Workflow.states)
                 .load_only(State.id, State.name)
                 .selectinload(State.issues)
-                .load_only(Issue.id, Issue.title, Issue.description),
+                .load_only(
+                    Issue.id,
+                    Issue.issue_key,
+                    Issue.order,
+                    Issue.title,
+                    Issue.description,
+                ),
             )
             .filter(Project.name_key == name_key)
         )

@@ -19,6 +19,7 @@ export type Project = {
   security_level: SecurityLevel;
   workflows: Workflow[];
   issues: Issue[];
+  users: User[];
 };
 
 export type Workflow = {

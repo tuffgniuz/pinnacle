@@ -11,7 +11,7 @@ const SecurityControls: NextPage = () => {
   const { data: project } = useProjectWithActiveWorkfow(key);
   return (
     <>
-      <Navbar project={project} showProjectLinks />
+      <Navbar project={project} showProjectLinks title={project?.name} />
       <div className="mt-10 flex flex-col justify-center items-center">
         <p>You haven't configured a security checklist for your project.</p>
       </div>

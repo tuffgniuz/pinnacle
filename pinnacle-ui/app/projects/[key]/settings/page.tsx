@@ -16,7 +16,7 @@ const ProjectSettings: NextPage = () => {
 
   return (
     <>
-      <Navbar project={project} showProjectLinks />
+      <Navbar project={project} showProjectLinks title={project?.name} />
       <Container width="w-2/6">
         <h1 className="text-4xl mb-10">Settings</h1>
 

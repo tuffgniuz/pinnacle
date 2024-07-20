@@ -145,6 +145,23 @@ export const getProjects = async (token: string | null) => {
   }
 };
 
+export const getProjectByNameKey = async (
+  token: string | null,
+  nameKey: string,
+) => {
+  const response = await fetch(`${BASE_URL}/api/v1/projects/${nameKey}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok)
+    throw new Error(
+      `HTTP error! status ${response.status} - ${response.statusText}`,
+    );
+
+  const data = await response.json();
+  return data;
+};
+
 export const getProjectWithActiveWorkflow = async (
   token: string | null,
   projectNameKey: string,
@@ -177,10 +194,6 @@ export const createIssue = async (
   stateId?: string,
 ) => {
   try {
-    console.log("Trying to create new issue...");
-    console.log("title: ", title);
-    console.log("projectId: ", projectId);
-    console.log("stateId: ", stateId);
     const response = await fetch(`${BASE_URL}/api/v1/issues`, {
       method: "POST",
       headers: {
