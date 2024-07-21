@@ -1,119 +1,108 @@
 "use client";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LucideInbox, LucideTarget } from "lucide-react";
 
 import { Project } from "@/app/lib/types/models";
+import { useTheme } from "@/app/lib/context/theme-context";
 import useLogoutUser from "@/app/lib/hooks/useLogoutUser";
 import useCurrentUser from "@/app/lib/hooks/useCurrentUser";
+import useProjects from "@/app/lib/hooks/projects/useProjects";
 
 import ThemeToggleButton from "../../actions/theme-toggle-button";
 import Logo from "../../data-display/logo";
 import UserNavItems from "../user-nav-items";
 import Avatar from "../../data-display/avatar";
-import { useTheme } from "@/app/lib/context/theme-context";
-import useProjects from "@/app/lib/hooks/projects/useProjects";
+import UserSidebar from "../user-sidebar";
 
 const Navbar: FC<{
   title?: string;
   project?: Project;
   showProjectLinks?: boolean;
 }> = ({ title, project, showProjectLinks }) => {
-  const router = useRouter();
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const { theme } = useTheme();
-  const {
-    data: currentUser,
-    // isLoading: currentUserIsLoading,
-    // isError: currentUserIsError,
-    // error: currentUserError,
-  } = useCurrentUser();
-  const { handleLogout } = useLogoutUser();
+  const { data: currentUser } = useCurrentUser();
   const { data: projects } = useProjects();
 
-  const onLogoutClick = async () => {
-    await handleLogout();
-    router.push("/login");
-  };
-
   return (
-    <nav className="h-20 flex items-center justify-between px-5 mb-10">
-      <div className="flex items-center gap-5">
-        <Logo href={currentUser && "/me"} />
-        {currentUser && (
-          <h1 className="flex items-center gap-3">
-            <Link
-              href="/me"
-              className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 -m-2 p-2 rounded-lg transition-all duration-300 ease-in-out"
-            >
-              {currentUser.fullname}
-            </Link>
-            {currentUser && title && <span>/</span>}
-            {title && (
+    <>
+      <nav className="h-20 flex items-center justify-between px-5 mb-10">
+        <div className="flex items-center gap-5">
+          <Logo href={currentUser && "/me"} />
+          {currentUser && (
+            <h1 className="flex items-center gap-3">
               <Link
-                href={
-                  project ? `/projects/${project.name_key}/overview` : "/me"
-                }
-                className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 -m-2 p-2 rounded-lg transition-all duration-300 ease-in-out font-semibold"
+                href="/me"
+                className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 -m-2 p-2 rounded-lg transition-all duration-300 ease-in-out"
               >
-                {title}
+                {currentUser.fullname}
               </Link>
-            )}
-          </h1>
-        )}
-      </div>
-      <div className="flex items-center gap-5">
-        <ul className="flex items-center gap-3">
-          {currentUser && showProjectLinks && (
-            <UserNavItems project={project} />
+              {currentUser && title && <span>/</span>}
+              {title && (
+                <Link
+                  href={
+                    project ? `/projects/${project.name_key}/overview` : "/me"
+                  }
+                  className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 -m-2 p-2 rounded-lg transition-all duration-300 ease-in-out font-semibold"
+                >
+                  {title}
+                </Link>
+              )}
+            </h1>
           )}
-        </ul>
-        <span>|</span>
-        <ul className="flex items-center gap-3">
-          <li>
-            <ThemeToggleButton />
-          </li>
-          <li>
-            <div className="relative inline-flex">
-              <Link
-                href="/projects"
-                className="flex items-center bg-accent-light-300 dark:bg-background-dark p-2 rounded-md"
-              >
-                <LucideTarget
-                  size={20}
-                  color={theme === "dark" ? "#d4d8dc" : "#eff0f2"}
-                />
-                <div className="z-999 absolute top-0 right-0 bg-neutral-dark-200 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center transform translate-x-1/2 -translate-y-1/2">
-                  {projects?.length}
-                </div>
-              </Link>
-            </div>
-          </li>
-          <li>
-            <Link
-              href="/notifications"
-              className="inline-flex bg-accent-light-300 dark:bg-background-dark p-2 rounded-md"
-            >
-              <LucideInbox
-                size={20}
-                color={theme === "dark" ? "#d4d8dc" : "#eff0f2"}
-              />
-            </Link>
-          </li>
-          <li>
-            {/* Should be replaced with a user avatar which will open a sidebar on click with user actions such as logout */}
-            {currentUser ? (
-              <button onClick={onLogoutClick}>Logout</button>
-            ) : (
-              <Link href="/login">Login</Link>
+        </div>
+        <div className="flex items-center gap-5">
+          <ul className="flex items-center gap-3">
+            {currentUser && showProjectLinks && (
+              <UserNavItems project={project} />
             )}
-          </li>
-          <li>
-            <Avatar />
-          </li>
-        </ul>
-      </div>
-    </nav>
+          </ul>
+          <span>|</span>
+          <ul className="flex items-center gap-3">
+            <li>
+              <ThemeToggleButton />
+            </li>
+            {currentUser && (
+              <>
+                <li>
+                  <Link
+                    href="/projects"
+                    className="flex items-center bg-accent-light-300 dark:bg-background-dark p-2 rounded-md"
+                  >
+                    <LucideTarget
+                      size={20}
+                      color={theme === "dark" ? "#d4d8dc" : "#eff0f2"}
+                    />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/notifications"
+                    className="inline-flex bg-accent-light-300 dark:bg-background-dark p-2 rounded-md"
+                  >
+                    <LucideInbox
+                      size={20}
+                      color={theme === "dark" ? "#d4d8dc" : "#eff0f2"}
+                    />
+                  </Link>
+                </li>
+              </>
+            )}
+            <li>
+              {/* Should be replaced with a user avatar which will open a sidebar on click with user actions such as logout */}
+              {currentUser ? (
+                <Avatar onClick={() => setShowSidebar(true)} />
+              ) : (
+                <Link href="/login">Login</Link>
+              )}
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <UserSidebar show={showSidebar} onClose={() => setShowSidebar(false)} />
+    </>
   );
 };
 

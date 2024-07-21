@@ -1,6 +1,7 @@
 "use client";
 import { FC, ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 const BaseModal: FC<{
   show?: boolean;
@@ -18,7 +19,6 @@ const BaseModal: FC<{
   const ref = useRef<HTMLDivElement>(null);
   const modalCenteredClasses = "flex justify-center items-center";
   const modalSideRClasses = "flex justify-end items-center";
-  const fullscreenClasses = "";
   const positionClass =
     position === "centered"
       ? modalCenteredClasses
@@ -37,8 +37,19 @@ const BaseModal: FC<{
     if (!modalRoot) {
       modalRoot = document.createElement("div");
       modalRoot.setAttribute("id", "modal-root");
+
       document.body.appendChild(modalRoot);
+      console.log("modalRoot added to the DOM");
+    } else {
+      console.log("modalRoot already exists in the DOM");
     }
+
+    return () => {
+      if (modalRoot && modalRoot.parentNode) {
+        modalRoot.parentNode.removeChild(modalRoot);
+        console.log("modalRoot removed from the DOM");
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -53,19 +64,43 @@ const BaseModal: FC<{
   }, [show]);
 
   const modalRoot = document.getElementById("modal-root");
-  if (!show || !modalRoot) return null;
+  if (!modalRoot) return null;
+
+  const backdropVariants = {
+    hidden: { opacity: 0, backdropFilter: "blur(0px)" },
+    visible: { opacity: 1, backdropFilter: "blur(10px)" },
+  };
+
+  const modalVariants = {
+    hidden: { x: "100%" },
+    visible: { x: 0 },
+    exit: { x: "100%" },
+  };
 
   return createPortal(
-    <div
-      ref={ref}
-      className={`z-1000 fixed inset-0 bg-black bg-opacity-50 ${positionClass}`}
-    >
-      <div
-        className={`bg-background-light dark:bg-accent-dark-500 rounded-lg ${position === "side-r" ? "h-screen" : ""} ${className}`}
-      >
-        {children}
-      </div>
-    </div>,
+    <AnimatePresence>
+      {show && (
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          variants={backdropVariants}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className={`fixed inset-0 z-50 bg-black bg-opacity-10 ${positionClass}`}
+        >
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={position === "side-r" ? modalVariants : {}}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`bg-background-light dark:bg-accent-dark-500 ${position === "side-r" ? "h-screen rounded-l-lg" : "rounded-lg"} ${className}`}
+          >
+            {children}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>,
     modalRoot,
   );
 };
