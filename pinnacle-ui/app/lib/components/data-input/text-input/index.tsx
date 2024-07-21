@@ -13,8 +13,9 @@ const TextInput: FC<{
   placeholder?: string;
   value?: string | number | readonly string[] | undefined;
   onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
-  padding?: "sm" | "md";
   className?: string | undefined;
+  outlineNone?: boolean;
+  padding?: "sm" | "md";
   fullWidth?: boolean;
   ref?: LegacyRef<HTMLInputElement> | undefined;
   onBlur?: FocusEventHandler<HTMLInputElement> | undefined;
@@ -28,6 +29,7 @@ const TextInput: FC<{
   padding = "md",
   className,
   fullWidth,
+  outlineNone,
   ref,
   onBlur,
 }) => {
@@ -43,16 +45,12 @@ const TextInput: FC<{
       onBlur={onBlur}
       className={`
         bg-transparent 
-        outline 
-        outline-1
-        dark:outline-accent-dark-600
-        outline-primary-light
-        focus:outline-sky_magenta-600
-        dark:focus:outline-sky_magenta-600
         transition-all
         duration-300
         ease-in-out
         rounded-lg
+        border-none
+        ${outlineNone ? "outline-none" : "outline outline-1 outline-primary-light dark:outline-accent-dark-600"}
         ${padding === "sm" ? "p-2" : padding === "md" ? "p-4" : ""}
         ${fullWidth ? "w-full" : ""}
         ${className}

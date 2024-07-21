@@ -39,15 +39,12 @@ const BaseModal: FC<{
       modalRoot.setAttribute("id", "modal-root");
 
       document.body.appendChild(modalRoot);
-      console.log("modalRoot added to the DOM");
     } else {
-      console.log("modalRoot already exists in the DOM");
     }
 
     return () => {
       if (modalRoot && modalRoot.parentNode) {
         modalRoot.parentNode.removeChild(modalRoot);
-        console.log("modalRoot removed from the DOM");
       }
     };
   }, []);

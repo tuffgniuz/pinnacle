@@ -1,8 +1,8 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 from pinnacle.core.enums import IssuePriority
-from pinnacle.core.schemas.label_schemas import LabelReadSchema
-from pinnacle.core.schemas.user_schemas import UserRead
 
 
 class IssueCreateSchema(BaseModel):
@@ -17,12 +17,11 @@ class IssueAddAssigneeSchema(BaseModel):
 
 
 class IssueUpdateSchema(BaseModel):
-    # title: str | None
-    # workflow_id: str | None
-    # state_id: str | None
-    # description: str | None
-    # effort: int | None
-    # priority: IssuePriority | None
-    # ready_for_development: bool
-    # labels: list[str] | None
-    assignees: list[str] | None
+    project_id: Optional[str] = None
+    title: Optional[str] = None
+    # workflow_id: Optional[str] = None
+    # state_id: Optional[str] = None
+    # description: Optional[str] = None
+    # effort: Optional[int] = None
+    # priority: Optional[IssuePriority] = None
+    # ready_for_development: Optional[bool] = None

@@ -1,9 +1,11 @@
 import { FC } from "react";
-import { LucideExpand, LucideX } from "lucide-react";
+import { LucideExpand, LucidePlus, LucideX } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useTheme } from "@/app/lib/context/theme-context";
-import { Issue } from "@/app/lib/types/models";
-import BaseModal from "../base-modal";
 import useIssueDetail from "@/app/lib/hooks/projects/useIssueDetail";
+import useProjectDetail from "@/app/lib/hooks/projects/useProjectDetail";
+import BaseModal from "../base-modal";
+import IssueTitleUpdateForm from "../../forms/issue-detail-modal/issue-title-update-form";
 
 const IssueDetailModal: FC<{
   issueId: string;
@@ -11,7 +13,16 @@ const IssueDetailModal: FC<{
   onClose: () => void;
 }> = ({ issueId, showModal, onClose }) => {
   const { theme } = useTheme();
-  const { data: issue } = useIssueDetail(issueId);
+  const { key } = useParams<{ key: string }>();
+  const { data: issue, isLoading, isError, error } = useIssueDetail(issueId);
+  const { data: project } = useProjectDetail(key);
+
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
+
+  if (isError) console.log(error);
+
   return (
     <BaseModal
       show={showModal}
@@ -21,14 +32,22 @@ const IssueDetailModal: FC<{
     >
       <header className="flex justify-between mb-10">
         <div>
+          <h1 className="text-xs font-semibold mb-2">Assignees</h1>
           {issue?.assignees.length < 1 ? (
             <button className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 -m-1 p-1 rounded-lg transition-all duration-300 ease-in-out italic">
               No assignees
             </button>
           ) : (
-            <>
-              <h1>Hello</h1>
-            </>
+            <div className="flex items-center gap-2">
+              {issue?.assignees.map((assignee) => (
+                <h1 className="text-2xl flex items-center justify-center bg-sky_magenta-600 h-10 w-10 rounded-full">
+                  {assignee?.fullname[0].toUpperCase()}
+                </h1>
+              ))}
+              <button className="flex items-center justify-center bg-neutral-light dark:bg-neutral-light-100 h-10 w-10 rounded-full">
+                <LucidePlus size={18} />
+              </button>
+            </div>
           )}
         </div>
         <nav className="flex items-center gap-2">
@@ -49,11 +68,8 @@ const IssueDetailModal: FC<{
           </button>
         </nav>
       </header>
-      <div>
-        <h1 className="cursor-pointer hover:bg-neutral-light dark:hover:bg-neutral-light-100 text-4xl -m-1 p-1 rounded-lg transition-all duration-300 ease-in-out">
-          {issue?.title}
-        </h1>
-      </div>
+      {/* Forms */}
+      <IssueTitleUpdateForm projectId={project?.id} issue={issue} />
     </BaseModal>
   );
 };

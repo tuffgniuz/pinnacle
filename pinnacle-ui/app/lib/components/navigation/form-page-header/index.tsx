@@ -1,14 +1,17 @@
 "use client";
-import { FC } from "react";
-import Link from "next/link";
-
+import { FC, MouseEventHandler } from "react";
 import { LucideX } from "lucide-react";
+import { Url } from "next/dist/shared/lib/router/router";
+import { useRouter } from "next/navigation";
 
 import Logo from "../../data-display/logo";
-import useCurrentUser from "@/app/lib/hooks/useCurrentUser";
 
-const FormPageHeader: FC<{ title?: string | undefined }> = ({ title }) => {
-  const { data: currentUser } = useCurrentUser();
+const FormPageHeader: FC<{
+  href?: Url;
+  onClick?: MouseEventHandler<HTMLAnchorElement> | undefined;
+  title?: string | undefined;
+}> = ({ href, onClick, title }) => {
+  const router = useRouter();
   return (
     <header
       className="
@@ -22,12 +25,15 @@ const FormPageHeader: FC<{ title?: string | undefined }> = ({ title }) => {
     >
       <div className="w-4/6 mx-auto flex items-center justify-between">
         <div className="flex items-center gap-5">
-          <Logo href={currentUser && "/projects"} />
+          <Logo href={href ? `${href}` : "/projects"} onClick={onClick} />
           {title && <h1 className="text-lg">{title}</h1>}
         </div>
-        <Link href={currentUser ? "/projects" : "/"} className="">
+        <button
+          onClick={() => router.back()}
+          className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 p-2 rounded-full transition-all duration-300 ease-in-out"
+        >
           <LucideX />
-        </Link>
+        </button>
       </div>
     </header>
   );

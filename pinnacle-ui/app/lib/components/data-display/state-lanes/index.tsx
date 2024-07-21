@@ -11,6 +11,8 @@ const StateLanes: FC<{ project: Project; states: State[] | undefined }> = ({
     <div className="flex gap-10">
       {states?.map((state) => (
         <div key={state.id} className="w-3/12">
+          {" "}
+          {/* this div should be able have it's own scrollbar */}
           <h1 className="text-2xl mb-10 flex items-center gap-2">
             <span>{state.name}</span>
             <span className="text-sm bg-accent-light-100 text-text-light-900 dark:bg-neutral-dark-200 px-2 rounded-full">

@@ -11,8 +11,7 @@ from pinnacle.core.dependencies.db import get_async_session
 from pinnacle.core.models import Issue, User
 from pinnacle.core.repositories.issue import IssueRepository
 from pinnacle.core.repositories.user import UserRepository
-from pinnacle.core.services.abstract_generic_service import \
-    AbstractGenericService
+from pinnacle.core.services.abstract_generic_service import AbstractGenericService
 from pinnacle.core.services.project_service import ProjectService
 from pinnacle.core.services.state_service import StateService
 from pinnacle.utils.text import generate_issue_key
@@ -92,24 +91,18 @@ class IssueService(AbstractGenericService):
         return issue
 
     async def update(self, id: str, update_data: dict) -> Issue:
+        if "project_id" in update_data:
+            project_id = update_data["project_id"]
+            project = await self.project_service.get_by_id_or_none(project_id)
+            update_data["project_id"] = project.id  # type: ignore
+        else:
+            project = None
+
         issue = await self.get_by_id_or_none(id)
+        updated_issue = await self.issue_repository.generics.update(issue, update_data)
 
-        if "assignees" in update_data:
-            assignee_ids = [assignee_id for assignee_id in update_data["assignees"]]
-            assignees = await self.issue_repository.generics._find_user_by_ids(
-                assignee_ids
-            )
-            issue.assignees = assignees  # type: ignore
-
-        updated_dict = {
-            key: value for key, value in update_data.items() if key != "assignees"
-        }
-
-        updated_issue = await self.issue_repository.generics.update(issue, updated_dict)
-
-        await self.session.flush()
-        await self.session.refresh(updated_issue)
         await self.session.commit()
+        await self.session.refresh(updated_issue)
 
         return updated_issue
 

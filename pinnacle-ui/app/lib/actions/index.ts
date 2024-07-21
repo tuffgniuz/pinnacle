@@ -72,7 +72,6 @@ export const logoutUser = async (token: string) => {
 
 export const getCurrentUser = async (token: string) => {
   try {
-    console.info("Trying to get current user...");
     const response = await fetch(`${BASE_URL}/users/me`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
@@ -231,32 +230,44 @@ export const getIssue = async (token: string | null, id: string) => {
   return data;
 };
 
-interface UpdateIssueParams {
-  title?: string;
-  workflowId?: string;
-  stateId?: string;
-  description?: string;
-  effort?: number;
-  priority?: IssuePriority;
-  readyForDevelopment?: boolean;
-  labels?: Label[];
-  assignees?: { id: string }[];
-}
-
 export const updateIssue = async (
   token: string | null,
-  issueId: string,
-  updateData: any,
+  issueId: string | undefined,
+  data: Partial<{
+    project_id: string;
+    title: string;
+    workkflow_id: string;
+    state_id: string;
+    description: string;
+    effort: number;
+    priority: IssuePriority;
+    ready_for_development: boolean;
+  }>,
 ) => {
-  console.log(updateData);
-  await fetch(`${BASE_URL}/api/v1/issues/${issueId}`, {
-    method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updateData),
-  });
+  try {
+    console.log("updating issue");
+    const response = await fetch(`${BASE_URL}/api/v1/issues/${issueId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `HTTP error! status ${response.status} - ${response.statusText}`,
+      );
+    }
+
+    console.log(`Response status is ${response.status} for updating issue`);
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const addAssigneeToIssue = async (

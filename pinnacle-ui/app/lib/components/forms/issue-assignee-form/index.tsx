@@ -6,10 +6,10 @@ import useAddAssignee from "@/app/lib/hooks/projects/useAddAssignee";
 import BaseModal from "../../data-display/base-modal";
 import Avatar from "../../data-display/avatar";
 
-const IssueAssigneeForm: FC<{ issueId: string; assignees: User[] }> = ({
-  issueId,
-  assignees,
-}) => {
+const IssueAssigneeForm: FC<{
+  issueId: string;
+  assignees: User[] | undefined;
+}> = ({ issueId, assignees }) => {
   const [showForm, setShowForm] = useState<boolean>(false);
   const { key } = useParams<{ key: string }>();
   const { data: project } = useProjectDetail(key);
@@ -25,7 +25,7 @@ const IssueAssigneeForm: FC<{ issueId: string; assignees: User[] }> = ({
 
   return (
     <>
-      {assignees.length < 1 ? (
+      {assignees?.length < 1 ? (
         <button
           onClick={handleClick}
           className="hover:bg-accent-dark -m-1 p-1 text-text-light-300 italic transition-all duration-300 ease-in-out rounded-lg"

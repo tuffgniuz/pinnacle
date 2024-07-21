@@ -5,20 +5,22 @@ import { FC, MouseEventHandler } from "react";
 const Avatar: FC<{
   size?: number;
   onClick?: MouseEventHandler<HTMLElement> | undefined;
-}> = ({ size = 35, onClick }) => {
+  className?: string | undefined;
+}> = ({ size = 50, onClick, className }) => {
   return (
-    <figure
-      className={`cursor-pointer outline outline-1 outline-neutral-light-500 rounded-full overflow-hidden h-[35px] w-[35px]`}
-      onClick={onClick}
+    <div
+      className={`cursor-pointer rounded-full overflow-hidden drop-shadow-lg ${className}`}
+      style={{ width: size, height: size }}
     >
       <Image
         src="/img/dummy-avatar.jpg"
         alt="user avatar"
         width={size}
         height={size}
-        className={`object-fit`}
+        className="rounded-full"
+        onClick={onClick}
       />
-    </figure>
+    </div>
   );
 };
 

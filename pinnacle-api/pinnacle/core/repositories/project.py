@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import desc, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -60,5 +60,22 @@ class ProjectRepository:
         if project:
             # Filter out only the active workflows
             project.workflows = [wf for wf in project.workflows if wf.is_active]
+
+            # Sort issues within states and directly within workflows if no state
+            for workflow in project.workflows:
+                # Sort issues within states
+                for state in workflow.states:
+                    state.issues.sort(key=lambda issue: issue.order, reverse=True)
+
+                # Sort issues directly within workflow that do not belong to any state
+                workflow_issues_no_state = [
+                    issue for issue in workflow.issues if issue.state_id is None
+                ]
+                workflow_issues_no_state.sort(
+                    key=lambda issue: issue.order, reverse=True
+                )
+                workflow.issues = workflow_issues_no_state + [
+                    issue for state in workflow.states for issue in state.issues
+                ]
 
         return project

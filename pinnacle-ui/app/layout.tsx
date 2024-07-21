@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import { ThemeProvider } from "./lib/context/theme-context";
-import "./globals.css";
 import ReduxProvider from "./lib/components/wrappers/redux-provider";
 import QueryClientContainer from "./lib/components/wrappers/query-client-container";
+import { ToastContainer } from "react-toastify";
+
+import "./globals.css";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -31,6 +33,7 @@ export default function RootLayout({
             ${rubik.className}`}
             >
               {children}
+              <ToastContainer position="top-left" className="z-1000" />
             </body>
           </html>
         </ThemeProvider>

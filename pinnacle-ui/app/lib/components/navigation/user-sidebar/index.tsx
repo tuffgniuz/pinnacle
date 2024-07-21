@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { useRouter } from "next/navigation";
 import {
+  LucideInbox,
   LucideKanban,
   LucideLogOut,
   LucideTarget,
@@ -10,11 +11,10 @@ import {
 } from "lucide-react";
 import useCurrentUser from "@/app/lib/hooks/useCurrentUser";
 import useLogoutUser from "@/app/lib/hooks/useLogoutUser";
-import Button from "../../actions/button";
+import useProjects from "@/app/lib/hooks/projects/useProjects";
 import BaseModal from "../../data-display/base-modal";
 import Avatar from "../../data-display/avatar";
 import Navlink from "../navlink";
-import useProjects from "@/app/lib/hooks/projects/useProjects";
 
 const UserSidebar: FC<{ show: boolean; onClose: () => void }> = ({
   show,
@@ -38,12 +38,17 @@ const UserSidebar: FC<{ show: boolean; onClose: () => void }> = ({
       position="side-r"
       className="w-1/4 p-6"
     >
-      <header className="flex justify-between border-b border-b-neutral-light dark:border-b-accent-dark-400 pb-10 mb-10">
+      <header className="flex items-center justify-between border-b border-b-neutral-light dark:border-b-accent-dark-400 pb-10 mb-10">
         <div className="flex items-center gap-5">
-          <Avatar />
-          <h1>{currentUser?.fullname}</h1>
+          <Avatar size={60} />
+          <h1 className="text-lg">{currentUser?.fullname}</h1>
         </div>
-        <Button onClick={onClose} padding="sm" icon={<LucideX size={18} />} />
+        <button
+          onClick={onClose}
+          className="flex items-center justify-center hover:bg-neutral-light dark:hover:bg-neutral-light-100 w-10 h-10 rounded-full transition-all duration-300 ease-in-out"
+        >
+          <LucideX size={20} />
+        </button>
       </header>
       <nav className="flex flex-col">
         <div className="border-b border-b-neutral-light dark:border-b-accent-dark-400 pb-5 mb-5">
@@ -59,6 +64,13 @@ const UserSidebar: FC<{ show: boolean; onClose: () => void }> = ({
               href="/projects"
               icon={<LucideTarget size={18} />}
               value="Projects"
+              className="-m-2"
+              onClick={onClose}
+            />
+            <Navlink
+              href="/"
+              icon={<LucideInbox size={18} />}
+              value="Notifications"
               className="-m-2"
               onClick={onClose}
             />
