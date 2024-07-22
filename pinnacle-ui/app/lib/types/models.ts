@@ -38,6 +38,9 @@ export type Workflow = {
 export type State = {
   id: string;
   name: string;
+  limit?: number;
+  color?: Color;
+  description?: string;
   is_final_state: boolean;
   issues: Issue[];
 };
@@ -59,6 +62,11 @@ export type Issue = {
 };
 
 export type Label = {
+  id: string;
+  name: string;
+};
+
+export type Color = {
   id: string;
   name: string;
 };

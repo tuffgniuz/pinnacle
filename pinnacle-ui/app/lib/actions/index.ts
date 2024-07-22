@@ -302,12 +302,28 @@ export const addAssigneeToIssue = async (
 
   return response.json();
 };
+
 export const deleteIssue = async (token: string | null, issueId: string) => {
   try {
     await fetch(`${BASE_URL}/api/v1/issues/${issueId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getColors = async (token: string | null) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/v1/colors`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok) throw new Error(`HTTP error!`);
+
+    const data = await response.json();
+    return data;
   } catch (error) {
     throw error;
   }

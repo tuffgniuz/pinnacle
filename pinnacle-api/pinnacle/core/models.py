@@ -4,7 +4,7 @@ from datetime import date
 from fastapi_users_db_sqlalchemy import (SQLAlchemyBaseOAuthAccountTableUUID,
                                          SQLAlchemyBaseUserTableUUID)
 from sqlalchemy import (UUID, Boolean, Column, Date, Enum, Float, ForeignKey,
-                        Integer, String, Table)
+                        Integer, Numeric, String, Table)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -215,14 +215,27 @@ class State(Base):
         UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4
     )
     name: Mapped[str] = mapped_column(String(100), nullable=False)
+    limit: Mapped[int] = mapped_column(Numeric, nullable=True)
+    description: Mapped[str] = mapped_column(String(280), nullable=True)
     is_final_state: Mapped[bool] = mapped_column(Boolean, default=False)
 
     issues: Mapped[list["Issue"]] = relationship("Issue", back_populates="state")
+    color_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("color.id"), nullable=True)
+    color: Mapped["Color"] = relationship("Color", back_populates="states")
     workflow_id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("workflow.id")
     )
     workflow: Mapped["Workflow"] = relationship("Workflow", back_populates="states")
 
+class Color(Base):
+    __tablename__ = "color"
+
+    id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4
+    )
+    name: Mapped[str] = mapped_column(String(10), nullable=False)
+    states: Mapped[list["State"]] = relationship("State", back_populates="color", cascade="all, delete-orphan")
+    
 
 class Issue(Base):
     __tablename__ = "issue"

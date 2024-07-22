@@ -5,7 +5,7 @@ const FormGroup: FC<{ children: ReactNode; className?: string }> = ({
   className,
 }) => {
   return (
-    <div className={`flex flex-col gap-3 mb-10 ${className}`}>{children}</div>
+    <div className={`flex flex-col gap-3 mb-5 ${className}`}>{children}</div>
   );
 };
 
