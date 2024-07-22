@@ -5,9 +5,20 @@ const Card: FC<{
   onClick?: MouseEventHandler<HTMLDivElement> | undefined;
   className?: string | undefined;
   padding?: "sm" | "md" | "lg";
-}> = ({ children, onClick, className, padding = "md" }) => {
+  onMouseEnter?: MouseEventHandler<HTMLDivElement> | undefined;
+  onMouseLeave?: MouseEventHandler<HTMLDivElement> | undefined;
+}> = ({
+  children,
+  onClick,
+  className,
+  padding = "md",
+  onMouseEnter,
+  onMouseLeave,
+}) => {
   return (
     <div
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       onClick={onClick}
       className={`
         bg-background-dark-500 dark:bg-accent-dark-400

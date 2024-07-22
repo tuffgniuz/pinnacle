@@ -63,7 +63,14 @@ const UserSidebar: FC<{ show: boolean; onClose: () => void }> = ({
             <Navlink
               href="/projects"
               icon={<LucideTarget size={18} />}
-              value="Projects"
+              value={
+                <>
+                  Projects{" "}
+                  <span className="bg-accent-light-100 text-text-light-900 dark:bg-neutral-dark-200 px-2 rounded-full">
+                    {projects?.length}
+                  </span>
+                </>
+              }
               className="-m-2"
               onClick={onClose}
             />

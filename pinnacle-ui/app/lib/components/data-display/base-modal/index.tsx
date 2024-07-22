@@ -16,7 +16,6 @@ const BaseModal: FC<{
   className,
   position = "centered",
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
   const modalCenteredClasses = "flex justify-center items-center";
   const modalSideRClasses = "flex justify-end items-center";
   const positionClass =

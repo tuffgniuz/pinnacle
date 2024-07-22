@@ -28,7 +28,7 @@ const IssueAssigneeForm: FC<{
       {assignees?.length < 1 ? (
         <button
           onClick={handleClick}
-          className="hover:bg-accent-dark -m-1 p-1 text-text-light-300 italic transition-all duration-300 ease-in-out rounded-lg"
+          className="hover:bg-accent-dark h-7 text-text-light-300 italic transition-all duration-300 ease-in-out rounded-lg"
         >
           No assignees
         </button>

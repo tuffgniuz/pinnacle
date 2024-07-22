@@ -293,3 +293,13 @@ export const addAssigneeToIssue = async (
 
   return response.json();
 };
+export const deleteIssue = async (token: string | null, issueId: string) => {
+  try {
+    await fetch(`${BASE_URL}/api/v1/issues/${issueId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (error) {
+    throw error;
+  }
+};

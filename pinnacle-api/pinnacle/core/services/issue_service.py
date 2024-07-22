@@ -11,7 +11,8 @@ from pinnacle.core.dependencies.db import get_async_session
 from pinnacle.core.models import Issue, User
 from pinnacle.core.repositories.issue import IssueRepository
 from pinnacle.core.repositories.user import UserRepository
-from pinnacle.core.services.abstract_generic_service import AbstractGenericService
+from pinnacle.core.services.abstract_generic_service import \
+    AbstractGenericService
 from pinnacle.core.services.project_service import ProjectService
 from pinnacle.core.services.state_service import StateService
 from pinnacle.utils.text import generate_issue_key
@@ -129,6 +130,12 @@ class IssueService(AbstractGenericService):
         await self.state_service.get_state_by_id_or_none(state_id)
 
         return await self.issue_repository.generics.find_all_by(state_id=state_id)
+
+    async def delete(self, id: str) -> None:
+        issue = await self.get_by_id_or_none(id)
+
+        await self.issue_repository.generics.delete(issue)
+        await self.session.commit()
 
 
 def get_issue_service(

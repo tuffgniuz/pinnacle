@@ -46,3 +46,8 @@ async def update_issue(
     service: IssueService = Depends(get_issue_service),
 ):
     return await service.update(id, update_schema.model_dump(exclude_unset=True))
+
+
+@router.delete("/issues/{id}")
+async def delete_issue(id: str, service: IssueService = Depends(get_issue_service)):
+    return await service.delete(id)
