@@ -4,9 +4,16 @@ import { FC, ReactNode, useState } from "react";
 const BaseDropDown: FC<{
   icon: ReactNode;
   children: ReactNode;
+  backgroundColor?: string;
   buttonClassName?: string | undefined;
   className?: string | undefined;
-}> = ({ icon, children, buttonClassName, className }) => {
+}> = ({
+  icon,
+  children,
+  buttonClassName,
+  className,
+  backgroundColor = "bg-background-light dark:bg-accent-dark-500",
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleDropDown = () => {
@@ -28,14 +35,13 @@ const BaseDropDown: FC<{
           className={`
             absolute 
             transition-all duration-300 ease-in-out 
-            bg-background-light 
-            dark:bg-accent-dark-500 
             border
             border-1
             dark:border-accent-light-400
             mt-2
             drop-shadow-lg
             rounded-lg 
+            ${backgroundColor}
             ${className}`}
         >
           {children}

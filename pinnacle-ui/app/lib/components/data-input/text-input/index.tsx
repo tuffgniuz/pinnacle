@@ -16,6 +16,8 @@ const TextInput: FC<{
   className?: string | undefined;
   outlineNone?: boolean;
   padding?: "sm" | "md";
+  rounded?: "sm" | "md" | "lg" | "none";
+  backgroundColor?: string;
   fullWidth?: boolean;
   ref?: LegacyRef<HTMLInputElement> | undefined;
   onBlur?: FocusEventHandler<HTMLInputElement> | undefined;
@@ -29,6 +31,8 @@ const TextInput: FC<{
   padding = "md",
   className,
   fullWidth,
+  rounded = "lg",
+  backgroundColor = "bg-transparent",
   outlineNone,
   ref,
   onBlur,
@@ -44,12 +48,11 @@ const TextInput: FC<{
       ref={ref}
       onBlur={onBlur}
       className={`
-        bg-transparent 
         transition-all
         duration-300
         ease-in-out
-        rounded-lg
-        border-none
+        ${backgroundColor}
+        ${rounded === "sm" ? "rounded-sm" : rounded === "md" ? "rounded-md" : rounded == "lg" ? "rounded-lg" : rounded === "none" ? "" : ""}
         ${outlineNone ? "outline-none" : "outline outline-1 outline-primary-light dark:outline-accent-dark-600"}
         ${padding === "sm" ? "p-2" : padding === "md" ? "p-4" : ""}
         ${fullWidth ? "w-full" : ""}

@@ -6,6 +6,7 @@ import useIssueDetail from "@/app/lib/hooks/projects/useIssueDetail";
 import useProjectDetail from "@/app/lib/hooks/projects/useProjectDetail";
 import BaseModal from "../base-modal";
 import IssueTitleUpdateForm from "../../forms/issue-detail-modal/issue-title-update-form";
+import IssueAssigneePickerDropDown from "../../actions/issue-assignee-picker-drop-down";
 
 const IssueDetailModal: FC<{
   issueId: string;
@@ -28,15 +29,15 @@ const IssueDetailModal: FC<{
       show={showModal}
       onClose={onClose}
       position="side-r"
-      className="w-1/2 p-6"
+      className="w-1/2 p-10"
     >
       <header className="flex justify-between mb-10">
         <div>
-          <h1 className="text-xs font-semibold mb-2">Assignees</h1>
           {issue?.assignees.length < 1 ? (
-            <button className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 -m-1 p-1 rounded-lg transition-all duration-300 ease-in-out italic">
-              No assignees
-            </button>
+            <div className="flex items-center gap-3">
+              <IssueAssigneePickerDropDown issue={issue} />
+              <p className="dark:text-text-dark-700">Add assignees...</p>
+            </div>
           ) : (
             <div className="flex items-center gap-2">
               {issue?.assignees.map((assignee) => (
@@ -44,9 +45,7 @@ const IssueDetailModal: FC<{
                   {assignee?.fullname[0].toUpperCase()}
                 </h1>
               ))}
-              <button className="flex items-center justify-center bg-neutral-light dark:bg-neutral-light-100 h-10 w-10 rounded-full">
-                <LucidePlus size={18} />
-              </button>
+              <IssueAssigneePickerDropDown issue={issue} />
             </div>
           )}
         </div>
