@@ -68,7 +68,7 @@ const IssueTitleUpdateForm: FC<{
           transition-all duration-300 ease-in-out
         "
         >
-          {title}
+          {title} <span className="text-text-dark-700">{issue?.issue_key}</span>
         </h1>
       )}
     </>

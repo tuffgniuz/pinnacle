@@ -1,5 +1,4 @@
 import { IssuePriority, ProjectMethodology } from "../types/enums";
-import { Label, User } from "../types/models";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -8,7 +7,6 @@ export const registerUser = async (
   email: string,
   password: string,
 ) => {
-  console.info(`fullname: ${fullname}, email: ${email}, password: ${password}`);
   try {
     const response = await fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
@@ -27,13 +25,11 @@ export const registerUser = async (
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error registering user:", error);
     throw error;
   }
 };
 
 export const loginUser = async (username: string, password: string) => {
-  console.info(`username: ${username}`);
   try {
     const response = await fetch(`${BASE_URL}/auth/jwt/login`, {
       method: "POST",
@@ -53,14 +49,12 @@ export const loginUser = async (username: string, password: string) => {
     const data = await response.json();
     return data; // response returns access_token and token_type (bearer)
   } catch (error) {
-    console.error("Error trying to login user: ", error);
     throw error;
   }
 };
 
 export const logoutUser = async (token: string) => {
   try {
-    console.info("Trying to logout...");
     await fetch(`${BASE_URL}/auth/jwt/logout`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
@@ -186,6 +180,24 @@ export const getProjectWithActiveWorkflow = async (
   }
 };
 
+export const getStatesForWorkflow = async (
+  token: string | null,
+  workflowId: string,
+) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/v1/states/${workflowId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok) throw new Error(`HTTP error!`);
+
+    const data = response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const createIssue = async (
   token: string | null,
   title: string | undefined,
@@ -245,7 +257,6 @@ export const updateIssue = async (
   }>,
 ) => {
   try {
-    console.log("updating issue");
     const response = await fetch(`${BASE_URL}/api/v1/issues/${issueId}`, {
       method: "PATCH",
       headers: {
@@ -261,8 +272,6 @@ export const updateIssue = async (
       );
     }
 
-    console.log(`Response status is ${response.status} for updating issue`);
-
     const result = await response.json();
     return result;
   } catch (error) {
@@ -273,7 +282,7 @@ export const updateIssue = async (
 export const addAssigneeToIssue = async (
   token: string | null,
   user_id: string,
-  issue_id: string,
+  issue_id: string | undefined,
 ) => {
   const response = await fetch(
     `${BASE_URL}/api/v1/issues/${issue_id}/update/assignee`,

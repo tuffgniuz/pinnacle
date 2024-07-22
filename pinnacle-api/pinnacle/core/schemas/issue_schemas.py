@@ -19,9 +19,9 @@ class IssueAddAssigneeSchema(BaseModel):
 class IssueUpdateSchema(BaseModel):
     project_id: Optional[str] = None
     title: Optional[str] = None
-    # workflow_id: Optional[str] = None
-    # state_id: Optional[str] = None
-    # description: Optional[str] = None
-    # effort: Optional[int] = None
-    # priority: Optional[IssuePriority] = None
-    # ready_for_development: Optional[bool] = None
+    workflow_id: Optional[str] = None
+    state_id: Optional[str] = None
+    description: Optional[str] = None
+    effort: Optional[int] = None
+    priority: Optional[IssuePriority] = None
+    ready_for_development: Optional[bool] = None

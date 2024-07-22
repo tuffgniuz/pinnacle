@@ -1,26 +1,15 @@
 import { FC, useState } from "react";
-import { useParams } from "next/navigation";
 import { User } from "@/app/lib/types/models";
-import useProjectDetail from "@/app/lib/hooks/projects/useProjectDetail";
-import useAddAssignee from "@/app/lib/hooks/projects/useAddAssignee";
-import BaseModal from "../../data-display/base-modal";
-import Avatar from "../../data-display/avatar";
+import IssueAssigneePickerModal from "../../actions/issue-assignee-picker-modal";
 
 const IssueAssigneeForm: FC<{
   issueId: string;
-  assignees: User[] | undefined;
+  assignees: User[];
 }> = ({ issueId, assignees }) => {
   const [showForm, setShowForm] = useState<boolean>(false);
-  const { key } = useParams<{ key: string }>();
-  const { data: project } = useProjectDetail(key);
-  const { mutation } = useAddAssignee(issueId);
 
   const handleClick = () => {
     setShowForm(true);
-  };
-
-  const handleAddAssignee = (user: User) => {
-    mutation.mutate(user.id);
   };
 
   return (
@@ -28,7 +17,7 @@ const IssueAssigneeForm: FC<{
       {assignees?.length < 1 ? (
         <button
           onClick={handleClick}
-          className="hover:bg-accent-dark h-7 text-text-light-300 italic transition-all duration-300 ease-in-out rounded-lg"
+          className="hover:bg-neutral-light px-1 h-7 text-text-dark-600 italic transition-all duration-300 ease-in-out rounded-lg"
         >
           No assignees
         </button>
@@ -42,39 +31,11 @@ const IssueAssigneeForm: FC<{
         </div>
       )}
 
-      <BaseModal
-        show={showForm}
+      <IssueAssigneePickerModal
+        issueId={issueId}
+        showModal={showForm}
         onClose={() => setShowForm(false)}
-        className="w-1/5"
-      >
-        <form>
-          <input
-            placeholder="Search user..."
-            className="bg-transparent border-b border-b-accent-light-900 dark:border-b-accent-dark-400 outline-none w-full p-4"
-          />
-        </form>
-        <ul>
-          {project?.users.map((user) => (
-            <li
-              onClick={() => handleAddAssignee(user)} // Clicking this should update the issue and add the assignee
-              className="
-                flex items-center gap-5
-                border-b 
-                border-b-accent-light-900 
-                dark:border-b-accent-dark-400 
-                last:border-b-0
-                hover:bg-background-dark-500
-                dark:hover:bg-accent-dark-400
-                last:hover:rounded-b-lg
-                p-4 cursor-pointer
-              "
-            >
-              <Avatar />
-              <span className="font-semibold">@{user.fullname}</span>
-            </li>
-          ))}
-        </ul>
-      </BaseModal>
+      />
     </>
   );
 };

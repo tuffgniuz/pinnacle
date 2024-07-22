@@ -2,7 +2,7 @@
 import { FC, ReactNode, useState } from "react";
 
 const BaseDropDown: FC<{
-  icon: ReactNode;
+  icon: ReactNode | string;
   children: ReactNode;
   backgroundColor?: string;
   buttonClassName?: string | undefined;
@@ -38,7 +38,7 @@ const BaseDropDown: FC<{
             border
             border-1
             dark:border-accent-light-400
-            mt-2
+            mt-3 -ml-2
             drop-shadow-lg
             rounded-lg 
             ${backgroundColor}

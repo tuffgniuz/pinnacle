@@ -29,7 +29,7 @@ const IssueAssigneePickerDropDown: FC<{ issue: Issue | undefined }> = ({
           className="border-b dark:border-b-accent-dark-500"
         />
       </form>
-      <h1 className="p-4 font-semibold text-text-dark-700 border-b dark:border-b-accent-dark-500">
+      <h1 className="p-4 font-semibold text-text-light-400 border-b dark:border-b-accent-dark-500">
         Project contributors
       </h1>
       <ul className="cursor-pointer flex flex-col gap-5 p-4">

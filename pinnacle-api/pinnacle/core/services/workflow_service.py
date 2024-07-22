@@ -32,6 +32,14 @@ class WorkflowService(AbstractGenericService):
 
         return await self.workflow_repository.generics.save(new_workflow)
 
+    async def get_by_id_or_none(self, id: str) -> Workflow | None:
+        workflow = await self.workflow_repository.generics.find_by_id(id)
+
+        if not workflow:
+            self._raise_not_found_exception("Workflow not found")
+
+        return workflow
+
     async def get_active_workflow(self, project_name_key: str) -> Workflow:
         project = await self.project_service.get_project_for_current_user_or_none(
             project_name_key

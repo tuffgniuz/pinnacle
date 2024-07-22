@@ -50,6 +50,7 @@ export type Issue = {
   description?: string;
   effort?: number;
   priority?: IssuePriority;
+  state?: State;
   project_id: string;
   workflow_id?: string;
   state_id?: string;

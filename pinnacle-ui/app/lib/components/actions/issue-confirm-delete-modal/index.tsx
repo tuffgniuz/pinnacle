@@ -13,7 +13,7 @@ const IssueConfirmDeleteModal: FC<{
 
   const handleConfirmDelete = () => {
     mutation.mutate();
-    onClose(); // Doesn't close modal correctly because after it closes I can't open a new modal unless doing a page reload
+    onClose();
   };
 
   return (
@@ -26,13 +26,13 @@ const IssueConfirmDeleteModal: FC<{
           <LucideX size={20} />
         </button>
       </div>
-      <p className="mb-5 text-text-light-700">
+      <p className="mb-5 text-text-light-300 dark:text-text-light-700">
         Are you sure you want to delete this issue from this project?
       </p>
       <div className="flex justify-end">
         <button
           onClick={handleConfirmDelete}
-          className="outline outline-1 outline-light_red-500 text-light_red-500 rounded-lg p-2"
+          className="bg-accent-light-300 text-light_red-500 rounded-lg p-2"
         >
           Confirm delete
         </button>

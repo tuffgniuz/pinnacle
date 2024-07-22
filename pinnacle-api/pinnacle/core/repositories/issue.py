@@ -20,6 +20,7 @@ class IssueRepository:
         stmt = (
             select(Issue)
             .options(
+                selectinload(Issue.state),
                 selectinload(Issue.labels),
                 selectinload(Issue.assignees),
                 selectinload(Issue.security_controls),

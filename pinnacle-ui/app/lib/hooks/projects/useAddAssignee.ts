@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { addAssigneeToIssue } from "../../actions";
 
-const useAddAssignee = (issueId: string) => {
+const useAddAssignee = (issueId: string | undefined) => {
   const queryClient = useQueryClient();
   const token = useSelector((state: RootState) => state.auth.token);
   const mutation = useMutation({

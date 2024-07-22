@@ -7,9 +7,10 @@ import {
 import BaseDropDown from "../base-drop-down";
 
 const IssueCardActionsDropDown: FC<{
+  handleAddAssignee: MouseEventHandler<HTMLLIElement>;
   handleDelete: MouseEventHandler<HTMLLIElement>;
   className?: string;
-}> = ({ handleDelete, className }) => {
+}> = ({ handleDelete, handleAddAssignee, className }) => {
   const listStyle =
     "cursor-pointer flex items-center gap-2 p-1 -m-2 rounded-md transtion-all duration-300 ease-in-out";
   const listHoverStyle =
@@ -18,12 +19,15 @@ const IssueCardActionsDropDown: FC<{
   return (
     <div className={className}>
       <BaseDropDown
-        icon={<LucideMoreHorizontal size={18} />}
-        buttonClassName="hover:bg-accent-dark-500 p-1 -mx-1 rounded-lg"
+        icon={<LucideMoreHorizontal size={16} />}
+        buttonClassName="hover:bg-neutral-light dark:hover:bg-accent-dark-500 p-1 -mx-1 rounded-lg"
         className="w-72"
       >
         <ul className="flex flex-col gap-5 p-5">
-          <li className={`${listStyle} ${listHoverStyle}`}>
+          <li
+            onClick={handleAddAssignee}
+            className={`${listStyle} ${listHoverStyle}`}
+          >
             <LucideUserPlus size={18} />
             Add assignee
           </li>

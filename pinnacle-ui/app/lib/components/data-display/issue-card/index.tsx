@@ -5,11 +5,14 @@ import IssueAssigneeForm from "../../forms/issue-assignee-form";
 import IssueDetailModal from "../issue-detail-modal";
 import IssueCardActionsDropDown from "../../actions/issue-card-actions-drop-down";
 import IssueConfirmDeleteModal from "../../actions/issue-confirm-delete-modal";
+import IssueAssigneePickerModal from "../../actions/issue-assignee-picker-modal";
 
 const IssueCard: FC<{ issue: Issue }> = ({ issue }) => {
   const [showIssueDetailModal, setShowIssueDetailModal] =
     useState<boolean>(false);
   const [showIssueConfirmDeleteModal, setShowIssueConfirmDeleteModal] =
+    useState<boolean>(false);
+  const [showAssigneePickerModal, setShowAssigneePickerModal] =
     useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
@@ -23,13 +26,19 @@ const IssueCard: FC<{ issue: Issue }> = ({ issue }) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="flex items-center gap-5 mb-3">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center py-1 -my-1 gap-5">
+            <span className="italic text-sm text-text-dark-600">
+              {issue.issue_key}
+            </span>
+            {isHovered && (
+              <IssueCardActionsDropDown
+                handleAddAssignee={() => setShowAssigneePickerModal(true)}
+                handleDelete={() => setShowIssueConfirmDeleteModal(true)}
+              />
+            )}
+          </div>
           <IssueAssigneeForm issueId={issue.id} assignees={issue.assignees} />
-          {isHovered && (
-            <IssueCardActionsDropDown
-              handleDelete={() => setShowIssueConfirmDeleteModal(true)}
-            />
-          )}
         </div>
         <h1
           onClick={() => setShowIssueDetailModal(true)}
@@ -37,8 +46,12 @@ const IssueCard: FC<{ issue: Issue }> = ({ issue }) => {
         >
           {issue.title}
         </h1>
-        {/*<p>order: {issue.order}</p>*/}
       </Card>
+      <IssueAssigneePickerModal
+        issue={issue}
+        showModal={showAssigneePickerModal}
+        onClose={() => setShowAssigneePickerModal(false)}
+      />
       <IssueConfirmDeleteModal
         issue={issue}
         showModal={showIssueConfirmDeleteModal}

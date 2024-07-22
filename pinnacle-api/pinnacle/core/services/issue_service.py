@@ -11,8 +11,7 @@ from pinnacle.core.dependencies.db import get_async_session
 from pinnacle.core.models import Issue, User
 from pinnacle.core.repositories.issue import IssueRepository
 from pinnacle.core.repositories.user import UserRepository
-from pinnacle.core.services.abstract_generic_service import \
-    AbstractGenericService
+from pinnacle.core.services.abstract_generic_service import AbstractGenericService
 from pinnacle.core.services.project_service import ProjectService
 from pinnacle.core.services.state_service import StateService
 from pinnacle.utils.text import generate_issue_key
@@ -118,9 +117,12 @@ class IssueService(AbstractGenericService):
         if not issue:
             self._raise_not_found_exception("Issue not found")
 
+        if user in issue.assignees:  # type: ignore
+            logger.info(f"User already assigned to issue {issue.issue_key}")
+            return issue
+
         issue.assignees.append(user)  # type: ignore
 
-        # await self.session.flush()
         await self.session.commit()
         await self.session.refresh(issue)
 
