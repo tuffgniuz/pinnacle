@@ -280,6 +280,8 @@ class Label(Base):
         UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4
     )
     name: Mapped[str] = mapped_column(String(55), nullable=False)
+    description: Mapped[str] = mapped_column(String(280), nullable=True)
+    color: Mapped[str] = mapped_column(String(7), nullable=True)
     issues: Mapped[list["Issue"]] = relationship(
         "Issue", secondary=issue_label_association, back_populates="labels"
     )
