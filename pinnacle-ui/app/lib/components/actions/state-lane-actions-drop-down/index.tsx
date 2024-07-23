@@ -1,10 +1,11 @@
 import { FC, MouseEventHandler } from "react";
-import { LucideEdit, LucideMoreHorizontal } from "lucide-react";
+import { LucideEdit, LucideMoreHorizontal, LucideTrash } from "lucide-react";
 import BaseDropDown from "../base-drop-down";
 
 const StateLaneActionsDropDown: FC<{
+  handleDeleteState: MouseEventHandler<HTMLLIElement>;
   handleShowStateUpdateForm: MouseEventHandler<HTMLLIElement>;
-}> = ({ handleShowStateUpdateForm }) => {
+}> = ({ handleDeleteState, handleShowStateUpdateForm }) => {
   const listStyle =
     "cursor-pointer flex items-center gap-2 p-1 -m-2 rounded-md transtion-all duration-300 ease-in-out";
   const styleOnHover =
@@ -23,6 +24,13 @@ const StateLaneActionsDropDown: FC<{
         >
           <LucideEdit size={18} />
           <span>Edit details</span>
+        </li>
+        <li
+          onClick={handleDeleteState}
+          className={`${listStyle} text-light_red hover:bg-light_red-900`}
+        >
+          <LucideTrash size={18} />
+          <span>Delete</span>
         </li>
       </ul>
     </BaseDropDown>

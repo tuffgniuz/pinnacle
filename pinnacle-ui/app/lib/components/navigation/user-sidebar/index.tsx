@@ -93,6 +93,7 @@ const UserSidebar: FC<{ show: boolean; onClose: () => void }> = ({
             <h2 className="text-xs font-semibold">Projects</h2>
             {projects?.map((project) => (
               <Navlink
+                key={project.id}
                 href={`/projects/${project.name_key}/board`}
                 icon={<LucideKanban size={18} />}
                 value={project.name}

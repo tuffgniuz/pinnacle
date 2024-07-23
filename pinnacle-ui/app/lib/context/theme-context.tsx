@@ -16,21 +16,37 @@ interface ThemeContextProps {
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<string>("dark");
+  const [theme, setTheme] = useState<string | null>(null);
 
   useEffect(() => {
-    const root = window.document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      setTheme(storedTheme);
     } else {
-      root.classList.remove("dark");
+      setTheme("light");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (theme !== null) {
+      const root = window.document.documentElement;
+      if (theme === "dark") {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
+      }
+      localStorage.setItem("theme", theme);
     }
   }, [theme]);
 
   const toggleTheme = () => {
-    console.log("toggle theme:", theme);
     setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
   };
+
+  // Avoid rendering children until the theme is set
+  if (theme === null) {
+    return null; // Or a loading spinner/component
+  }
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -42,7 +58,7 @@ export const ThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvided");
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
 };

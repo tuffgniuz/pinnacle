@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { RootState } from "../../stores/store";
-import { updateIssue } from "../../actions";
-import { IssuePriority } from "../../types/enums";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { RootState } from "../../stores/store";
+import { updateState } from "../../actions";
 
-const useIssueUpdate = (id: string | undefined) => {
+const useStateUpdate = (id: string) => {
   const queryClient = useQueryClient();
   const token = useSelector((state: RootState) => state.auth.token);
   const [error, setError] = useState<Error | undefined>(undefined);
@@ -13,21 +12,17 @@ const useIssueUpdate = (id: string | undefined) => {
   const mutation = useMutation({
     mutationFn: async (
       data: Partial<{
-        project_id: string;
-        title: string;
-        workflow_id: string;
-        state_id: string;
+        name: string;
         description: string;
-        effort: number;
-        priority: IssuePriority;
-        ready_for_development: boolean;
+        limit: number;
+        color_id: string;
       }>,
     ) => {
-      return await updateIssue(token, id, data);
+      return await updateState(token, id, data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["issue", id] });
       queryClient.invalidateQueries({ queryKey: ["workflow"] });
+      queryClient.invalidateQueries({ queryKey: ["states"] });
     },
     onError: (error) => {
       setError(error);
@@ -38,4 +33,4 @@ const useIssueUpdate = (id: string | undefined) => {
   return { mutation, error };
 };
 
-export default useIssueUpdate;
+export default useStateUpdate;

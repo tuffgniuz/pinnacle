@@ -1,9 +1,11 @@
+"use client";
 import { FC } from "react";
 import OAuthLinks from "../lib/components/navigation/oauth-links";
 import Link from "next/link";
 import SignupForm from "../lib/components/forms/signup-form";
 import Container from "../lib/components/layout/container";
 import FormPageHeader from "../lib/components/navigation/form-page-header";
+import authRedirect from "../lib/hocs/authRedirect";
 
 const Signup: FC = () => {
   return (
@@ -30,4 +32,4 @@ const Signup: FC = () => {
   );
 };
 
-export default Signup;
+export default authRedirect(Signup);

@@ -1,11 +1,11 @@
 import { FC, useState } from "react";
-import { User } from "@/app/lib/types/models";
+import { Issue, User } from "@/app/lib/types/models";
 import IssueAssigneePickerModal from "../../actions/issue-assignee-picker-modal";
 
 const IssueAssigneeForm: FC<{
-  issueId: string;
+  issue: Issue;
   assignees: User[];
-}> = ({ issueId, assignees }) => {
+}> = ({ issue, assignees }) => {
   const [showForm, setShowForm] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -24,7 +24,10 @@ const IssueAssigneeForm: FC<{
       ) : (
         <div>
           {assignees?.map((assignee) => (
-            <div className="bg-sky_magenta-600 w-7 h-7 rounded-full flex justify-center items-center">
+            <div
+              key={assignee.id}
+              className="bg-sky_magenta-600 w-7 h-7 rounded-full flex justify-center items-center"
+            >
               <p className="font-bold">{assignee?.fullname[0].toUpperCase()}</p>
             </div>
           ))}
@@ -32,7 +35,7 @@ const IssueAssigneeForm: FC<{
       )}
 
       <IssueAssigneePickerModal
-        issueId={issueId}
+        issue={issue}
         showModal={showForm}
         onClose={() => setShowForm(false)}
       />

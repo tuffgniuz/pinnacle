@@ -7,7 +7,7 @@ import {
 } from "react";
 
 const TextInput: FC<{
-  type?: "text" | "search" | "password";
+  type?: "text" | "search" | "password" | "number";
   autoFocus?: boolean;
   autoComplete?: HTMLInputAutoCompleteAttribute | undefined;
   placeholder?: string;

@@ -135,7 +135,6 @@ class IssueService(AbstractGenericService):
 
     async def delete(self, id: str) -> None:
         issue = await self.get_by_id_or_none(id)
-
         await self.issue_repository.generics.delete(issue)
         await self.session.commit()
 

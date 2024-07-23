@@ -314,6 +314,80 @@ export const deleteIssue = async (token: string | null, issueId: string) => {
   }
 };
 
+export const createState = async (
+  token: string | null,
+  createData: Partial<{
+    name: string;
+    description: string;
+    limit: number;
+    color_id: string;
+    workflow_id: string;
+    is_final_state: boolean;
+  }>,
+) => {
+  try {
+    console.log(createData);
+    const response = await fetch(`${BASE_URL}/api/v1/states`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(createData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error!`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateState = async (
+  token: string | null,
+  id: string,
+  updateData: Partial<{
+    name: string;
+    description: string;
+    limit: number;
+    color_id: string;
+  }>,
+) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/v1/states/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error!`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteState = async (token: string | null, id: string) => {
+  try {
+    await fetch(`${BASE_URL}/api/v1/states/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getColors = async (token: string | null) => {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/colors`, {

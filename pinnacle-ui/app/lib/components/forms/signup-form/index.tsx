@@ -8,6 +8,7 @@ import TextInput from "../../data-input/text-input";
 import Button from "../../actions/button";
 
 import useRegisterUser from "@/app/lib/hooks/useRegisterUser";
+import authRedirect from "@/app/lib/hocs/authRedirect";
 
 const SignupForm: FC = () => {
   const {
@@ -63,4 +64,4 @@ const SignupForm: FC = () => {
   );
 };
 
-export default SignupForm;
+export default authRedirect(SignupForm);

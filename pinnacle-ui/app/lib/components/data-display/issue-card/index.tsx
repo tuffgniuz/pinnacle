@@ -1,13 +1,19 @@
 import { FC, useState } from "react";
-import { Issue } from "@/app/lib/types/models";
+import { Issue, State } from "@/app/lib/types/models";
 import Card from "../card";
 import IssueAssigneeForm from "../../forms/issue-assignee-form";
 import IssueDetailModal from "../issue-detail-modal";
 import IssueCardActionsDropDown from "../../actions/issue-card-actions-drop-down";
 import IssueConfirmDeleteModal from "../../actions/issue-confirm-delete-modal";
 import IssueAssigneePickerModal from "../../actions/issue-assignee-picker-modal";
+import { LucideCircleDot } from "lucide-react";
+import StateConfirmDeleteModal from "../../actions/state-confirm-delete-modal";
 
-const IssueCard: FC<{ issue: Issue }> = ({ issue }) => {
+const IssueCard: FC<{ issue: Issue; state: State; stateColor: string }> = ({
+  issue,
+  state,
+  stateColor,
+}) => {
   const [showIssueDetailModal, setShowIssueDetailModal] =
     useState<boolean>(false);
   const [showIssueConfirmDeleteModal, setShowIssueConfirmDeleteModal] =
@@ -28,9 +34,12 @@ const IssueCard: FC<{ issue: Issue }> = ({ issue }) => {
       >
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center py-1 -my-1 gap-5">
-            <span className="italic text-sm text-text-dark-600">
-              {issue.issue_key}
-            </span>
+            <div className="flex items-center gap-2">
+              <LucideCircleDot size={16} color={stateColor} />
+              <span className="italic text-sm text-text-dark-600">
+                {issue.issue_key}
+              </span>
+            </div>
             {isHovered && (
               <IssueCardActionsDropDown
                 handleAddAssignee={() => setShowAssigneePickerModal(true)}
@@ -38,7 +47,7 @@ const IssueCard: FC<{ issue: Issue }> = ({ issue }) => {
               />
             )}
           </div>
-          <IssueAssigneeForm issueId={issue.id} assignees={issue.assignees} />
+          <IssueAssigneeForm issue={issue} assignees={issue.assignees} />
         </div>
         <h1
           onClick={() => setShowIssueDetailModal(true)}

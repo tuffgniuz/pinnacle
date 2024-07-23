@@ -1,3 +1,4 @@
+"use client";
 import { NextPage } from "next";
 
 import Link from "next/link";
@@ -5,6 +6,7 @@ import OAuthLinks from "../lib/components/navigation/oauth-links";
 import LoginForm from "../lib/components/forms/login-form";
 import Container from "../lib/components/layout/container";
 import FormPageHeader from "../lib/components/navigation/form-page-header";
+import authRedirect from "../lib/hocs/authRedirect";
 
 const Login: NextPage = () => {
   return (
@@ -36,4 +38,4 @@ const Login: NextPage = () => {
   );
 };
 
-export default Login;
+export default authRedirect(Login);

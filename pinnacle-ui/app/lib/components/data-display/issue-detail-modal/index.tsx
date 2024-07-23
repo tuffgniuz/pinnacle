@@ -42,7 +42,10 @@ const IssueDetailModal: FC<{
           ) : (
             <div className="flex items-center gap-2">
               {issue?.assignees.map((assignee) => (
-                <h1 className="text-2xl flex items-center justify-center bg-sky_magenta-600 h-10 w-10 rounded-full">
+                <h1
+                  key={issue.id}
+                  className="text-2xl flex items-center justify-center bg-sky_magenta-600 h-10 w-10 rounded-full"
+                >
                   {assignee?.fullname[0].toUpperCase()}
                 </h1>
               ))}
