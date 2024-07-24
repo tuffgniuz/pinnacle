@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from pinnacle.api.v1.color_router import router as color_router
 from pinnacle.api.v1.issue_router import router as issue_router
+from pinnacle.api.v1.label_router import router as label_router
 from pinnacle.api.v1.project_router import router as project_router
 from pinnacle.api.v1.state_router import router as state_router
 from pinnacle.api.v1.workflow_router import router as workflow_router
@@ -17,6 +18,7 @@ def include_routers(app: FastAPI):
     app.include_router(issue_router, prefix="/api/v1", tags=["issues"])
     app.include_router(state_router, prefix="/api/v1", tags=["states"])
     app.include_router(color_router, prefix="/api/v1", tags=["colors"])
+    app.include_router(label_router, prefix="/api/v1", tags=["labels"])
     # fastapi-users routes
     app.include_router(
         users.get_register_router(UserRead, UserCreate), prefix="/auth", tags=["auth"]

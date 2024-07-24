@@ -68,7 +68,7 @@ const StateLane: FC<{ state: State; project: Project }> = ({
               state={state}
               stateColor={iconColor}
               key={issue.id}
-              issue={issue}
+              issueId={issue.id}
             />
           ))}
         </div>

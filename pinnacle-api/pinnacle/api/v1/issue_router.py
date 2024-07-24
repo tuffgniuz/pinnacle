@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends
 
 from pinnacle.core.schemas.issue_schemas import (
     IssueAddAssigneeSchema,
+    IssueAddLabelSchema,
     IssueCreateSchema,
     IssueUpdateSchema,
 )
@@ -31,12 +32,21 @@ async def get_issue_by_id(id: str, service: IssueService = Depends(get_issue_ser
 
 
 @router.patch("/issues/{issue_id}/update/assignee")
-async def add_assignee(
+async def add_assignee_to_issue(
     issue_id: str,
     request: IssueAddAssigneeSchema,
     service: IssueService = Depends(get_issue_service),
 ):
     return await service.add_assignee(request.user_id, issue_id)
+
+
+@router.patch("/issues/{issue_id}/update/label")
+async def add_label_to_issue(
+    issue_id: str,
+    schema: IssueAddLabelSchema,
+    issue_service: IssueService = Depends(get_issue_service),
+):
+    return await issue_service.add_label(schema.label_id, issue_id)
 
 
 @router.patch("/issues/{id}")

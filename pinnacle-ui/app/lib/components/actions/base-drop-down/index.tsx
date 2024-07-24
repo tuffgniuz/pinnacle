@@ -2,13 +2,15 @@
 import { FC, ReactNode, useState } from "react";
 
 const BaseDropDown: FC<{
-  icon: ReactNode | string;
+  icon?: ReactNode | string;
+  title?: string | undefined;
   children: ReactNode;
   backgroundColor?: string;
   buttonClassName?: string | undefined;
   className?: string | undefined;
 }> = ({
   icon,
+  title,
   children,
   buttonClassName,
   className,
@@ -24,12 +26,11 @@ const BaseDropDown: FC<{
     <div className="relative">
       <button
         onClick={handleDropDown}
-        className={`transition-all duration-300 ease-in-out ${buttonClassName}`}
+        className={`transition-all duration-300 ease-in-out ${title && icon ? "flex items-center gap-2" : ""} ${buttonClassName}`}
       >
         {icon}
+        {title && <span>{title}</span>}
       </button>
-      {/* div (drop down) to be shown when clicked on the button */}
-
       {isOpen && (
         <div
           className={`

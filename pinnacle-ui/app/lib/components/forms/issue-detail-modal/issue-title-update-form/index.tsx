@@ -12,7 +12,8 @@ import TextInput from "../../../data-input/text-input";
 const IssueTitleUpdateForm: FC<{
   projectId: string | undefined;
   issue: Issue | undefined;
-}> = ({ projectId, issue }) => {
+  className?: string | undefined;
+}> = ({ projectId, issue, className }) => {
   const [title, setTitle] = useState<string | undefined>(
     issue?.title || undefined,
   );
@@ -34,7 +35,7 @@ const IssueTitleUpdateForm: FC<{
   }, [issue]);
 
   return (
-    <>
+    <div className={className}>
       {isVisible ? (
         <form onSubmit={handleSubmit} className="outline-none border-none">
           <TextInput
@@ -71,7 +72,7 @@ const IssueTitleUpdateForm: FC<{
           {title} <span className="text-text-dark-700">{issue?.issue_key}</span>
         </h1>
       )}
-    </>
+    </div>
   );
 };
 

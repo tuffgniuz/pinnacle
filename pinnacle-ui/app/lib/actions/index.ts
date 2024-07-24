@@ -230,7 +230,10 @@ export const createIssue = async (
   }
 };
 
-export const getIssue = async (token: string | null, id: string) => {
+export const getIssue = async (
+  token: string | null,
+  id: string | undefined,
+) => {
   const response = await fetch(`${BASE_URL}/api/v1/issues/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -295,7 +298,29 @@ export const addAssigneeToIssue = async (
   return response.json();
 };
 
-export const deleteIssue = async (token: string | null, issueId: string) => {
+export const addLabelToIssue = async (
+  token: string | null,
+  label_id: string | undefined,
+  issueId: string | undefined,
+) => {
+  try {
+    await fetch(`${BASE_URL}/api/v1/issues/${issueId}/update/label`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ label_id }),
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteIssue = async (
+  token: string | null,
+  issueId: string | undefined,
+) => {
   try {
     await fetch(`${BASE_URL}/api/v1/issues/${issueId}`, {
       method: "DELETE",
@@ -382,6 +407,21 @@ export const deleteState = async (token: string | null, id: string) => {
 export const getColors = async (token: string | null) => {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/colors`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!response.ok) throw new Error(`HTTP error!`);
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getLabels = async (token: string | null) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/v1/labels`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

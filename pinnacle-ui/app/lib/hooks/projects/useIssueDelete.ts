@@ -4,7 +4,7 @@ import { deleteIssue } from "../../actions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 
-const useIssueDelete = (issueId: string) => {
+const useIssueDelete = (issueId: string | undefined) => {
   const queryClient = useQueryClient();
   const token = useSelector((state: RootState) => state.auth.token);
   const [errorMsg, setErrorMsg] = useState<Error | null>(null);

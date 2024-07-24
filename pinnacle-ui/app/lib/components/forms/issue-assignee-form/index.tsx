@@ -3,8 +3,8 @@ import { Issue, User } from "@/app/lib/types/models";
 import IssueAssigneePickerModal from "../../actions/issue-assignee-picker-modal";
 
 const IssueAssigneeForm: FC<{
-  issue: Issue;
-  assignees: User[];
+  issue: Issue | undefined;
+  assignees: User[] | undefined;
 }> = ({ issue, assignees }) => {
   const [showForm, setShowForm] = useState<boolean>(false);
 

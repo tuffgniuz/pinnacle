@@ -11,7 +11,9 @@ from pinnacle.core.dependencies.db import get_async_session
 from pinnacle.core.models import Issue, User
 from pinnacle.core.repositories.issue import IssueRepository
 from pinnacle.core.repositories.user import UserRepository
-from pinnacle.core.services.abstract_generic_service import AbstractGenericService
+from pinnacle.core.services.abstract_generic_service import \
+    AbstractGenericService
+from pinnacle.core.services.label_service import LabelService
 from pinnacle.core.services.project_service import ProjectService
 from pinnacle.core.services.state_service import StateService
 from pinnacle.utils.text import generate_issue_key
@@ -32,6 +34,7 @@ class IssueService(AbstractGenericService):
         self.user_repository = UserRepository(self.session)
         self.state_service = StateService(self.current_user, self.session)
         self.project_service = ProjectService(self.current_user, self.session)
+        self.label_service = LabelService(self.current_user, self.session)
 
     async def create(
         self,
@@ -106,6 +109,31 @@ class IssueService(AbstractGenericService):
         await self.session.refresh(updated_issue)
 
         return updated_issue
+
+    async def add_label(self, label_id: str, issue_id: str) -> Issue:
+        label = await self.label_service.get_by_id_or_none(label_id)
+
+        if not label:
+            self._raise_not_found_exception("Label not found")
+
+        issue = await self.get_by_id_or_none(issue_id)
+
+        if not issue:
+            self._raise_not_found_exception("Issue not found")
+
+        if label in issue.labels:  # type: ignore
+            return issue
+
+        issue.labels.append(label)  # type: ignore
+
+        await self.session.commit()
+        await self.session.refresh(issue)
+
+        return issue
+
+    async def delete_label(self, label_id: str, issue_id: str) ->:
+        # implement delete logic
+        pass
 
     async def add_assignee(self, user_id: str, issue_id: str) -> Issue:
         user = await self.user_repository.generics.find_by_id(user_id)

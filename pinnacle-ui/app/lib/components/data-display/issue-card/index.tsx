@@ -1,19 +1,20 @@
 import { FC, useState } from "react";
-import { Issue, State } from "@/app/lib/types/models";
+import { State } from "@/app/lib/types/models";
+import { LucideCircleDot } from "lucide-react";
+import useIssueDetail from "@/app/lib/hooks/projects/useIssueDetail";
 import Card from "../card";
 import IssueAssigneeForm from "../../forms/issue-assignee-form";
 import IssueDetailModal from "../issue-detail-modal";
 import IssueCardActionsDropDown from "../../actions/issue-card-actions-drop-down";
 import IssueConfirmDeleteModal from "../../actions/issue-confirm-delete-modal";
 import IssueAssigneePickerModal from "../../actions/issue-assignee-picker-modal";
-import { LucideCircleDot } from "lucide-react";
-import StateConfirmDeleteModal from "../../actions/state-confirm-delete-modal";
+import IssueLabels from "../issue-labels";
 
-const IssueCard: FC<{ issue: Issue; state: State; stateColor: string }> = ({
-  issue,
-  state,
-  stateColor,
-}) => {
+const IssueCard: FC<{
+  issueId: string | undefined;
+  state: State;
+  stateColor: string;
+}> = ({ issueId, state, stateColor }) => {
   const [showIssueDetailModal, setShowIssueDetailModal] =
     useState<boolean>(false);
   const [showIssueConfirmDeleteModal, setShowIssueConfirmDeleteModal] =
@@ -21,9 +22,14 @@ const IssueCard: FC<{ issue: Issue; state: State; stateColor: string }> = ({
   const [showAssigneePickerModal, setShowAssigneePickerModal] =
     useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const { data: issue, isLoading } = useIssueDetail(issueId);
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
+
+  if (isLoading) {
+    return <p>Loading..</p>;
+  }
 
   return (
     <>
@@ -37,7 +43,7 @@ const IssueCard: FC<{ issue: Issue; state: State; stateColor: string }> = ({
             <div className="flex items-center gap-2">
               <LucideCircleDot size={16} style={{ color: stateColor }} />
               <span className="italic text-sm text-text-dark-600">
-                {issue.issue_key}
+                {issue?.issue_key}
               </span>
             </div>
             {isHovered && (
@@ -47,15 +53,17 @@ const IssueCard: FC<{ issue: Issue; state: State; stateColor: string }> = ({
               />
             )}
           </div>
-          <IssueAssigneeForm issue={issue} assignees={issue.assignees} />
+          <IssueAssigneeForm issue={issue} assignees={issue?.assignees} />
         </div>
         <h1
           onClick={() => setShowIssueDetailModal(true)}
           className="hover:cursor-pointer hover:text-sky_magenta-600 hover:underline hover:underline-offset-1 mb-4"
         >
-          {issue.title}
+          {issue?.title}
         </h1>
+        <IssueLabels issue={issue} />
       </Card>
+      {/* MODALS */}
       <IssueAssigneePickerModal
         issue={issue}
         showModal={showAssigneePickerModal}
@@ -67,7 +75,7 @@ const IssueCard: FC<{ issue: Issue; state: State; stateColor: string }> = ({
         onClose={() => setShowIssueConfirmDeleteModal(false)}
       />
       <IssueDetailModal
-        issueId={issue.id}
+        issueId={issue?.id}
         showModal={showIssueDetailModal}
         onClose={() => setShowIssueDetailModal(false)}
       />

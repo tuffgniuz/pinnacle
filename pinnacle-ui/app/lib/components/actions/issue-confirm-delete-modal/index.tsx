@@ -5,11 +5,11 @@ import BaseModal from "../../data-display/base-modal";
 import useIssueDelete from "@/app/lib/hooks/projects/useIssueDelete";
 
 const IssueConfirmDeleteModal: FC<{
-  issue: Issue;
+  issue: Issue | undefined;
   showModal: boolean;
   onClose: () => void;
 }> = ({ issue, showModal, onClose }) => {
-  const { mutation } = useIssueDelete(issue.id);
+  const { mutation } = useIssueDelete(issue?.id);
 
   const handleConfirmDelete = () => {
     mutation.mutate();
@@ -20,7 +20,7 @@ const IssueConfirmDeleteModal: FC<{
     <BaseModal show={showModal} onClose={onClose} className="w-1/4 p-6">
       <div className="flex items-center justify-between mb-5">
         <h1 className="text-xl font-semibold">
-          Delete issue {issue.issue_key}?
+          Delete issue {issue?.issue_key}?
         </h1>
         <button onClick={onClose}>
           <LucideX size={20} />

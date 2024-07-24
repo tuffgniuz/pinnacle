@@ -1,0 +1,84 @@
+import { FC, useState } from "react";
+import { LucideEdit, LucidePlus } from "lucide-react";
+import { Issue, Label } from "@/app/lib/types/models";
+import useLabels from "@/app/lib/hooks/projects/useLabels";
+import useAddLabelToIssue from "@/app/lib/hooks/projects/useAddLabelToIssue";
+import BaseDropDown from "../base-drop-down";
+import Link from "next/link";
+
+const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
+  const [selectedLabel, setSelectedLabel] = useState<Label | undefined>(
+    undefined,
+  );
+  const { data: labels } = useLabels();
+  const { mutation } = useAddLabelToIssue(selectedLabel?.id, issue?.id);
+
+  const handleAddLabel = (label: Label) => {
+    setSelectedLabel(label);
+    mutation.mutate();
+  };
+
+  const availableLabels = labels?.filter(
+    (label) => !issue?.labels?.some((issueLabel) => issueLabel.id === label.id),
+  );
+
+  return (
+    <BaseDropDown
+      icon={<LucidePlus size={18} />}
+      title="Add labels"
+      buttonClassName="bg-background-dark text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
+      className="w-full"
+    >
+      <div className="flex items-center justify-between border-b px-6 py-4">
+        <h1 className="font-semibold">Assign labels to this issue</h1>
+        <Link
+          href="/project/labels"
+          className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 -m-2 p-2 rounded-lg transition-all duration-300 ease-in-out flex items-center gap-2"
+        >
+          <LucideEdit size={18} />
+          <span>Edit labels</span>
+        </Link>
+      </div>
+      {/* Issue Labels */}
+      <div>
+        <ul className="border-b">
+          {issue?.labels?.map((label) => (
+            <li className="cursor-pointer flex flex-col px-6 py-4 transtion-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100">
+              <div className="flex items-center gap-2 mb-2">
+                <span
+                  className="h-4 w-4 rounded-full"
+                  style={{ background: label.color }}
+                />
+                <span>{label.name}</span>
+              </div>
+              <span className="text-sm">{label.description}</span>
+            </li>
+          ))}
+        </ul>
+        {/* Labels - should exclude labels already mapped to issues */}
+        <div className="border-b px-6 py-4">
+          <h1 className="font-semibold">Suggestions</h1>
+        </div>
+        <ul className="border-b">
+          {availableLabels?.map((label) => (
+            <li
+              onClick={() => handleAddLabel(label)}
+              className="cursor-pointer flex flex-col px-6 py-4 transtion-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span
+                  className="h-4 w-4 rounded-full"
+                  style={{ background: label.color }}
+                />
+                <span>{label.name}</span>
+              </div>
+              <span className="text-sm">{label.description}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </BaseDropDown>
+  );
+};
+
+export default LabelPickerDropDown;

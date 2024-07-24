@@ -57,13 +57,15 @@ export type Issue = {
   project_id: string;
   workflow_id?: string;
   state_id?: string;
-  labels: Label[];
+  labels?: Label[];
   assignees: User[];
 };
 
 export type Label = {
   id: string;
   name: string;
+  description?: string;
+  color?: string;
 };
 
 export type Color = {

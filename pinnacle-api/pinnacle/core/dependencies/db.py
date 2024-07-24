@@ -9,7 +9,7 @@ from pinnacle.core.models import OAuthAccount, User
 
 DB_URL = f"postgresql+asyncpg://{pg_settings.postgres_user}:{pg_settings.postgres_password}@{pg_settings.postgres_host}:{pg_settings.postgres_port}/{pg_settings.postgres_db}"
 
-engine = create_async_engine(DB_URL, echo=True)
+engine = create_async_engine(DB_URL)
 session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 

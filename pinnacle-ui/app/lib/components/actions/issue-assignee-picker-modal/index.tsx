@@ -8,7 +8,7 @@ import BaseModal from "../../data-display/base-modal";
 import Avatar from "../../data-display/avatar";
 
 const IssueAssigneePickerModal: FC<{
-  issue: Issue;
+  issue: Issue | undefined;
   showModal: boolean;
   onClose: () => void;
 }> = ({ issue, showModal, onClose }) => {

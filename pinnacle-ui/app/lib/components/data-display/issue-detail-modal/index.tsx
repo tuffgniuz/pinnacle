@@ -9,9 +9,11 @@ import IssueTitleUpdateForm from "../../forms/issue-detail-modal/issue-title-upd
 import IssueAssigneePickerDropDown from "../../actions/issue-assignee-picker-drop-down";
 import StatePickerDropDown from "../../actions/state-picker-drop-down";
 import IssueEffortUpdateForm from "../../forms/issue-detail-modal/issue-effort-update-form";
+import LabelPickerDropDown from "../../actions/label-picker-drop-down";
+import IssueLabels from "../issue-labels";
 
 const IssueDetailModal: FC<{
-  issueId: string;
+  issueId: string | undefined;
   showModal: boolean;
   onClose: () => void;
 }> = ({ issueId, showModal, onClose }) => {
@@ -73,15 +75,21 @@ const IssueDetailModal: FC<{
         </nav>
       </header>
       {/* Forms */}
-      <IssueTitleUpdateForm projectId={project?.id} issue={issue} />
-      <div className="flex flex-col gap-2 mt-10">
+      <IssueTitleUpdateForm
+        projectId={project?.id}
+        issue={issue}
+        className="mb-10"
+      />
+      <LabelPickerDropDown issue={issue} />
+      <IssueLabels issue={issue} className="my-10" />
+      <div className="flex flex-col gap-2">
         <div className="flex mb-5">
           <div className="w-2/12 text-text-light-400">Status</div>
           <div className="w-10/12">
             <StatePickerDropDown issue={issue} />
           </div>
         </div>
-        <div className="flex items-center mb-5 ">
+        <div className="flex items-center mb-5">
           <div className="w-2/12 text-text-light-400">Effort</div>
           <div className="w-10/12">
             <IssueEffortUpdateForm issue={issue} />
@@ -90,10 +98,6 @@ const IssueDetailModal: FC<{
         <div className="flex mb-5">
           <div className="w-2/12 text-text-light-400">Priority</div>
           <div className="w-10/12">{issue?.priority}</div>
-        </div>
-        <div className="flex mb-5">
-          <div className="w-2/12 text-text-light-400">Labels</div>
-          <div className="w-10/12"></div>
         </div>
       </div>
     </BaseModal>

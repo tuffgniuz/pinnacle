@@ -12,6 +12,10 @@ class IssueCreateSchema(BaseModel):
     state_id: str | None
 
 
+class IssueAddLabelSchema(BaseModel):
+    label_id: str
+
+
 class IssueAddAssigneeSchema(BaseModel):
     user_id: str
 
