@@ -87,7 +87,7 @@ const BaseModal: FC<{
             exit="exit"
             variants={position === "side-r" ? modalVariants : {}}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`bg-background-light dark:bg-accent-dark-500 ${position === "side-r" ? "h-screen rounded-l-lg" : "rounded-lg"} ${className}`}
+            className={`bg-background-light dark:bg-accent-dark-400 ${position === "side-r" ? "h-screen rounded-l-lg" : "rounded-lg"} ${className}`}
           >
             {children}
           </motion.div>

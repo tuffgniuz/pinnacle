@@ -1,5 +1,10 @@
 import { FC, useState } from "react";
-import { LucideEdit, LucidePlus } from "lucide-react";
+import {
+  LucideCheckSquare,
+  LucideEdit,
+  LucideSquare,
+  LucideTag,
+} from "lucide-react";
 import { Issue, Label } from "@/app/lib/types/models";
 import useLabels from "@/app/lib/hooks/projects/useLabels";
 import useAddLabelToIssue from "@/app/lib/hooks/projects/useAddLabelToIssue";
@@ -33,16 +38,24 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
 
   return (
     <BaseDropDown
-      icon={<LucidePlus size={18} />}
+      icon={<LucideTag size={16} />}
       title="Add labels"
-      buttonClassName="bg-background-dark text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
-      className="w-full"
+      buttonClassName="dark:bg-accent-dark-500 text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
+      className="w-3/4 border dark:border-accent-light-500"
     >
-      <div className="flex items-center justify-between border-b px-6 py-4">
+      <div className="flex items-center justify-between dark:border-b border-b-accent-light-500 px-6 py-4">
         <h1 className="font-semibold">Assign labels to this issue</h1>
         <Link
           href="/project/labels"
-          className="hover:bg-neutral-light dark:hover:bg-neutral-light-100 -m-2 p-2 rounded-lg transition-all duration-300 ease-in-out flex items-center gap-2"
+          className="
+            hover:bg-neutral-light 
+            dark:hover:bg-neutral-light-100 
+            flex items-center gap-2
+            -m-2 p-2 
+            rounded-lg 
+            transition-all duration-300 
+            ease-in-out 
+          "
         >
           <LucideEdit size={18} />
           <span>Edit labels</span>
@@ -50,14 +63,15 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
       </div>
       {/* Issue Labels */}
       <div>
-        <ul className="border-b">
+        <ul className="border-b dark:border-b-accent-light-500">
           {issue?.labels?.map((label) => (
             <li
               key={label.id}
               onClick={() => handleDeleteLabel(label)}
-              className="cursor-pointer flex flex-col px-6 py-4 transtion-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100"
+              className="cursor-pointer flex flex-col px-6 py-4 transition-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100"
             >
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-3 mb-2">
+                <LucideCheckSquare size={16} />
                 <span
                   className="h-4 w-4 rounded-full"
                   style={{ background: label.color }}
@@ -69,24 +83,27 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
           ))}
         </ul>
         {/* Labels - should exclude labels already mapped to issues */}
-        <div className="border-b px-6 py-4">
+        <div className="border-b dark:border-b-accent-light-500 px-6 py-4">
           <h1 className="font-semibold">Suggestions</h1>
         </div>
-        <ul className="border-b">
+        <ul>
           {availableLabels?.map((label) => (
             <li
               key={label.id}
               onClick={() => handleAddLabel(label)}
-              className="cursor-pointer flex flex-col px-6 py-4 transtion-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100"
+              className="cursor-pointer flex flex-col px-6 py-4 transition-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100"
             >
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-3 mb-2">
+                <LucideSquare size={16} />
                 <span
                   className="h-4 w-4 rounded-full"
                   style={{ background: label.color }}
                 />
                 <span>{label.name}</span>
               </div>
-              <span className="text-sm">{label.description}</span>
+              <span className="text-sm text-text-dark-600">
+                {label.description}
+              </span>
             </li>
           ))}
         </ul>

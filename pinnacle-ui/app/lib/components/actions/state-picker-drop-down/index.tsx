@@ -1,5 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import { LucideCheck, LucideCircleDot } from "lucide-react";
+import {
+  LucideArrowLeftRight,
+  LucideCheck,
+  LucideCircleDot,
+} from "lucide-react";
 import { Issue, State } from "@/app/lib/types/models";
 import useStatesForWorkflow from "@/app/lib/hooks/projects/useStatesForWorkflow";
 import useIssueUpdate from "@/app/lib/hooks/projects/useIssueUpdate";
@@ -31,11 +35,14 @@ const StatePickerDropDown: FC<{
 
   return (
     <BaseDropDown
-      icon={issue?.state?.name}
-      buttonClassName="bg-background-dark text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
-      className="w-80"
+      icon={<LucideArrowLeftRight size={18} />}
+      title={issue?.state?.name}
+      buttonClassName="dark:bg-accent-dark-500 text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
+      className="w-80 border dark:border-accent-light-500"
     >
-      <h1 className="p-4 font-semibold border-b">Move to</h1>
+      <h1 className="p-4 font-semibold border-b dark:border-b-accent-light-500">
+        Move to
+      </h1>
       <ul>
         {states?.map((state: State) => (
           <li

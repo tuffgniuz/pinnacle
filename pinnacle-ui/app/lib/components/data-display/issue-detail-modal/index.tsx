@@ -81,11 +81,13 @@ const IssueDetailModal: FC<{
         className="mb-10"
       />
       <LabelPickerDropDown issue={issue} />
+      <div className="my-10" />
       <IssueLabels issue={issue} className="my-10" />
       <div className="flex flex-col gap-2">
         <div className="flex mb-5">
           <div className="w-2/12 text-text-light-400">Status</div>
           <div className="w-10/12">
+            {/* When the Label Picker DropDown component is active the button of the StatePickerDropdow is placed above th dropdown menu of the LabelPicker */}
             <StatePickerDropDown issue={issue} />
           </div>
         </div>

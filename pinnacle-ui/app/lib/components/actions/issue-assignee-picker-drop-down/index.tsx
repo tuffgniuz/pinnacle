@@ -26,7 +26,7 @@ const IssueAssigneePickerDropDown: FC<{ issue: Issue | undefined }> = ({
       icon={<LucidePlus size={20} />}
       backgroundColor="bg-background-dark-800 dark:bg-accent-dark-400"
       buttonClassName="flex items-center justify-center dark:bg-accent-dark-400 h-10 w-10 rounded-full"
-      className="bg-background-light dark:bg-accent-dark-500 w-80"
+      className="bg-background-light dark:bg-accent-dark-500 w-80 border dark:border-accent-light-500"
     >
       <form>
         <TextInput
@@ -35,10 +35,10 @@ const IssueAssigneePickerDropDown: FC<{ issue: Issue | undefined }> = ({
           outlineNone
           placeholder="Search people..."
           rounded="none"
-          className="border-b dark:border-b-accent-dark-500"
+          className="border-b dark:border-b-accent-light-500"
         />
       </form>
-      <h1 className="p-4 font-semibold text-text-light-400 border-b dark:border-b-accent-dark-500">
+      <h1 className="p-4 font-semibold text-text-light-400 border-b dark:border-b-accent-light-500">
         Project contributors
       </h1>
       <ul className="cursor-pointer flex flex-col gap-5 p-4">
