@@ -1,5 +1,8 @@
 import { ProjectMethodology } from "../types/enums";
-import { PartialIssueUpdate } from "../types/partials";
+import {
+  IssueLabelRemovalRequest,
+  PartialIssueUpdate,
+} from "../types/requests";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -311,6 +314,27 @@ export const addLabelToIssue = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ label_id }),
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteLabelFromIssue = async (
+  token: string | null,
+  issueId: string | undefined,
+  requestBody: IssueLabelRemovalRequest,
+) => {
+  try {
+    console.log("Request body being send to backend:", requestBody);
+    await fetch(`${BASE_URL}/api/v1/issues/${issueId}/delete/label`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
     });
   } catch (error) {
     throw error;

@@ -14,3 +14,7 @@ export type PartialIssueUpdate = Partial<{
   priority: IssuePriority;
   ready_for_development: boolean;
 }>;
+
+export interface IssueLabelRemovalRequest {
+  label_id: string;
+}

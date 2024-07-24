@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 from pinnacle.core.enums import IssuePriority
@@ -18,6 +16,10 @@ class IssueAddLabelSchema(BaseModel):
 
 class IssueAddAssigneeSchema(BaseModel):
     user_id: str
+
+
+class IssueDeleteLabelSchema(BaseModel):
+    label_id: str
 
 
 class IssueUpdateSchema(BaseModel):

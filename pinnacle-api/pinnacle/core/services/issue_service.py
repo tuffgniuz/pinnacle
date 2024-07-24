@@ -1,9 +1,7 @@
 import logging
 from typing import Sequence
-from uuid import UUID
 
 from fastapi import Depends
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from pinnacle.core.auth.users import get_current_user
@@ -11,8 +9,8 @@ from pinnacle.core.dependencies.db import get_async_session
 from pinnacle.core.models import Issue, User
 from pinnacle.core.repositories.issue import IssueRepository
 from pinnacle.core.repositories.user import UserRepository
-from pinnacle.core.services.abstract_generic_service import \
-    AbstractGenericService
+from pinnacle.core.schemas.issue_schemas import IssueDeleteLabelSchema
+from pinnacle.core.services.abstract_generic_service import AbstractGenericService
 from pinnacle.core.services.label_service import LabelService
 from pinnacle.core.services.project_service import ProjectService
 from pinnacle.core.services.state_service import StateService
@@ -131,9 +129,28 @@ class IssueService(AbstractGenericService):
 
         return issue
 
-    async def delete_label(self, label_id: str, issue_id: str) ->:
-        # implement delete logic
-        pass
+    async def delete_label(
+        self, schema: IssueDeleteLabelSchema, issue_id: str
+    ) -> Issue:
+        label = await self.label_service.get_by_id_or_none(schema.label_id)
+
+        if not label:
+            self._raise_not_found_exception("Label not found")
+
+        issue = await self.get_by_id_or_none(issue_id)
+
+        if not issue:
+            self._raise_not_found_exception("Issue not found")
+
+        if label not in issue.labels:  # type: ignore
+            return issue
+
+        issue.labels.remove(label)  # type: ignore
+
+        await self.session.commit()
+        await self.session.refresh(issue)
+
+        return issue
 
     async def add_assignee(self, user_id: str, issue_id: str) -> Issue:
         user = await self.user_repository.generics.find_by_id(user_id)
@@ -147,7 +164,7 @@ class IssueService(AbstractGenericService):
             self._raise_not_found_exception("Issue not found")
 
         if user in issue.assignees:  # type: ignore
-            logger.info(f"User already assigned to issue {issue.issue_key}")
+            logger.info(f"User already assigned to issue {issue.issue_key}")  # type: ignore
             return issue
 
         issue.assignees.append(user)  # type: ignore

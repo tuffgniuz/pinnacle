@@ -1,11 +1,13 @@
 import logging
+import uuid
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from pinnacle.core.schemas.issue_schemas import (
     IssueAddAssigneeSchema,
     IssueAddLabelSchema,
     IssueCreateSchema,
+    IssueDeleteLabelSchema,
     IssueUpdateSchema,
 )
 from pinnacle.core.services.issue_service import IssueService, get_issue_service
@@ -47,6 +49,15 @@ async def add_label_to_issue(
     issue_service: IssueService = Depends(get_issue_service),
 ):
     return await issue_service.add_label(schema.label_id, issue_id)
+
+
+@router.delete("/issues/{issue_id}/delete/label")
+async def delete_label_from_issue(
+    issue_id: str,
+    schema: IssueDeleteLabelSchema,
+    issue_service: IssueService = Depends(get_issue_service),
+):
+    return await issue_service.delete_label(schema, issue_id)
 
 
 @router.patch("/issues/{id}")

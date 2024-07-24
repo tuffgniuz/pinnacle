@@ -1,5 +1,4 @@
 from typing import Generic, Optional, Sequence, Type, TypeVar
-from uuid import UUID
 
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession

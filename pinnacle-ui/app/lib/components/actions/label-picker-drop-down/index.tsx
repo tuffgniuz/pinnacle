@@ -3,6 +3,7 @@ import { LucideEdit, LucidePlus } from "lucide-react";
 import { Issue, Label } from "@/app/lib/types/models";
 import useLabels from "@/app/lib/hooks/projects/useLabels";
 import useAddLabelToIssue from "@/app/lib/hooks/projects/useAddLabelToIssue";
+import useDeleteLabelFromIssue from "@/app/lib/hooks/projects/useDeleteLabelFromIssue";
 import BaseDropDown from "../base-drop-down";
 import Link from "next/link";
 
@@ -11,11 +12,19 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
     undefined,
   );
   const { data: labels } = useLabels();
-  const { mutation } = useAddLabelToIssue(selectedLabel?.id, issue?.id);
+  const { mutation: addMutation } = useAddLabelToIssue(
+    selectedLabel?.id,
+    issue?.id,
+  );
+  const { mutation: deleteMutation } = useDeleteLabelFromIssue(issue?.id);
 
   const handleAddLabel = (label: Label) => {
     setSelectedLabel(label);
-    mutation.mutate();
+    addMutation.mutate();
+  };
+
+  const handleDeleteLabel = (label: Label) => {
+    deleteMutation.mutate({ label_id: label.id });
   };
 
   const availableLabels = labels?.filter(
@@ -43,7 +52,11 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
       <div>
         <ul className="border-b">
           {issue?.labels?.map((label) => (
-            <li className="cursor-pointer flex flex-col px-6 py-4 transtion-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100">
+            <li
+              key={label.id}
+              onClick={() => handleDeleteLabel(label)}
+              className="cursor-pointer flex flex-col px-6 py-4 transtion-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100"
+            >
               <div className="flex items-center gap-2 mb-2">
                 <span
                   className="h-4 w-4 rounded-full"
@@ -62,6 +75,7 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
         <ul className="border-b">
           {availableLabels?.map((label) => (
             <li
+              key={label.id}
               onClick={() => handleAddLabel(label)}
               className="cursor-pointer flex flex-col px-6 py-4 transtion-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100"
             >

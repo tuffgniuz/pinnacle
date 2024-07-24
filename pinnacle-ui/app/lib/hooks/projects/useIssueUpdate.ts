@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { updateIssue } from "../../actions";
 import { useState } from "react";
-import { PartialIssueUpdate } from "../../types/partials";
+import { PartialIssueUpdate } from "../../types/requests";
 
 const useIssueUpdate = (id: string | undefined) => {
   const queryClient = useQueryClient();
