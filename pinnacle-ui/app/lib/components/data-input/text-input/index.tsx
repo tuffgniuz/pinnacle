@@ -15,7 +15,7 @@ const TextInput: FC<{
   onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
   className?: string | undefined;
   outlineNone?: boolean;
-  padding?: "sm" | "md";
+  padding?: "sm" | "md" | "none";
   rounded?: "sm" | "md" | "lg" | "none";
   backgroundColor?: string;
   fullWidth?: boolean;
@@ -54,7 +54,7 @@ const TextInput: FC<{
         ${backgroundColor}
         ${rounded === "sm" ? "rounded-sm" : rounded === "md" ? "rounded-md" : rounded == "lg" ? "rounded-lg" : rounded === "none" ? "" : ""}
         ${outlineNone ? "outline-none" : "outline outline-1 outline-primary-light dark:outline-accent-dark-600"}
-        ${padding === "sm" ? "p-2" : padding === "md" ? "p-4" : ""}
+        ${padding === "sm" ? "p-2" : padding === "md" ? "p-4" : padding === "none" ? "" : ""}
         ${fullWidth ? "w-full" : ""}
         ${className}
       `}

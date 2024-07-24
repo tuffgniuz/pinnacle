@@ -1,18 +1,33 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import { LucideCheck, LucideCircleDot } from "lucide-react";
 import { Issue, State } from "@/app/lib/types/models";
 import useStatesForWorkflow from "@/app/lib/hooks/projects/useStatesForWorkflow";
+import useIssueUpdate from "@/app/lib/hooks/projects/useIssueUpdate";
 import BaseDropDown from "../base-drop-down";
-import { LucideCheck } from "lucide-react";
 
-const StatePickerDropDown: FC<{ issue: Issue }> = ({ issue }) => {
-  const {
-    data: states,
-    isError,
-    isLoading,
-    error,
-  } = useStatesForWorkflow(issue?.workflow_id);
+/**
+ * TODO: Fix closing modal when updating the state when clicking on the list item
+ * Currently unknown why it closes on issue.state_id update
+ */
 
-  if (isError) console.error(error);
+const StatePickerDropDown: FC<{
+  issue: Issue | undefined;
+}> = ({ issue }) => {
+  const [stateId, setIssueStateId] = useState<string | undefined>(
+    issue?.state_id,
+  );
+  const { data: states } = useStatesForWorkflow(issue?.workflow_id);
+  const { mutation, error: updateError } = useIssueUpdate(issue?.id);
+
+  useEffect(() => {
+    setIssueStateId(issue?.state_id);
+  }, [issue]);
+
+  const handleStateUpdate = (stateId: string) => {
+    if (issue?.state_id !== stateId) {
+      mutation.mutate({ state_id: stateId });
+    }
+  };
 
   return (
     <BaseDropDown
@@ -20,13 +35,20 @@ const StatePickerDropDown: FC<{ issue: Issue }> = ({ issue }) => {
       buttonClassName="bg-background-dark text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
       className="w-80"
     >
-      <h1 className="p-4 font-semibold">Move to</h1>
+      <h1 className="p-4 font-semibold border-b">Move to</h1>
       <ul>
         {states?.map((state: State) => (
-          <li className="flex items-center justify-between p-4">
-            <span>{state.name}</span>
+          <li
+            key={state.id}
+            onClick={() => handleStateUpdate(state.id)}
+            className="cursor-pointer flex items-center justify-between p-4 hover:bg-neutral-light dark:hover:bg-neutral-light-100"
+          >
+            <div className="flex items-center gap-4">
+              <LucideCircleDot size={16} />
+              <span>{state.name}</span>
+            </div>
             {/* Check icon to indicate current issue state */}
-            {issue?.state_id === state.id && <LucideCheck size={18} />}
+            {stateId === state.id && <LucideCheck size={18} />}
           </li>
         ))}
       </ul>

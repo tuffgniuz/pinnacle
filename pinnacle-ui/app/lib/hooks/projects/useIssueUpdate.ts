@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { updateIssue } from "../../actions";
-import { IssuePriority } from "../../types/enums";
 import { useState } from "react";
+import { PartialIssueUpdate } from "../../types/partials";
 
 const useIssueUpdate = (id: string | undefined) => {
   const queryClient = useQueryClient();
@@ -11,23 +11,13 @@ const useIssueUpdate = (id: string | undefined) => {
   const [error, setError] = useState<Error | undefined>(undefined);
 
   const mutation = useMutation({
-    mutationFn: async (
-      data: Partial<{
-        project_id: string;
-        title: string;
-        workflow_id: string;
-        state_id: string;
-        description: string;
-        effort: number;
-        priority: IssuePriority;
-        ready_for_development: boolean;
-      }>,
-    ) => {
+    mutationFn: async (data: PartialIssueUpdate) => {
       return await updateIssue(token, id, data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["issue", id] });
       queryClient.invalidateQueries({ queryKey: ["workflow"] });
+      queryClient.invalidateQueries({ queryKey: ["issue", id] });
+      // queryClient.invalidateQueries({ queryKey: ["states"] });
     },
     onError: (error) => {
       setError(error);

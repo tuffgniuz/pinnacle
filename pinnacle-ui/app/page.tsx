@@ -1,4 +1,6 @@
+"use client";
 import Navbar from "./lib/components/navigation/navbar";
+import authRedirect from "./lib/hocs/authRedirect";
 
 const Home = () => {
   return (
@@ -9,4 +11,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default authRedirect(Home);

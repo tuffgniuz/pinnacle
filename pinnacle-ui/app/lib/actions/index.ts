@@ -1,4 +1,5 @@
-import { IssuePriority, ProjectMethodology } from "../types/enums";
+import { ProjectMethodology } from "../types/enums";
+import { PartialIssueUpdate } from "../types/partials";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -245,16 +246,7 @@ export const getIssue = async (token: string | null, id: string) => {
 export const updateIssue = async (
   token: string | null,
   issueId: string | undefined,
-  data: Partial<{
-    project_id: string;
-    title: string;
-    workkflow_id: string;
-    state_id: string;
-    description: string;
-    effort: number;
-    priority: IssuePriority;
-    ready_for_development: boolean;
-  }>,
+  data: PartialIssueUpdate,
 ) => {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/issues/${issueId}`, {
@@ -326,7 +318,6 @@ export const createState = async (
   }>,
 ) => {
   try {
-    console.log(createData);
     const response = await fetch(`${BASE_URL}/api/v1/states`, {
       method: "POST",
       headers: {

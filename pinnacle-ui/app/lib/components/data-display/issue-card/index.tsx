@@ -35,7 +35,7 @@ const IssueCard: FC<{ issue: Issue; state: State; stateColor: string }> = ({
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center py-1 -my-1 gap-5">
             <div className="flex items-center gap-2">
-              <LucideCircleDot size={16} color={stateColor} />
+              <LucideCircleDot size={16} style={{ color: stateColor }} />
               <span className="italic text-sm text-text-dark-600">
                 {issue.issue_key}
               </span>

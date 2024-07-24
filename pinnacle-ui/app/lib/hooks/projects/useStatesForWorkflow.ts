@@ -7,7 +7,7 @@ import { getStatesForWorkflow } from "../../actions";
 const useStatesForWorkflow = (workflowId: string) => {
   const token = useSelector((state: RootState) => state.auth.token);
 
-  const { data, isLoading, isError, error } = useQuery<State[] | Error>({
+  const { data, isLoading, isError, error } = useQuery<State[], Error>({
     queryKey: ["states"],
     queryFn: async () => {
       return await getStatesForWorkflow(token, workflowId);

@@ -13,6 +13,7 @@ const useAddAssignee = (issueId: string | undefined) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["workflow"] });
+      queryClient.invalidateQueries({ queryKey: ["issue", issueId] });
     },
   });
 

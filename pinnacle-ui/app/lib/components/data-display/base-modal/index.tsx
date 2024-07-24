@@ -33,13 +33,10 @@ const BaseModal: FC<{
 
   useEffect(() => {
     let modalRoot = document.getElementById("modal-root");
-    if (!modalRoot) {
-      modalRoot = document.createElement("div");
-      modalRoot.setAttribute("id", "modal-root");
+    modalRoot = document.createElement("div");
+    modalRoot.setAttribute("id", "modal-root");
 
-      document.body.appendChild(modalRoot);
-    } else {
-    }
+    document.body.appendChild(modalRoot);
 
     return () => {
       if (modalRoot && modalRoot.parentNode) {

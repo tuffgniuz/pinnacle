@@ -40,6 +40,7 @@ class IssueService(AbstractGenericService):
         workflow_id: str | None = None,
         state_id: str | None = None,
     ) -> Issue | None:
+        # TODO: Refactor method to using the create schema instead of individually passing the args
         project = await self.project_service.get_by_id_or_none(project_id)
         state = await self.state_service.get_state_by_id_or_none(state_id)
 
@@ -90,7 +91,7 @@ class IssueService(AbstractGenericService):
 
         return issue
 
-    async def update(self, id: str, update_data: dict) -> Issue:
+    async def update(self, issue_id: str, update_data: dict) -> Issue:
         if "project_id" in update_data:
             project_id = update_data["project_id"]
             project = await self.project_service.get_by_id_or_none(project_id)
@@ -98,7 +99,7 @@ class IssueService(AbstractGenericService):
         else:
             project = None
 
-        issue = await self.get_by_id_or_none(id)
+        issue = await self.get_by_id_or_none(issue_id)
         updated_issue = await self.issue_repository.generics.update(issue, update_data)
 
         await self.session.commit()

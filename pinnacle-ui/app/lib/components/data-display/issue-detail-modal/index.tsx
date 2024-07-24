@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LucideExpand, LucidePlus, LucideTrash, LucideX } from "lucide-react";
+import { LucideExpand, LucideX } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useTheme } from "@/app/lib/context/theme-context";
 import useIssueDetail from "@/app/lib/hooks/projects/useIssueDetail";
@@ -8,6 +8,7 @@ import BaseModal from "../base-modal";
 import IssueTitleUpdateForm from "../../forms/issue-detail-modal/issue-title-update-form";
 import IssueAssigneePickerDropDown from "../../actions/issue-assignee-picker-drop-down";
 import StatePickerDropDown from "../../actions/state-picker-drop-down";
+import IssueEffortUpdateForm from "../../forms/issue-detail-modal/issue-effort-update-form";
 
 const IssueDetailModal: FC<{
   issueId: string;
@@ -73,16 +74,18 @@ const IssueDetailModal: FC<{
       </header>
       {/* Forms */}
       <IssueTitleUpdateForm projectId={project?.id} issue={issue} />
-      <div className="mt-10">
+      <div className="flex flex-col gap-2 mt-10">
         <div className="flex mb-5">
           <div className="w-2/12 text-text-light-400">Status</div>
           <div className="w-10/12">
             <StatePickerDropDown issue={issue} />
           </div>
         </div>
-        <div className="flex mb-5 ">
+        <div className="flex items-center mb-5 ">
           <div className="w-2/12 text-text-light-400">Effort</div>
-          <div className="w-10/12">{issue?.effort}</div>
+          <div className="w-10/12">
+            <IssueEffortUpdateForm issue={issue} />
+          </div>
         </div>
         <div className="flex mb-5">
           <div className="w-2/12 text-text-light-400">Priority</div>

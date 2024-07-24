@@ -17,11 +17,11 @@ class IssueAddAssigneeSchema(BaseModel):
 
 
 class IssueUpdateSchema(BaseModel):
-    project_id: Optional[str] = None
-    title: Optional[str] = None
-    workflow_id: Optional[str] = None
-    state_id: Optional[str] = None
-    description: Optional[str] = None
-    effort: Optional[int] = None
-    priority: Optional[IssuePriority] = None
-    ready_for_development: Optional[bool] = None
+    project_id: str | None = None
+    title: str | None = None
+    workflow_id: str | None = None
+    state_id: str | None = None
+    description: str | None = None
+    effort: int | None = None
+    priority: IssuePriority | None = None
+    ready_for_development: bool | None = None

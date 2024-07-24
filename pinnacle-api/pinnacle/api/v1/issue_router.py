@@ -25,6 +25,11 @@ async def create_issue(
     return await service.create(issue_data, project_id, workflow_id, state_id)
 
 
+@router.get("/issues/{id}")
+async def get_issue_by_id(id: str, service: IssueService = Depends(get_issue_service)):
+    return await service.get_by_id_or_none(id)
+
+
 @router.patch("/issues/{issue_id}/update/assignee")
 async def add_assignee(
     issue_id: str,
@@ -32,11 +37,6 @@ async def add_assignee(
     service: IssueService = Depends(get_issue_service),
 ):
     return await service.add_assignee(request.user_id, issue_id)
-
-
-@router.get("/issues/{id}")
-async def get_issue_by_id(id: str, service: IssueService = Depends(get_issue_service)):
-    return await service.get_by_id_or_none(id)
 
 
 @router.patch("/issues/{id}")
