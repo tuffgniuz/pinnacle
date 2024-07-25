@@ -6,7 +6,9 @@ import TextInput from "../../data-input/text-input";
 import Toggle from "../../data-input/toggle";
 import useProjectUpdate from "@/app/lib/hooks/projects/useProjectUpdate";
 
-const ProjectUpdateForm: FC<{ project: Project }> = ({ project }) => {
+const ProjectUpdateForm: FC<{ project: Project | undefined }> = ({
+  project,
+}) => {
   const {
     errorMsg,
     projectName,

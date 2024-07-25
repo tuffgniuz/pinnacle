@@ -11,6 +11,7 @@ import Logo from "../../data-display/logo";
 import UserNavItems from "../user-nav-items";
 import Avatar from "../../data-display/avatar";
 import UserSidebar from "../user-sidebar";
+import GeneralSearchModal from "../../actions/general-search-modal";
 
 const Navbar: FC<{
   title?: string;
@@ -55,6 +56,7 @@ const Navbar: FC<{
             )}
           </ul>
           <span>|</span>
+          <GeneralSearchModal />
           <ul className="flex items-center gap-3">
             <li>
               <ThemeToggleButton />

@@ -25,6 +25,8 @@ const ProjectCreateForm: FC = () => {
       <FormGroup>
         <Label value="Project name" />
         <TextInput
+          autoFocus
+          placeholder="Your project name..."
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
         />

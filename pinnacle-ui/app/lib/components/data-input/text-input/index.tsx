@@ -53,7 +53,7 @@ const TextInput: FC<{
         ease-in-out
         ${backgroundColor}
         ${rounded === "sm" ? "rounded-sm" : rounded === "md" ? "rounded-md" : rounded == "lg" ? "rounded-lg" : rounded === "none" ? "" : ""}
-        ${outlineNone ? "outline-none" : "outline outline-1 outline-primary-light dark:outline-accent-dark-600"}
+        ${outlineNone ? "outline-none" : "outline outline-1 outline-primary-light dark:outline-accent-dark-600 focus:outline-sky_magenta-500"}
         ${padding === "sm" ? "p-2" : padding === "md" ? "p-4" : padding === "none" ? "" : ""}
         ${fullWidth ? "w-full" : ""}
         ${className}
