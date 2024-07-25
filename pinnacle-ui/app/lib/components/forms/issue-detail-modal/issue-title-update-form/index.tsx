@@ -61,7 +61,7 @@ const IssueTitleUpdateForm: FC<{
           border-none
           cursor-pointer 
           hover:bg-neutral-light 
-          dark:hover:bg-neutral-light-100 
+          dark:hover:bg-accent-dark-500
           text-4xl 
           -m-2 p-2 
           rounded-lg 

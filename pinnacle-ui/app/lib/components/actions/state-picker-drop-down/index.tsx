@@ -37,7 +37,7 @@ const StatePickerDropDown: FC<{
     <BaseDropDown
       icon={<LucideArrowLeftRight size={18} />}
       title={issue?.state?.name}
-      buttonClassName="dark:bg-accent-dark-500 text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
+      buttonClassName="bg-accent-light-300 dark:bg-accent-dark-500 text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
       className="w-80 border dark:border-accent-light-500"
     >
       <h1 className="p-4 font-semibold border-b dark:border-b-accent-light-500">

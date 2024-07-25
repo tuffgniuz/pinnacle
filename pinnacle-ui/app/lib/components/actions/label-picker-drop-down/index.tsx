@@ -40,7 +40,7 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
     <BaseDropDown
       icon={<LucideTag size={16} />}
       title="Add labels"
-      buttonClassName="dark:bg-accent-dark-500 text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
+      buttonClassName="bg-accent-light-300 dark:bg-accent-dark-500 text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
       className="w-3/4 border dark:border-accent-light-500"
     >
       <div className="flex items-center justify-between dark:border-b border-b-accent-light-500 px-6 py-4">

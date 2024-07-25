@@ -30,6 +30,7 @@ const IssueEffortUpdateForm: FC<{ issue: Issue | undefined }> = ({ issue }) => {
     <form ref={ref} onBlur={handleBlur} onSubmit={handleSubmit}>
       <TextInput
         autoFocus
+        fullWidth
         type="number"
         outlineNone
         padding="none"
@@ -38,12 +39,7 @@ const IssueEffortUpdateForm: FC<{ issue: Issue | undefined }> = ({ issue }) => {
       />
     </form>
   ) : (
-    <p
-      onClick={() => setIsVisible(true)}
-      className="hover:bg-neutral-light dark:hover:neutral-light-100 transition-all duration-300 ease-in-out p-2 -m-2 rounded-md cursor-pointer"
-    >
-      {effort} pt
-    </p>
+    <p onClick={() => setIsVisible(true)}>{effort} pt</p>
   );
 };
 

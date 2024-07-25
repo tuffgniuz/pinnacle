@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { LucideExpand, LucideX } from "lucide-react";
+import { LucideBolt, LucideExpand, LucideX } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useTheme } from "@/app/lib/context/theme-context";
 import useIssueDetail from "@/app/lib/hooks/projects/useIssueDetail";
@@ -74,25 +74,37 @@ const IssueDetailModal: FC<{
           </button>
         </nav>
       </header>
-      {/* Forms */}
+
+      {/* TITLE */}
       <IssueTitleUpdateForm
         projectId={project?.id}
         issue={issue}
         className="mb-10"
       />
+
+      {/* LABELS */}
       <LabelPickerDropDown issue={issue} />
       <div className="my-10" />
       <IssueLabels issue={issue} className="my-10" />
-      <div className="flex flex-col gap-2">
-        <div className="flex mb-5">
-          <div className="w-2/12 text-text-light-400">Status</div>
+
+      <div className="flex flex-col">
+        {/* STATUS */}
+        <div className="flex mb-5 dark:hover:bg-accent-dark-500 p-1 -m-1 rounded-lg transition-all duration-300 ease-in-out">
+          <div className="flex items-center gap-2 w-2/12 text-text-light-400">
+            <LucideBolt size={18} />
+            Status
+          </div>
           <div className="w-10/12">
             {/* When the Label Picker DropDown component is active the button of the StatePickerDropdow is placed above th dropdown menu of the LabelPicker */}
             <StatePickerDropDown issue={issue} />
           </div>
         </div>
-        <div className="flex items-center mb-5">
-          <div className="w-2/12 text-text-light-400">Effort</div>
+        {/* STATUS */}
+        <div className="flex items-center mb-5 dark:hover:bg-accent-dark-500 p-1 -m-1 rounded-lg cursor-pointer transition-all duration-300 ease-in-out">
+          <div className="flex items-center gap-2 w-2/12 text-text-light-400">
+            <LucideBolt size={18} />
+            Effort
+          </div>
           <div className="w-10/12">
             <IssueEffortUpdateForm issue={issue} />
           </div>
