@@ -1,11 +1,11 @@
 import { FC, useState } from "react";
 import { LucideCheckCircle, LucideCircle } from "lucide-react";
 import { Project, State } from "@/app/lib/types/models";
+import useColors from "@/app/lib/hooks/projects/useColors";
 import StateLaneActionsDropDown from "../../actions/state-lane-actions-drop-down";
 import IssueCard from "../issue-card";
 import IssueCreateForm from "../../forms/issue-create-form";
 import StateUpdateModalForm from "../../forms/state-update-modal-form";
-import useColors from "@/app/lib/hooks/projects/useColors";
 import StateConfirmDeleteModal from "../../actions/state-confirm-delete-modal";
 
 const StateLane: FC<{ state: State; project: Project }> = ({
@@ -23,7 +23,7 @@ const StateLane: FC<{ state: State; project: Project }> = ({
 
   return (
     <>
-      <div className="w-3/12">
+      <div className="w-3/12 max-h-screen">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
             <LucideCircle size={20} style={{ color: iconColor }} />

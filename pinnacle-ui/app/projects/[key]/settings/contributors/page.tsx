@@ -2,21 +2,20 @@
 import { NextPage } from "next";
 import { useParams } from "next/navigation";
 import useProjectWithActiveWorkfow from "@/app/lib/hooks/projects/useProjectWithActiveWorkflow";
-import ProjectGeneralSettings from "@/app/lib/components/data-display/project-general-settings";
 import ProjectSettingsContainer from "@/app/lib/components/layout/project-settings-container";
 
-const ProjectSettings: NextPage = () => {
+const ProjectSetingsContributors: NextPage = () => {
   const { key } = useParams<{ key: string }>();
   const { data: project, isLoading } = useProjectWithActiveWorkfow(key);
 
   return (
     <ProjectSettingsContainer
       project={project}
-      pathname={`/projects/${project?.name_key}/settings`}
+      pathname={`/projects/${project?.name_key}/settings/contributors`}
     >
-      <ProjectGeneralSettings project={project} />
+      <h1>Contributors</h1>
     </ProjectSettingsContainer>
   );
 };
 
-export default ProjectSettings;
+export default ProjectSetingsContributors;

@@ -20,7 +20,7 @@ const ProjectUpdateForm: FC<{ project: Project }> = ({ project }) => {
 
   return (
     <form onSubmit={handleSubmit} className="mb-10">
-      <h2 className="text-2xl mb-5">Project name</h2>
+      <h2 className="text-xl dark:text-text-dark-700 mb-5">Project name</h2>
       <div className="flex items-center gap-2 mb-10">
         <TextInput
           fullWidth
@@ -30,7 +30,9 @@ const ProjectUpdateForm: FC<{ project: Project }> = ({ project }) => {
         />
       </div>
 
-      <h2 className="text-2xl mb-5">Project description</h2>
+      <h2 className="text-xl dark:text-text-dark-700 mb-5">
+        Project description
+      </h2>
       <div className="mb-10">
         <TextArea
           placeholder="Your project description..."
@@ -40,7 +42,7 @@ const ProjectUpdateForm: FC<{ project: Project }> = ({ project }) => {
         />
       </div>
 
-      <h2 className="text-2xl mb-5">Enable backlog</h2>
+      <h2 className="text-xl dark:text-text-dark-700 mb-5">Enable backlog</h2>
       <div className="flex justify-start mb-5">
         <Toggle
           checked={hasBacklog}

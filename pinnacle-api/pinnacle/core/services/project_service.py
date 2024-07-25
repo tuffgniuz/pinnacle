@@ -13,8 +13,10 @@ from pinnacle.core.repositories.project import ProjectRepository
 from pinnacle.core.repositories.state import StateRepository
 from pinnacle.core.repositories.workflow import WorkflowRepository
 from pinnacle.core.schemas.project_schema import ProjectUpdateSchema
-from pinnacle.core.services.abstract_generic_service import AbstractGenericService
-from pinnacle.utils.text import generate_project_name_key, generate_workflow_name
+from pinnacle.core.services.abstract_generic_service import \
+    AbstractGenericService
+from pinnacle.utils.text import (generate_project_name_key,
+                                 generate_workflow_name)
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +88,11 @@ class ProjectService(AbstractGenericService):
         await self.session.refresh(updated_project)
 
         return project
+
+    async def delete(self, project_id: str) -> None:
+        project = await self.get_by_id_or_none(project_id)
+        await self.project_repository.generics.delete(project)
+        await self.session.commit()
 
     async def create_default_workflow_and_states(self, project: Project):
         default_workflow_name = generate_workflow_name(str(project.name_key))

@@ -5,16 +5,16 @@ import { ProjectPartialUpdateRequest } from "../../types/requests";
 import { updateProject } from "../../services/project";
 import useToken from "../auth/useToken";
 
-const useProjectUpdate = (project: Project) => {
+const useProjectUpdate = (project: Project | undefined) => {
   const { token } = useToken();
   const queryClient = useQueryClient();
   const [projectName, setProjectName] = useState<string | undefined>(
-    project.name || undefined,
+    project?.name || undefined,
   );
   const [projectDescription, setProjectDescription] = useState<
     string | undefined
-  >(project.description || undefined);
-  const [hasBacklog, setHasBacklog] = useState<boolean>(project.has_backlog);
+  >(project?.description || undefined);
+  const [hasBacklog, setHasBacklog] = useState<boolean>(project!.has_backlog);
   const [errorMsg, setErrorMsg] = useState<Error | string | undefined>(
     undefined,
   );
@@ -22,7 +22,7 @@ const useProjectUpdate = (project: Project) => {
   useEffect(() => {
     setProjectName(project?.name || undefined);
     setProjectDescription(project?.description || undefined);
-    setHasBacklog(project.has_backlog);
+    setHasBacklog(project!.has_backlog);
   }, [project]);
 
   const handleSubmit = (e: FormEvent) => {
@@ -36,11 +36,11 @@ const useProjectUpdate = (project: Project) => {
 
   const mutation = useMutation({
     mutationFn: async (requestBody: ProjectPartialUpdateRequest) => {
-      return await updateProject(token, project.id, requestBody);
+      return await updateProject(token, project!.id, requestBody);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["project", project.name_key],
+        queryKey: ["project", project!.name_key],
       });
       queryClient.invalidateQueries({ queryKey: ["workflow"] });
     },

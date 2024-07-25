@@ -23,7 +23,7 @@ const ProjectBoard: NextPage = () => {
   return (
     <>
       <Navbar title={project?.name} project={project} showProjectLinks />
-      <Container className="px-5">
+      <Container className="h-full px-5">
         <StateLanes project={project} states={project?.workflows[0].states} />
       </Container>
     </>
