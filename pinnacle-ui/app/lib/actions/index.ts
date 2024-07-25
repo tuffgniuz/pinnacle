@@ -2,6 +2,7 @@ import { ProjectMethodology } from "../types/enums";
 import {
   IssueLabelRemovalRequest,
   PartialIssueUpdate,
+  ProjectCreateRequest,
 } from "../types/requests";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -99,18 +100,17 @@ export const getGithubAuthorizationUrl = async () => {
 
 export const createProject = async (
   token: string | null,
-  name: string,
-  methodology: ProjectMethodology,
-  description?: string,
+  requestBody: ProjectCreateRequest,
 ) => {
   try {
+    console.log("body:", requestBody);
     const response = await fetch(`${BASE_URL}/api/v1/projects`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, description, methodology }),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok)

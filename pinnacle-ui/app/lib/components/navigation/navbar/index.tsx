@@ -1,15 +1,11 @@
 "use client";
 import { FC, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LucideInbox, LucideTarget } from "lucide-react";
-
 import { Project } from "@/app/lib/types/models";
 import { useTheme } from "@/app/lib/context/theme-context";
-import useLogoutUser from "@/app/lib/hooks/useLogoutUser";
 import useCurrentUser from "@/app/lib/hooks/useCurrentUser";
 import useProjects from "@/app/lib/hooks/projects/useProjects";
-
 import ThemeToggleButton from "../../actions/theme-toggle-button";
 import Logo from "../../data-display/logo";
 import UserNavItems from "../user-nav-items";
@@ -24,7 +20,6 @@ const Navbar: FC<{
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const { theme } = useTheme();
   const { data: currentUser } = useCurrentUser();
-  const { data: projects } = useProjects();
 
   return (
     <>

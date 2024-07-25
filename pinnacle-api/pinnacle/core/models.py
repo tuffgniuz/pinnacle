@@ -8,8 +8,7 @@ from sqlalchemy import (UUID, Boolean, Column, Date, Enum, Float, ForeignKey,
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from pinnacle.core.enums import (IssuePriority, ProjectMethodology,
-                                 ProjectSecurityLevel)
+from pinnacle.core.enums import IssuePriority, ProjectSecurityLevel
 
 Base = declarative_base()
 
@@ -160,9 +159,9 @@ class Project(Base):
     name_key: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     description: Mapped[str] = mapped_column(String(500), nullable=True)
     has_backlog: Mapped[bool] = mapped_column(Boolean, default=False)
-    methodology: Mapped[ProjectMethodology] = mapped_column(
-        Enum(ProjectMethodology), default=ProjectMethodology.KANBAN
-    )
+    # methodology: Mapped[ProjectMethodology] = mapped_column(
+    #     Enum(ProjectMethodology), default=ProjectMethodology.KANBAN
+    # )
     security_level: Mapped[ProjectSecurityLevel] = mapped_column(Enum(ProjectSecurityLevel), default=ProjectSecurityLevel.LEVEL1)
 
     users: Mapped[list["User"]] = relationship(

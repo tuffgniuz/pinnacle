@@ -1,9 +1,11 @@
 import { IssuePriority } from "./enums";
 
-/**
- * Represents a partial update for an Issue object.
- * This type is used when sending partial updates to the backend.
- */
+export type ProjectCreateRequest = {
+  name: string;
+  has_backlog: boolean;
+  description?: string;
+};
+
 export type PartialIssueUpdate = Partial<{
   project_id: string;
   title: string;

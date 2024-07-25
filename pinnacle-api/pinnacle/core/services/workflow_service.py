@@ -24,9 +24,6 @@ class WorkflowService(AbstractGenericService):
     async def create(self, workflow_data: dict, project_id: str) -> Workflow:
         project = await self.project_service.get_by_id_or_none(project_id)
 
-        if project:
-            await self.workflow_repository.validate_kanban_worklow(project.id)  # type: ignore
-
         workflow_data["project_id"] = project.id  # type: ignore
         new_workflow = Workflow(**workflow_data)
 

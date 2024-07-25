@@ -1,14 +1,13 @@
 "use client";
 import { FC } from "react";
 import { LucideRocket } from "lucide-react";
-
+import useProjectCreate from "@/app/lib/hooks/projects/useProjectCreate";
 import Button from "../../actions/button";
 import FormGroup from "../form-group";
 import Label from "../label";
 import TextInput from "../../data-input/text-input";
 import TextArea from "../../data-input/text-area";
-import ProjectMethodologyRadioCard from "../../data-input/project-methodology-radio-card";
-import useProjectCreate from "@/app/lib/hooks/projects/useProjectCreate";
+import Toggle from "../../data-input/toggle";
 
 const ProjectCreateForm: FC = () => {
   const {
@@ -16,8 +15,8 @@ const ProjectCreateForm: FC = () => {
     setProjectName,
     projectDescription,
     setProjectDescription,
-    methodology,
-    setMethodology,
+    hasBacklog,
+    setHasBacklog,
     handleSubmit,
   } = useProjectCreate();
 
@@ -38,11 +37,13 @@ const ProjectCreateForm: FC = () => {
         />
       </FormGroup>
       <FormGroup>
-        <Label value="Methodology" />
-        <ProjectMethodologyRadioCard
-          value={methodology}
-          onChange={setMethodology}
-        />
+        <Label value="Enable backlog" />
+        <div className="flex justify-start">
+          <Toggle
+            checked={hasBacklog}
+            onChange={(e) => setHasBacklog(e.target.checked)}
+          />
+        </div>
       </FormGroup>
       <Button
         type="submit"

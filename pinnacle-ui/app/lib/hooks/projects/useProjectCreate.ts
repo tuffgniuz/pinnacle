@@ -2,10 +2,9 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { createProject } from "../../actions";
 import { RootState } from "../../stores/store";
-import { ProjectMethodology } from "../../types/enums";
+import { ProjectCreateRequest } from "../../types/requests";
 
 const useProjectCreate = () => {
   const router = useRouter();
@@ -13,18 +12,11 @@ const useProjectCreate = () => {
   const token = useSelector((state: RootState) => state.auth.token);
   const [projectName, setProjectName] = useState<string>("");
   const [projectDescription, setProjectDescription] = useState<string>("");
-  const [methodology, setMethodology] = useState<ProjectMethodology>(
-    ProjectMethodology.KANBAN,
-  );
+  const [hasBacklog, setHasBacklog] = useState<boolean>(false);
 
   const mutation = useMutation({
-    mutationFn: async () => {
-      return await createProject(
-        token,
-        projectName,
-        methodology,
-        projectDescription,
-      );
+    mutationFn: async (requestBody: ProjectCreateRequest) => {
+      return await createProject(token, requestBody);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
@@ -34,7 +26,12 @@ const useProjectCreate = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    mutation.mutate();
+    console.log(e);
+    mutation.mutate({
+      name: projectName,
+      has_backlog: hasBacklog,
+      description: projectDescription,
+    });
   };
 
   return {
@@ -42,8 +39,8 @@ const useProjectCreate = () => {
     setProjectName,
     projectDescription,
     setProjectDescription,
-    methodology,
-    setMethodology,
+    hasBacklog,
+    setHasBacklog,
     handleSubmit,
   };
 };

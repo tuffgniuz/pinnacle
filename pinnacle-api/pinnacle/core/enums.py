@@ -1,9 +1,8 @@
 from enum import Enum
 
-
-class ProjectMethodology(Enum):
-    SCRUM = "scrum"
-    KANBAN = "kanban"
+# class ProjectMethodology(Enum):
+#     SCRUM = "scrum"
+#     KANBAN = "kanban"
 
 
 class ProjectSecurityLevel(Enum):

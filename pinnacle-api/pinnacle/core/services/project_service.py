@@ -8,7 +8,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from pinnacle.core.auth.users import get_current_user
 from pinnacle.core.defaults import DEFAULT_STATES
 from pinnacle.core.dependencies.db import get_async_session
-from pinnacle.core.enums import ProjectMethodology
 from pinnacle.core.models import Project, State, User, Workflow
 from pinnacle.core.repositories.project import ProjectRepository
 from pinnacle.core.repositories.state import StateRepository
@@ -35,11 +34,8 @@ class ProjectService(AbstractGenericService):
         project_data["name_key"] = generate_project_name_key(project_data["name"])
         project = Project(**project_data)
         project.users.append(self.current_user)
-
-        if project.methodology == ProjectMethodology.SCRUM:
-            project.has_backlog = True
-
         new_project = self.project_repository.generics.save(project)
+
         await self.session.flush()
         await self.create_default_workflow_and_states(new_project)
         await self.session.refresh(new_project)

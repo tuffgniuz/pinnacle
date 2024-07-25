@@ -6,10 +6,9 @@ import {
   LucideSettings,
   LucideShieldCheck,
 } from "lucide-react";
-
+import { Project } from "@/app/lib/types/models";
 import withAuth from "@/app/lib/hocs/withAuth";
 import Navlink from "../navlink";
-import { Project } from "@/app/lib/types/models";
 
 const UserNavItems: FC<{ project?: Project }> = ({ project }) => {
   const iconSize = 18;
