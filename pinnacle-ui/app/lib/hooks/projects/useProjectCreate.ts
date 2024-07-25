@@ -1,18 +1,17 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createProject } from "../../actions";
-import { RootState } from "../../stores/store";
 import { ProjectCreateRequest } from "../../types/requests";
+import { createProject } from "../../services/project";
+import useToken from "../auth/useToken";
 
 const useProjectCreate = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const token = useSelector((state: RootState) => state.auth.token);
   const [projectName, setProjectName] = useState<string>("");
   const [projectDescription, setProjectDescription] = useState<string>("");
   const [hasBacklog, setHasBacklog] = useState<boolean>(false);
+  const { token } = useToken();
 
   const mutation = useMutation({
     mutationFn: async (requestBody: ProjectCreateRequest) => {

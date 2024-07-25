@@ -1,10 +1,17 @@
-import { IssuePriority } from "./enums";
+import { IssuePriority, SecurityLevel } from "./enums";
 
 export type ProjectCreateRequest = {
   name: string;
   has_backlog: boolean;
   description?: string;
 };
+
+export type ProjectPartialUpdateRequest = Partial<{
+  name: string;
+  description: string;
+  has_backlog: boolean;
+  security_level: SecurityLevel;
+}>;
 
 export type PartialIssueUpdate = Partial<{
   project_id: string;

@@ -99,7 +99,7 @@ const IssueDetailModal: FC<{
             <StatePickerDropDown issue={issue} />
           </div>
         </div>
-        {/* STATUS */}
+        {/* EFFORT */}
         <div className="flex items-center mb-5 dark:hover:bg-accent-dark-500 p-1 -m-1 rounded-lg cursor-pointer transition-all duration-300 ease-in-out">
           <div className="flex items-center gap-2 w-2/12 text-text-light-400">
             <LucideBolt size={18} />
@@ -108,10 +108,6 @@ const IssueDetailModal: FC<{
           <div className="w-10/12">
             <IssueEffortUpdateForm issue={issue} />
           </div>
-        </div>
-        <div className="flex mb-5">
-          <div className="w-2/12 text-text-light-400">Priority</div>
-          <div className="w-10/12">{issue?.priority}</div>
         </div>
       </div>
     </BaseModal>

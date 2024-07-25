@@ -1,6 +1,6 @@
 import {
-  ChangeEventHandler,
   FC,
+  ChangeEventHandler,
   FocusEventHandler,
   HTMLInputAutoCompleteAttribute,
   LegacyRef,

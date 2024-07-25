@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends
 
-from pinnacle.core.schemas.project_schema import ProjectCreateSchema
+from pinnacle.core.schemas.project_schema import (
+    ProjectCreateSchema,
+    ProjectUpdateSchema,
+)
 from pinnacle.core.services.project_service import ProjectService, get_project_service
 
 router = APIRouter()
@@ -24,6 +27,15 @@ async def get_project_by_name_key(
     name_key: str, service: ProjectService = Depends(get_project_service)
 ):
     return await service.get_by_name_key_or_none(name_key)
+
+
+@router.patch("/projects/{project_id}")
+async def project_update(
+    project_id: str,
+    update_schema: ProjectUpdateSchema,
+    project_service: ProjectService = Depends(get_project_service),
+):
+    return await project_service.update(project_id, update_schema)
 
 
 @router.get("/projects/active-workflow/{name_key}")

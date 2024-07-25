@@ -7,7 +7,7 @@ const Toggle: FC<{
   return (
     <label
       htmlFor="check"
-      className="cursor-pointer border border-accent-dark-500 w-20 h-10 relative rounded-full"
+      className="cursor-pointer border border-accent-dark-500 w-14 h-7 relative rounded-full"
     >
       <input
         checked={checked}
@@ -24,7 +24,7 @@ const Toggle: FC<{
           rounded-full 
           left-1 top-1 
           peer-checked:bg-sky_magenta-600
-          peer-checked:left-11
+          peer-checked:left-7
           transition-all duration-300 ease-in-out
         "
       />

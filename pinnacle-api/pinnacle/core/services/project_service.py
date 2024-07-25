@@ -12,6 +12,7 @@ from pinnacle.core.models import Project, State, User, Workflow
 from pinnacle.core.repositories.project import ProjectRepository
 from pinnacle.core.repositories.state import StateRepository
 from pinnacle.core.repositories.workflow import WorkflowRepository
+from pinnacle.core.schemas.project_schema import ProjectUpdateSchema
 from pinnacle.core.services.abstract_generic_service import AbstractGenericService
 from pinnacle.utils.text import generate_project_name_key, generate_workflow_name
 
@@ -73,6 +74,18 @@ class ProjectService(AbstractGenericService):
 
     async def get_project_with_active_workflow(self, name_key: str) -> Project | None:
         return await self.project_repository.find_project_with_active_workflow(name_key)
+
+    async def update(
+        self, project_id: str, update_schema: ProjectUpdateSchema
+    ) -> Project | None:
+        project = await self.get_by_id_or_none(project_id)
+        updated_project = await self.project_repository.generics.update(
+            project, update_schema.model_dump(exclude_unset=True)
+        )
+        await self.session.commit()
+        await self.session.refresh(updated_project)
+
+        return project
 
     async def create_default_workflow_and_states(self, project: Project):
         default_workflow_name = generate_workflow_name(str(project.name_key))

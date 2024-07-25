@@ -9,6 +9,12 @@ class ProjectCreateSchema(BaseModel):
     description: str | None = Field(None, max_length=500)
 
 
+class ProjectUpdateSchema(BaseModel):
+    name: str | None = None
+    description: str | None = None
+    has_backlog: bool | None = None
+
+
 class ProjectReadSchema(BaseModel):
     name: str
     name_key: str

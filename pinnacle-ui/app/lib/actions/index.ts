@@ -1,4 +1,4 @@
-import { ProjectMethodology } from "../types/enums";
+import { formatError, getHeaders, handleResponse } from "../services/helpers";
 import {
   IssueLabelRemovalRequest,
   PartialIssueUpdate,
@@ -93,33 +93,6 @@ export const getGithubAuthorizationUrl = async () => {
     const response = await fetch(`${BASE_URL}/auth/github/authorize`);
     const data = await response.json();
     return data.authorization_url;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const createProject = async (
-  token: string | null,
-  requestBody: ProjectCreateRequest,
-) => {
-  try {
-    console.log("body:", requestBody);
-    const response = await fetch(`${BASE_URL}/api/v1/projects`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok)
-      throw new Error(
-        `HTTP error! status ${response.status} - ${response.statusText}`,
-      );
-
-    const data = await response.json();
-    return data;
   } catch (error) {
     throw error;
   }
