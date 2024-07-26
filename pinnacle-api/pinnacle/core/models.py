@@ -214,10 +214,10 @@ class State(Base):
     limit: Mapped[int] = mapped_column(Numeric, nullable=True)
     description: Mapped[str] = mapped_column(String(280), nullable=True)
     is_final_state: Mapped[bool] = mapped_column(Boolean, default=False)
-
+    color: Mapped[str] = mapped_column(String(7), nullable=True)
+    order: Mapped[float] = mapped_column(Float, nullable=False)
     issues: Mapped[list["Issue"]] = relationship("Issue", back_populates="state")
-    color_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("color.id"), nullable=True)
-    color: Mapped["Color"] = relationship("Color", back_populates="states")
+
     workflow_id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("workflow.id")
     )
@@ -229,8 +229,8 @@ class Color(Base):
     id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4
     )
-    name: Mapped[str] = mapped_column(String(10), nullable=False)
-    states: Mapped[list["State"]] = relationship("State", back_populates="color", cascade="all, delete-orphan")
+    hex_code: Mapped[str] = mapped_column(String(7), nullable=False)
+    name: Mapped[str] = mapped_column(String(120), nullable=True)
     
 
 class Issue(Base):

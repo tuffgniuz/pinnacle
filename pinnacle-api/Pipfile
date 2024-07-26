@@ -12,6 +12,7 @@ pydantic-settings = "*"
 asyncpg = "*"
 fastapi-users = {extras = ["oauth", "redis", "sqlalchemy"], version = "*"}
 fastapi-mail = "*"
+tqdm = "*"
 
 [dev-packages]
 

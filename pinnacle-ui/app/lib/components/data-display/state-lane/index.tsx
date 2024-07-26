@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import { LucideCheckCircle, LucideCircle } from "lucide-react";
 import { Project, State } from "@/app/lib/types/models";
-import useColors from "@/app/lib/hooks/projects/useColors";
 import StateLaneActionsDropDown from "../../actions/state-lane-actions-drop-down";
 import IssueCard from "../issue-card";
 import IssueCreateForm from "../../forms/issue-create-form";
@@ -12,21 +11,17 @@ const StateLane: FC<{ state: State; project: Project }> = ({
   state,
   project,
 }) => {
-  const { data: colors } = useColors();
   const [showStateConfirmDeleteModal, setShowStateConfirmDeleteModal] =
     useState<boolean>(false);
   const [showStateUpdateForm, setShowStateUpdateForm] =
     useState<boolean>(false);
-
-  const selectedColor = colors?.find((color) => color.id === state.color_id);
-  const iconColor = selectedColor ? selectedColor.name : "";
 
   return (
     <>
       <div className="w-3/12 max-h-screen">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
-            <LucideCircle size={20} style={{ color: iconColor }} />
+            <LucideCircle size={20} style={{ color: state.color }} />
             <h1 className="flex items-center gap-4 text-2xl">
               <span>{state.name}</span>
               <div
@@ -64,12 +59,7 @@ const StateLane: FC<{ state: State; project: Project }> = ({
         <IssueCreateForm project={project} stateId={state.id} />
         <div className="flex flex-col gap-5">
           {state.issues.map((issue) => (
-            <IssueCard
-              state={state}
-              stateColor={iconColor}
-              key={issue.id}
-              issueId={issue.id}
-            />
+            <IssueCard state={state} key={issue.id} issueId={issue.id} />
           ))}
         </div>
       </div>

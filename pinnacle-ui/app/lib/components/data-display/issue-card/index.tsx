@@ -13,8 +13,7 @@ import IssueLabels from "../issue-labels";
 const IssueCard: FC<{
   issueId: string | undefined;
   state: State;
-  stateColor: string;
-}> = ({ issueId, state, stateColor }) => {
+}> = ({ issueId, state }) => {
   const [showIssueDetailModal, setShowIssueDetailModal] =
     useState<boolean>(false);
   const [showIssueConfirmDeleteModal, setShowIssueConfirmDeleteModal] =
@@ -41,7 +40,7 @@ const IssueCard: FC<{
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center py-1 -my-1 gap-5">
             <div className="flex items-center gap-2">
-              <LucideCircleDot size={16} style={{ color: stateColor }} />
+              <LucideCircleDot size={20} style={{ color: state.color }} />
               <span className="italic text-sm text-text-dark-600">
                 {issue?.issue_key}
               </span>

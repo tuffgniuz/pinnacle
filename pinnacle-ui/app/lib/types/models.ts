@@ -39,7 +39,7 @@ export type State = {
   id: string;
   name: string;
   limit?: number;
-  color_id: string;
+  color: string;
   description?: string;
   is_final_state: boolean;
   issues: Issue[];

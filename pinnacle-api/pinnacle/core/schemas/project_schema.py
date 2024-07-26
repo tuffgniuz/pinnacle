@@ -5,8 +5,9 @@ from pinnacle.core.schemas.user_schemas import UserRead
 
 
 class ProjectCreateSchema(BaseModel):
-    name: str = Field(..., max_length=100)
-    description: str | None = Field(None, max_length=500)
+    name: str
+    description: str | None = None
+    enable_default_workflow_and_states: bool = False
 
 
 class ProjectUpdateSchema(BaseModel):

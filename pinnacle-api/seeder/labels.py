@@ -1,19 +1,10 @@
-import asyncio
 import uuid
 
-from sqlalchemy.future import select
+from sqlalchemy import select
+from tqdm.asyncio import tqdm
 
 from pinnacle.core.dependencies.db import session_maker
-from pinnacle.core.models import Color, Label
-
-colors = [
-    {"id": uuid.uuid4(), "name": "#f28482"},
-    {"id": uuid.uuid4(), "name": "#84a59d"},
-    {"id": uuid.uuid4(), "name": "#f5cac3"},
-    {"id": uuid.uuid4(), "name": "#cdb4db"},
-    {"id": uuid.uuid4(), "name": "#f6bd60"},
-    {"id": uuid.uuid4(), "name": "#457b9d"},
-]
+from pinnacle.core.models import Label
 
 labels = [
     {
@@ -55,19 +46,10 @@ labels = [
 ]
 
 
-async def seed_colors_and_labels():
+async def seed_labels():
     async with session_maker() as session:
-        # Seeding colors
-        for color in colors:
-            existing_color = await session.execute(
-                select(Color).filter_by(name=color["name"])
-            )
-            if existing_color.scalars().first() is None:
-                new_color = Color(id=color["id"], name=color["name"])
-                session.add(new_color)
-
-        # Seeding labels
-        for label in labels:
+        need_to_seed = False
+        for label in tqdm(labels, desc="Seeding labels"):
             existing_label = await session.execute(
                 select(Label).filter_by(name=label["name"])
             )
@@ -79,10 +61,10 @@ async def seed_colors_and_labels():
                     color=label["color"],
                 )
                 session.add(new_label)
+                need_to_seed = True
 
-        await session.commit()
-        print("Seeding of colors and labels completed.")
-
-
-if __name__ == "__main__":
-    asyncio.run(seed_colors_and_labels())
+        if need_to_seed:
+            await session.commit()
+            print("Seeding labels completed!")
+        else:
+            print("No need to seed labels. All labels already exist.")

@@ -14,7 +14,7 @@ async def create_project(
     data: ProjectCreateSchema,
     service: ProjectService = Depends(get_project_service),
 ):
-    return await service.create(data.model_dump(exclude_unset=True))
+    return await service.create(data)
 
 
 @router.get("/projects")

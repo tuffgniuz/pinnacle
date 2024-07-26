@@ -11,6 +11,7 @@ const useProjectCreate = () => {
   const [projectName, setProjectName] = useState<string>("");
   const [projectDescription, setProjectDescription] = useState<string>("");
   const [hasBacklog, setHasBacklog] = useState<boolean>(false);
+  const [hasProjectDefaults, setHasProjectDefaults] = useState<boolean>(false);
   const { token } = useToken();
 
   const mutation = useMutation({
@@ -25,11 +26,11 @@ const useProjectCreate = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(e);
     mutation.mutate({
       name: projectName,
       has_backlog: hasBacklog,
       description: projectDescription,
+      enable_default_workflow_and_states: hasProjectDefaults,
     });
   };
 
@@ -40,6 +41,8 @@ const useProjectCreate = () => {
     setProjectDescription,
     hasBacklog,
     setHasBacklog,
+    hasProjectDefaults,
+    setHasProjectDefaults,
     handleSubmit,
   };
 };
