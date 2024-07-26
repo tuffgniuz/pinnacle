@@ -9,7 +9,6 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
-      colors: {},
       colors: {
         "background-light": {
           DEFAULT: "#f8f9fa",

@@ -1,5 +1,5 @@
 "use client";
-import { FC, ReactNode, useEffect, useRef } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 

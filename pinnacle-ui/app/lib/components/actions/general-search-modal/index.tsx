@@ -29,6 +29,10 @@ const GeneralSearchModal: FC = () => {
           flex justify-between 
           w-72
           dark:bg-background-dark
+          dark:text-text-dark-700
+          outline
+          dark:outline-1
+          dark:outline-accent-dark-600
           px-4 py-2
           rounded-lg
         "
