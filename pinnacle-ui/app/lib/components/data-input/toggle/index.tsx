@@ -1,19 +1,20 @@
 import { ChangeEventHandler, FC } from "react";
 
 const Toggle: FC<{
+  id: string;
   checked: boolean | undefined;
   onChange: ChangeEventHandler<HTMLInputElement> | undefined;
-}> = ({ checked, onChange }) => {
+}> = ({ id, checked, onChange }) => {
   return (
     <label
-      htmlFor="check"
+      htmlFor={id}
       className="cursor-pointer border border-accent-dark-500 w-14 h-7 relative rounded-full"
     >
       <input
+        id={id}
         checked={checked}
         onChange={onChange}
         type="checkbox"
-        id="check"
         className="sr-only peer"
       />
       <span

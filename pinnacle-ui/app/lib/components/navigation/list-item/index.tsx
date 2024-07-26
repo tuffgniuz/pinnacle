@@ -16,10 +16,11 @@ const ListItem: FC<{
         p-2 -my-2
         flex items-center gap-2
         cursor-pointer 
-        rounded-lg 
+        rounded-lg
+        hover:bg-neutral-light-700
         hover:dark:bg-neutral-light-100 
         transition-all duration-300 ease-in-out 
-        ${isActive ? "dark:bg-neutral-light-100" : ""}
+        ${isActive ? "bg-neutral-light-700 dark:bg-neutral-light-100" : ""}
         ${className}
       `}
       >

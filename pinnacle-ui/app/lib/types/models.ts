@@ -9,6 +9,29 @@ export type User = {
   is_verified: boolean;
 };
 
+export type SecurityTopic = {
+  id: string;
+  topic_id: string;
+  name: string;
+  summary: string;
+  sections: SecuritySection[];
+};
+
+export type SecuritySection = {
+  id: string;
+  section_id: string;
+  name: string;
+  summary: string;
+  controls: SecurityControl[];
+};
+
+export type SecurityControl = {
+  id: string;
+  control_id: string;
+  description: string;
+  issues?: Issue[];
+};
+
 export type Project = {
   id: string;
   name: string;
@@ -20,6 +43,8 @@ export type Project = {
   workflows: Workflow[];
   issues: Issue[];
   users: User[];
+  security_topics: SecurityTopic[];
+  security_sections: SecuritySection[];
 };
 
 export type Workflow = {
@@ -58,7 +83,8 @@ export type Issue = {
   workflow_id?: string;
   state_id?: string;
   labels?: Label[];
-  assignees: User[];
+  assignees?: User[];
+  security_controls?: SecurityControl[];
 };
 
 export type Label = {
