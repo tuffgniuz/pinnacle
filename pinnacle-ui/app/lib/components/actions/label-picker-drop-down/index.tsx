@@ -41,14 +41,14 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
       icon={<LucideTag size={16} />}
       title="Add labels"
       buttonClassName="bg-accent-light-300 dark:bg-accent-dark-500 text-text-dark-900 px-4 py-1 -m-1 rounded-lg"
-      className="w-3/4 border dark:border-accent-light-500"
+      className="w-[500px] border dark:border-accent-light-500"
     >
       <div className="flex items-center justify-between border-b dark:border-b-accent-light-500 px-6 py-4">
         <h1 className="font-semibold">Assign labels to this issue</h1>
         <Link
           href="/projects/issues/labels"
           className="
-            hover:bg-neutral-light 
+            hover:bg-neutral-light-700 
             dark:hover:bg-neutral-light-100 
             flex items-center gap-2
             -m-2 p-2 
@@ -68,7 +68,7 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
             <li
               key={label.id}
               onClick={() => handleDeleteLabel(label)}
-              className="cursor-pointer flex flex-col px-6 py-4 transition-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100"
+              className="cursor-pointer flex flex-col px-6 py-4 transition-all duration-300 ease-in-out hover:bg-neutral-light-700 dark:hover:bg-neutral-light-100"
             >
               <div className="flex items-center gap-3 mb-2">
                 <LucideCheckSquare size={16} />
@@ -91,7 +91,7 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
             <li
               key={label.id}
               onClick={() => handleAddLabel(label)}
-              className="cursor-pointer flex flex-col px-6 py-4 transition-all duration-300 ease-in-out hover:bg-neutral-light dark:hover:bg-neutral-light-100"
+              className="cursor-pointer flex flex-col px-6 py-4 transition-all duration-300 ease-in-out hover:bg-neutral-light-700 dark:hover:bg-neutral-light-100"
             >
               <div className="flex items-center gap-3 mb-2">
                 <LucideSquare size={16} />
@@ -101,7 +101,7 @@ const LabelPickerDropDown: FC<{ issue?: Issue }> = ({ issue }) => {
                 />
                 <span>{label.name}</span>
               </div>
-              <span className="text-sm text-text-dark-600">
+              <span className="text-sm text-text-dark-500">
                 {label.description}
               </span>
             </li>

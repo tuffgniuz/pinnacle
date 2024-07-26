@@ -1,5 +1,12 @@
 "use client";
-import { FC, ReactNode, useEffect, useRef, useState } from "react";
+import {
+  CSSProperties,
+  FC,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 const BaseDropDown: FC<{
   icon?: ReactNode | string;
@@ -9,12 +16,16 @@ const BaseDropDown: FC<{
   buttonClassName?: string | undefined;
   className?: string | undefined;
   zIndex?: number;
+  style?: CSSProperties | undefined;
+  btnStyle?: CSSProperties | undefined;
 }> = ({
   icon,
   title,
   children,
   buttonClassName,
   className,
+  style,
+  btnStyle,
   backgroundColor = "bg-background-light dark:bg-accent-dark-500",
   zIndex = 10,
 }) => {
@@ -50,6 +61,7 @@ const BaseDropDown: FC<{
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={handleDropDown}
+        btnStyle={{ ...btnStyle }}
         className={`transition-all duration-300 ease-in-out ${
           title && icon ? "flex items-center gap-2" : ""
         } ${buttonClassName}`}
@@ -59,7 +71,7 @@ const BaseDropDown: FC<{
       </button>
       {isOpen && (
         <div
-          style={{ zIndex }}
+          style={{ zIndex, ...style }}
           className={`
             absolute 
             transition-all duration-300 ease-in-out 

@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import {
+  LucideArrowLeft,
   LucideArrowLeftRight,
   LucideCheck,
+  LucideCheckCircle,
   LucideCircleDot,
 } from "lucide-react";
 import { Issue, State } from "@/app/lib/types/models";
@@ -48,14 +50,16 @@ const StatePickerDropDown: FC<{
           <li
             key={state.id}
             onClick={() => handleStateUpdate(state.id)}
-            className="cursor-pointer flex items-center justify-between p-4 hover:bg-neutral-light dark:hover:bg-neutral-light-100"
+            className="cursor-pointer flex items-center justify-between p-4 hover:bg-neutral-light-700 dark:hover:bg-neutral-light-100"
           >
             <div className="flex items-center gap-4">
-              <LucideCircleDot size={16} />
+              <LucideCircleDot size={16} style={{ color: state.color }} />
               <span>{state.name}</span>
             </div>
-            {/* Check icon to indicate current issue state */}
-            {stateId === state.id && <LucideCheck size={18} />}
+            {stateId === state.id && (
+              <LucideArrowLeft size={18} style={{ color: state.color }} />
+            )}
+            {state.is_final_state && <LucideCheckCircle size={18} />}
           </li>
         ))}
       </ul>

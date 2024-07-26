@@ -11,6 +11,7 @@ import StatePickerDropDown from "../../actions/state-picker-drop-down";
 import IssueEffortUpdateForm from "../../forms/issue-detail-modal/issue-effort-update-form";
 import LabelPickerDropDown from "../../actions/label-picker-drop-down";
 import IssueLabels from "../issue-labels";
+import Button from "../../actions/button";
 
 const IssueDetailModal: FC<{
   issueId: string | undefined;
@@ -57,20 +58,8 @@ const IssueDetailModal: FC<{
           )}
         </div>
         <nav className="flex items-center gap-2">
-          <button className="bg-accent-light-300 dark:bg-background-dark p-2 rounded-md">
-            <LucideExpand
-              size={18}
-              color={theme === "dark" ? "#d4d8dc" : "#eff0f2"}
-            />
-          </button>
-          <button
-            onClick={onClose}
-            className="bg-accent-light-300 dark:bg-background-dark p-2 rounded-md"
-          >
-            <LucideX
-              size={18}
-              color={theme === "dark" ? "#d4d8dc" : "#eff0f2"}
-            />
+          <button onClick={onClose} className="p-2 rounded-md">
+            <LucideX size={18} />
           </button>
         </nav>
       </header>
@@ -83,33 +72,13 @@ const IssueDetailModal: FC<{
       />
 
       {/* LABELS */}
-      <LabelPickerDropDown issue={issue} />
+      <div className="flex items-center gap-5">
+        <StatePickerDropDown issue={issue} />
+        <LabelPickerDropDown issue={issue} />
+        <Button padding="sm" value="Add security controls" />
+      </div>
       <div className="my-10" />
       <IssueLabels issue={issue} className="my-10" />
-
-      <div className="flex flex-col">
-        {/* STATUS */}
-        <div className="flex mb-5 dark:hover:bg-accent-dark-500 p-1 -m-1 rounded-lg transition-all duration-300 ease-in-out">
-          <div className="flex items-center gap-2 w-2/12 text-text-light-400">
-            <LucideBolt size={18} />
-            Status
-          </div>
-          <div className="w-10/12">
-            {/* When the Label Picker DropDown component is active the button of the StatePickerDropdow is placed above th dropdown menu of the LabelPicker */}
-            <StatePickerDropDown issue={issue} />
-          </div>
-        </div>
-        {/* EFFORT */}
-        <div className="flex items-center mb-5 dark:hover:bg-accent-dark-500 p-1 -m-1 rounded-lg cursor-pointer transition-all duration-300 ease-in-out">
-          <div className="flex items-center gap-2 w-2/12 text-text-light-400">
-            <LucideBolt size={18} />
-            Effort
-          </div>
-          <div className="w-10/12">
-            <IssueEffortUpdateForm issue={issue} />
-          </div>
-        </div>
-      </div>
     </BaseModal>
   );
 };
