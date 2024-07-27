@@ -1,30 +1,34 @@
-import { FC, FormEvent } from "react";
+import { FC, FormEvent, useEffect } from "react";
 import { LucidePlus } from "lucide-react";
-import { Project } from "@/app/lib/types/models";
-import TextInput from "../../data-input/text-input";
-import Button from "../../actions/button";
+import { Project, State } from "@/app/lib/types/models";
 import useToggleElement from "@/app/lib/hooks/useToggleElement";
 import useIssueCreate from "@/app/lib/hooks/projects/useIssueCreate";
+import TextInput from "../../data-input/text-input";
+import Button from "../../actions/button";
 
-const IssueCreateForm: FC<{ project: Project; stateId?: string }> = ({
-  project,
-  stateId,
-}) => {
-  const { title, setTitle, mutation } = useIssueCreate(
-    project.id,
-    project.workflows[0].id,
-    stateId,
-  );
+const IssueCreateForm: FC<{
+  project: Project | undefined;
+  state: State | undefined;
+}> = ({ project, state }) => {
+  const {
+    title,
+    setTitle,
+    setProjectId,
+    setStateId,
+    setWorkflowId,
+    handleMutation,
+  } = useIssueCreate();
   const { isVisible, setIsVisible, ref, handleBlur } =
     useToggleElement<HTMLInputElement>();
 
-  const handleButtonClick = () => {
-    setIsVisible(true);
-  };
+  useEffect(() => {
+    setProjectId(project?.id);
+    setStateId(state?.id);
+    setWorkflowId(project?.workflows[0].id);
+  }, [project, state]);
 
   const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    mutation.mutate();
+    handleMutation(e);
     setIsVisible(false);
   };
 
@@ -44,7 +48,7 @@ const IssueCreateForm: FC<{ project: Project; stateId?: string }> = ({
   ) : (
     <Button
       icon={<LucidePlus />}
-      onClick={handleButtonClick}
+      onClick={() => setIsVisible(true)}
       padding="sm"
       className="mb-10"
     />

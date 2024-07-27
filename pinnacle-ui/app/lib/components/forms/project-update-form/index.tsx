@@ -47,6 +47,7 @@ const ProjectUpdateForm: FC<{ project: Project | undefined }> = ({
       <h2 className="text-xl dark:text-text-dark-700 mb-5">Enable backlog</h2>
       <div className="flex justify-start mb-5">
         <Toggle
+          id="has-backlog"
           checked={hasBacklog}
           onChange={(e) => setHasBacklog(e.target.checked)}
         />

@@ -1,5 +1,6 @@
 import { formatError, getHeaders, handleResponse } from "../services/helpers";
 import {
+  IssueCreateRequest,
   IssueLabelRemovalRequest,
   PartialIssueUpdate,
   ProjectCreateRequest,
@@ -177,10 +178,7 @@ export const getStatesForWorkflow = async (
 
 export const createIssue = async (
   token: string | null,
-  title: string | undefined,
-  projectId: string,
-  workflowId: string,
-  stateId?: string,
+  requestBody: IssueCreateRequest,
 ) => {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/issues`, {
@@ -189,12 +187,7 @@ export const createIssue = async (
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        title: title,
-        project_id: projectId,
-        workflow_id: workflowId,
-        state_id: stateId,
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok)
@@ -390,7 +383,10 @@ export const updateState = async (
   }
 };
 
-export const deleteState = async (token: string | null, id: string) => {
+export const deleteState = async (
+  token: string | null,
+  id: string | undefined,
+) => {
   try {
     await fetch(`${BASE_URL}/api/v1/states/${id}`, {
       method: "DELETE",

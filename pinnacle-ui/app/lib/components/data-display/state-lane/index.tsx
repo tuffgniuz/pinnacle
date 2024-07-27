@@ -7,10 +7,10 @@ import IssueCreateForm from "../../forms/issue-create-form";
 import StateUpdateModalForm from "../../forms/state-update-modal-form";
 import StateConfirmDeleteModal from "../../actions/state-confirm-delete-modal";
 
-const StateLane: FC<{ state: State; project: Project }> = ({
-  state,
-  project,
-}) => {
+const StateLane: FC<{
+  state: State | undefined;
+  project: Project | undefined;
+}> = ({ state, project }) => {
   const [showStateConfirmDeleteModal, setShowStateConfirmDeleteModal] =
     useState<boolean>(false);
   const [showStateUpdateForm, setShowStateUpdateForm] =
@@ -21,9 +21,9 @@ const StateLane: FC<{ state: State; project: Project }> = ({
       <div className="w-3/12 max-h-screen">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
-            <LucideCircle size={20} style={{ color: state.color }} />
+            <LucideCircle size={20} style={{ color: state?.color }} />
             <h1 className="flex items-center gap-4 text-2xl">
-              <span>{state.name}</span>
+              <span>{state?.name}</span>
               <div
                 className="
                   text-sm 
@@ -35,8 +35,8 @@ const StateLane: FC<{ state: State; project: Project }> = ({
                   rounded-full
                 "
               >
-                <span>{state.issues.length}</span>
-                {state.limit && (
+                <span>{state?.issues.length}</span>
+                {state?.limit && (
                   <>
                     <span>/</span>
                     <span>{state.limit}</span>
@@ -49,16 +49,16 @@ const StateLane: FC<{ state: State; project: Project }> = ({
               handleShowStateUpdateForm={() => setShowStateUpdateForm(true)}
             />
           </div>
-          {state.is_final_state && (
+          {state?.is_final_state && (
             <LucideCheckCircle size={24} className="ml-4" />
           )}
         </div>
         <div className="min-h-5 mb-5">
-          <p>{state.description}</p>
+          <p>{state?.description}</p>
         </div>
-        <IssueCreateForm project={project} stateId={state.id} />
+        <IssueCreateForm project={project} state={state} />
         <div className="flex flex-col gap-5">
-          {state.issues.map((issue) => (
+          {state?.issues.map((issue) => (
             <IssueCard state={state} key={issue.id} issueId={issue.id} />
           ))}
         </div>

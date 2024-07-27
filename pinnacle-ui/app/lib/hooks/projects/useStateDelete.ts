@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RootState } from "../../stores/store";
 import { deleteState } from "../../actions";
 
-const useStateDelete = (id: string) => {
+const useStateDelete = (id: string | undefined) => {
   const queryClient = useQueryClient();
   const token = useSelector((state: RootState) => state.auth.token);
   const [errorMsg, setErrorMsg] = useState<Error | undefined>(undefined);

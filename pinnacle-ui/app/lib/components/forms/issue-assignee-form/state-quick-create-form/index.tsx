@@ -5,7 +5,9 @@ import Button from "../../../actions/button";
 import TextInput from "../../../data-input/text-input";
 import useStateCreate from "@/app/lib/hooks/projects/useStateCreate";
 
-const StateQuickCreateForm: FC<{ workflowId: string }> = ({ workflowId }) => {
+const StateQuickCreateForm: FC<{ workflowId: string | undefined }> = ({
+  workflowId,
+}) => {
   const { isVisible, setIsVisible, ref, handleBlur } =
     useToggleElement<HTMLFormElement>();
   const { mutation } = useStateCreate();

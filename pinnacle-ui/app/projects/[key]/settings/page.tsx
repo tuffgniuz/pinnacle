@@ -9,6 +9,10 @@ const ProjectSettings: NextPage = () => {
   const { key } = useParams<{ key: string }>();
   const { data: project, isLoading } = useProjectWithActiveWorkfow(key);
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <ProjectSettingsContainer
       project={project}

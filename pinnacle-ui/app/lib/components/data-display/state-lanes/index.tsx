@@ -3,11 +3,11 @@ import { Project, State } from "@/app/lib/types/models";
 import StateLane from "../state-lane";
 import StateQuickCreateForm from "../../forms/issue-assignee-form/state-quick-create-form";
 
-const StateLanes: FC<{ project: Project; states: State[] | undefined }> = ({
-  project,
-  states,
-}) => {
-  const workflowId = project.workflows[0].id;
+const StateLanes: FC<{
+  project: Project | undefined;
+  states: State[] | undefined;
+}> = ({ project, states }) => {
+  const workflowId = project?.workflows[0].id;
 
   return (
     <>

@@ -14,6 +14,13 @@ export type ProjectPartialUpdateRequest = Partial<{
   security_level: SecurityLevel;
 }>;
 
+export type IssueCreateRequest = {
+  title: string | undefined;
+  project_id: string | undefined;
+  workflow_id?: string | undefined;
+  state_id?: string | undefined;
+};
+
 export type PartialIssueUpdate = Partial<{
   project_id: string;
   title: string;
