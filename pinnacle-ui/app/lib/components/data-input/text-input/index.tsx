@@ -4,6 +4,7 @@ import {
   FocusEventHandler,
   HTMLInputAutoCompleteAttribute,
   LegacyRef,
+  CSSProperties,
 } from "react";
 
 const TextInput: FC<{
@@ -14,6 +15,7 @@ const TextInput: FC<{
   value?: string | number | readonly string[] | undefined;
   onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
   className?: string | undefined;
+  style?: CSSProperties | undefined;
   outlineNone?: boolean;
   padding?: "sm" | "md" | "none";
   rounded?: "sm" | "md" | "lg" | "none";
@@ -30,6 +32,7 @@ const TextInput: FC<{
   onChange,
   padding = "md",
   className,
+  style,
   fullWidth,
   rounded = "lg",
   backgroundColor = "bg-transparent",
@@ -47,6 +50,7 @@ const TextInput: FC<{
       onChange={onChange}
       ref={ref}
       onBlur={onBlur}
+      style={{ ...style }}
       className={`
         transition-all
         duration-300

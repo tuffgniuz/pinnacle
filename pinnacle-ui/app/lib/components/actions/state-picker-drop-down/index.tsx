@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from "react";
 import {
   LucideArrowLeft,
   LucideArrowLeftRight,
-  LucideCheck,
   LucideCheckCircle,
   LucideCircleDot,
 } from "lucide-react";

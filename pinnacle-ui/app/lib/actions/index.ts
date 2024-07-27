@@ -160,17 +160,14 @@ export const getProjectWithActiveWorkflow = async (
 
 export const getStatesForWorkflow = async (
   token: string | null,
-  workflowId: string,
+  workflowId: string | undefined,
 ) => {
   try {
     const response = await fetch(`${BASE_URL}/api/v1/states/${workflowId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (!response.ok) throw new Error(`HTTP error!`);
-
-    const data = response.json();
-    return data;
+    return await handleResponse(response);
   } catch (error) {
     throw error;
   }

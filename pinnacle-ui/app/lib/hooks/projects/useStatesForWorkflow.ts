@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { State } from "../../types/models";
 import { getStatesForWorkflow } from "../../actions";
 
-const useStatesForWorkflow = (workflowId: string) => {
+const useStatesForWorkflow = (workflowId: string | undefined) => {
   const token = useSelector((state: RootState) => state.auth.token);
 
   const { data, isLoading, isError, error } = useQuery<State[], Error>({

@@ -14,10 +14,17 @@ const IssueAssigneeForm: FC<{
 
   return (
     <>
-      {assignees?.length < 1 ? (
+      {assignees!.length < 1 ? (
         <button
           onClick={handleClick}
-          className="hover:bg-neutral-light px-1 h-7 text-text-dark-600 italic transition-all duration-300 ease-in-out rounded-lg"
+          className="
+            hover:bg-neutral-light 
+            hover:dark:bg-accent-dark-500
+            p-2 -m-1
+            text-text-dark-600 italic 
+            transition-all duration-300 ease-in-out 
+            rounded-lg
+          "
         >
           No assignees
         </button>
@@ -28,7 +35,9 @@ const IssueAssigneeForm: FC<{
               key={assignee.id}
               className="bg-sky_magenta-600 w-7 h-7 rounded-full flex justify-center items-center"
             >
-              <p className="font-bold">{assignee?.fullname[0].toUpperCase()}</p>
+              <p className="font-bold">
+                {assignee!.fullname![0].toUpperCase()}
+              </p>
             </div>
           ))}
         </div>

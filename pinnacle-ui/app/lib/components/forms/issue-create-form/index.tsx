@@ -30,6 +30,7 @@ const IssueCreateForm: FC<{
   const handleSubmit = (e: FormEvent) => {
     handleMutation(e);
     setIsVisible(false);
+    setTitle(undefined);
   };
 
   return isVisible ? (
@@ -39,6 +40,7 @@ const IssueCreateForm: FC<{
         placeholder="What do I need to work on..."
         fullWidth
         autoFocus
+        style={{ outlineWidth: 1, outlineColor: state?.color }}
         padding="sm"
         onBlur={handleBlur}
         value={title}

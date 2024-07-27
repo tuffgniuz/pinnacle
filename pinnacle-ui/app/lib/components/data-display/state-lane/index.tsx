@@ -50,7 +50,11 @@ const StateLane: FC<{
             />
           </div>
           {state?.is_final_state && (
-            <LucideCheckCircle size={24} className="ml-4" />
+            <LucideCheckCircle
+              size={24}
+              className="ml-4"
+              style={{ color: state.color }}
+            />
           )}
         </div>
         <div className="min-h-5 mb-5">
