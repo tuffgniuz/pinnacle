@@ -4,7 +4,7 @@ from datetime import date
 from fastapi_users_db_sqlalchemy import (SQLAlchemyBaseOAuthAccountTableUUID,
                                          SQLAlchemyBaseUserTableUUID)
 from sqlalchemy import (UUID, Boolean, Column, Date, Enum, Float, ForeignKey,
-                        Integer, Numeric, String, Table)
+                        Index, Integer, Numeric, String, Table)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -15,45 +15,67 @@ Base = declarative_base()
 issue_label_association = Table(
     "issue_label_association",
     Base.metadata,
-    Column("issue_id", UUID(as_uuid=True), ForeignKey("issue.id"), primary_key=True),
-    Column("label_id", UUID(as_uuid=True), ForeignKey("label.id"), primary_key=True),
+    Column("issue_id", UUID(as_uuid=True), ForeignKey("issue.id", ondelete="CASCADE"), primary_key=True),
+    Column("label_id", UUID(as_uuid=True), ForeignKey("label.id", ondelete="CASCADE"), primary_key=True),
+    Index("idx_issue_label_association_issue_id", "issue_id"),
+    Index("idx_issue_label_association_label_id", "label_id")
 )
 
 user_project_association = Table(
     "user_project_association",
     Base.metadata,
-    Column("user_id", UUID(as_uuid=True), ForeignKey("user.id"), primary_key=True),
-    Column("project_id", UUID(as_uuid=True), ForeignKey("project.id"), primary_key=True)
+    Column("user_id", UUID(as_uuid=True), ForeignKey("user.id", ondelete="CASCADE"), primary_key=True),
+    Column("project_id", UUID(as_uuid=True), ForeignKey("project.id", ondelete="CASCADE"), primary_key=True),
+    Index("idx_user_project_association_user_id", "user_id"),
+    Index("idx_user_project_association_project_id", "project_id")
 )
-
 
 user_issue_association = Table(
     "user_issue_association",
     Base.metadata,
-    Column("user_id", UUID(as_uuid=True), ForeignKey("user.id"), primary_key=True),
-    Column("issue_id", UUID(as_uuid=True), ForeignKey("issue.id"), primary_key=True),
+    Column("user_id", UUID(as_uuid=True), ForeignKey("user.id", ondelete="CASCADE"), primary_key=True),
+    Column("issue_id", UUID(as_uuid=True), ForeignKey("issue.id", ondelete="CASCADE"), primary_key=True),
+    Index("idx_user_issue_association_user_id", "user_id"),
+    Index("idx_user_issue_association_issue_id", "issue_id")
 )
 
 project_security_topic_association = Table(
     "project_security_topic_association",
     Base.metadata,
-    Column("project_id", UUID(as_uuid=True), ForeignKey("project.id"), primary_key=True),
-    Column("security_topic_id", UUID(as_uuid=True), ForeignKey("security_topic.id"), primary_key=True),
+    Column("project_id", UUID(as_uuid=True), ForeignKey("project.id", ondelete="CASCADE"), primary_key=True),
+    Column("security_topic_id", UUID(as_uuid=True), ForeignKey("security_topic.id", ondelete="CASCADE"), primary_key=True),
+    Index("idx_project_security_topic_association_project_id", "project_id"),
+    Index("idx_project_security_topic_association_security_topic_id", "security_topic_id")
 )
 
 project_security_section_association = Table(
     "project_security_section_association",
     Base.metadata,
-    Column("project_id", UUID(as_uuid=True), ForeignKey("project.id"), primary_key=True),
-    Column("security_section_id", UUID(as_uuid=True), ForeignKey("security_section.id"), primary_key=True),
+    Column("project_id", UUID(as_uuid=True), ForeignKey("project.id", ondelete="CASCADE"), primary_key=True),
+    Column("security_section_id", UUID(as_uuid=True), ForeignKey("security_section.id", ondelete="CASCADE"), primary_key=True),
+    Index("idx_project_security_section_association_project_id", "project_id"),
+    Index("idx_project_security_section_association_security_section_id", "security_section_id")
 )
 
 issue_security_control_association = Table(
     "issue_security_control_association",
     Base.metadata,
-    Column("issue_id", UUID(as_uuid=True), ForeignKey("issue.id"), primary_key=True),
-    Column("security_control_id", UUID(as_uuid=True), ForeignKey("security_control.id"), primary_key=True),
+    Column("issue_id", UUID(as_uuid=True), ForeignKey("issue.id", ondelete="CASCADE"), primary_key=True),
+    Column("security_control_id", UUID(as_uuid=True), ForeignKey("security_control.id", ondelete="CASCADE"), primary_key=True),
+    Index("idx_issue_security_control_association_issue_id", "issue_id"),
+    Index("idx_issue_security_control_association_security_control_id", "security_control_id")
 )
+
+
+user_board_association = Table(
+    "user_board_association",
+    Base.metadata,
+    Column("user_id", UUID(as_uuid=True), ForeignKey("user.id", ondelete="CASCADE"), primary_key=True),
+    Column("board_id", UUID(as_uuid=True), ForeignKey("board.id", ondelete="CASCADE"), primary_key=True),
+    Index("idx_user_board_association_user_id", "user_id"),
+    Index("idx_user_board_association_board_id", "board_id")
+)
+
 
 class OAuthAccount(SQLAlchemyBaseOAuthAccountTableUUID, Base):
     pass
@@ -176,6 +198,32 @@ class Project(Base):
     security_sections: Mapped[list["SecuritySection"]] = relationship(
         "SecuritySection", secondary=project_security_section_association, back_populates="projects"
     )
+    boards: Mapped[list["Board"]] = relationship(
+        "Board", back_populates="project", cascade="all, delete-orphan"
+    )
+
+class Board(Base):
+    __tablename__ = "board"
+
+    id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4
+    )
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    description: Mapped[str] = mapped_column(String(500), nullable=True)
+    is_default: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    project_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("project.id", ondelete="CASCADE"), nullable=False
+    )
+    project: Mapped["Project"] = relationship("Project", back_populates="boards")
+
+    users: Mapped[list["User"]] = relationship(
+        "User", secondary=user_board_association, back_populates="boards"
+    )
+    workflows: Mapped[list["Workflow"]] = relationship(
+        "Workflow", back_populates="board", cascade="all, delete-orphan"
+    )
+
 
 
 class Workflow(Base):
@@ -195,6 +243,12 @@ class Workflow(Base):
         UUID(as_uuid=True), ForeignKey("project.id")
     )
     project: Mapped["Project"] = relationship("Project", back_populates="workflows")
+
+    board_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("board.id", ondelete="CASCADE"), nullable=True
+    )
+    board: Mapped["Board"] = relationship("Board", back_populates="workflows")
+
 
     states: Mapped[list["State"]] = relationship(
         "State", back_populates="workflow", cascade="all, delete-orphan"
