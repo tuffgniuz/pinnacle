@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from pinnacle.core.enums import ProjectSecurityLevel
 from pinnacle.core.schemas.user_schemas import UserRead
@@ -7,7 +7,7 @@ from pinnacle.core.schemas.user_schemas import UserRead
 class ProjectCreateSchema(BaseModel):
     name: str
     description: str | None = None
-    enable_default_workflow_and_states: bool = False
+    enable_defaults: bool
 
 
 class ProjectUpdateSchema(BaseModel):

@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import { ThemeProvider } from "./lib/context/theme-context";

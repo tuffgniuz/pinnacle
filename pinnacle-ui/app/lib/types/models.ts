@@ -7,6 +7,7 @@ export type User = {
   is_active: boolean;
   is_superuser: boolean;
   is_verified: boolean;
+  boards: Board[];
 };
 
 export type SecurityTopic = {
@@ -40,11 +41,22 @@ export type Project = {
   has_backlog: boolean;
   methodology: ProjectMethodology;
   security_level: SecurityLevel;
+  boards: Board[];
   workflows: Workflow[];
   issues: Issue[];
   users: User[];
   security_topics: SecurityTopic[];
   security_sections: SecuritySection[];
+};
+
+export type Board = {
+  is: string;
+  name: string;
+  description?: string;
+  is_default: boolean;
+  project_id: string;
+  workflow: Workflow;
+  users: User[];
 };
 
 export type Workflow = {
@@ -58,6 +70,8 @@ export type Workflow = {
   project_id: string;
   states: State[];
   issues: Issue[];
+  board_id: string;
+  board: Board;
 };
 
 export type State = {

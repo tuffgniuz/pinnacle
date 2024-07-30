@@ -30,7 +30,7 @@ const useProjectCreate = () => {
       name: projectName,
       has_backlog: hasBacklog,
       description: projectDescription,
-      enable_default_workflow_and_states: hasProjectDefaults,
+      enable_defaults: hasProjectDefaults,
     });
   };
 

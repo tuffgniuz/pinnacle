@@ -21,7 +21,7 @@ const IssueAssigneeForm: FC<{
             hover:bg-neutral-light 
             hover:dark:bg-accent-dark-500
             p-2 -m-1
-            text-text-dark-600 italic 
+            text-text-dark-600 
             transition-all duration-300 ease-in-out 
             rounded-lg
           "

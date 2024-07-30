@@ -3,10 +3,10 @@ import { useParams } from "next/navigation";
 import { LucideCheck } from "lucide-react";
 import { Issue, User } from "@/app/lib/types/models";
 import useAddAssignee from "@/app/lib/hooks/projects/useAddAssignee";
+import useCurrentUser from "@/app/lib/hooks/useCurrentUser";
 import useProjectDetail from "@/app/lib/hooks/projects/useProjectDetail";
 import BaseModal from "../../data-display/base-modal";
 import Avatar from "../../data-display/avatar";
-import useCurrentUser from "@/app/lib/hooks/useCurrentUser";
 
 const IssueAssigneePickerModal: FC<{
   issue: Issue | undefined;

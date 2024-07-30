@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -6,7 +8,9 @@ from pinnacle.core.dependencies.db import get_async_session
 from pinnacle.core.models import User, Workflow
 from pinnacle.core.repositories.workflow import WorkflowRepository
 from pinnacle.core.services.abstract_generic_service import AbstractGenericService
-from pinnacle.core.services.project_service import ProjectService
+
+if TYPE_CHECKING:
+    from pinnacle.core.services.project_service import ProjectService
 
 
 class WorkflowService(AbstractGenericService):

@@ -1,8 +1,8 @@
-from sqlalchemy import desc, select
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from pinnacle.core.models import Issue, Project, State, Workflow
+from pinnacle.core.models import Board, Issue, Project, State, Workflow
 from pinnacle.core.repositories.generic import GenericRepository
 
 
@@ -44,12 +44,14 @@ class ProjectRepository:
         stmt = (
             select(Project)
             .options(
-                selectinload(Project.workflows)
-                .selectinload(Workflow.issues)
-                .selectinload(Issue.assignees),
-                selectinload(Project.workflows)
+                selectinload(Project.boards)
+                .selectinload(Board.workflow)
                 .selectinload(Workflow.states)
                 .selectinload(State.issues)
+                .selectinload(Issue.assignees),
+                selectinload(Project.boards)
+                .selectinload(Board.workflow)
+                .selectinload(Workflow.issues)
                 .selectinload(Issue.assignees),
             )
             .filter(Project.name_key == name_key)
@@ -58,24 +60,32 @@ class ProjectRepository:
         project = result.scalars().first()
 
         if project:
-            # Filter out only the active workflows
-            project.workflows = [wf for wf in project.workflows if wf.is_active]
+            # Find the default board
+            default_board = None
+            for board in project.boards:
+                if board.is_default:
+                    default_board = board
+                    break
 
-            # Sort issues within states and directly within workflows if no state
-            for workflow in project.workflows:
-                # Sort issues within states
-                for state in workflow.states:
-                    state.issues.sort(key=lambda issue: issue.order, reverse=True)
+            if default_board and default_board.workflow:
+                # Filter out only the active workflows
+                workflow = default_board.workflow
+                if workflow.is_active:
+                    # Sort issues within states
+                    for state in workflow.states:
+                        state.issues.sort(key=lambda issue: issue.order, reverse=True)
 
-                # Sort issues directly within workflow that do not belong to any state
-                workflow_issues_no_state = [
-                    issue for issue in workflow.issues if issue.state_id is None
-                ]
-                workflow_issues_no_state.sort(
-                    key=lambda issue: issue.order, reverse=True
-                )
-                workflow.issues = workflow_issues_no_state + [
-                    issue for state in workflow.states for issue in state.issues
-                ]
+                    # Sort issues directly within workflow that do not belong to any state
+                    workflow_issues_no_state = [
+                        issue for issue in workflow.issues if issue.state_id is None
+                    ]
+                    workflow_issues_no_state.sort(
+                        key=lambda issue: issue.order, reverse=True
+                    )
+                    workflow.issues = workflow_issues_no_state + [
+                        issue for state in workflow.states for issue in state.issues
+                    ]
+
+            project.default_board = default_board
 
         return project

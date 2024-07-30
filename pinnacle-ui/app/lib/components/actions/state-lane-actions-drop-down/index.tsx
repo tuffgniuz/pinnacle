@@ -9,7 +9,7 @@ const StateLaneActionsDropDown: FC<{
   const listStyle =
     "cursor-pointer flex items-center gap-2 p-1 -m-2 rounded-md transtion-all duration-300 ease-in-out";
   const styleOnHover =
-    "hover:bg-neutral-light dark:hover:bg-accent-dark-500 p-4 rounded-lg transition-all duration-300 ease-in-out";
+    "hover:bg-neutral-light dark:hover:bg-accent-dark-500 p-2 rounded-lg transition-all duration-300 ease-in-out";
 
   return (
     <BaseDropDown

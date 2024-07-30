@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, MouseEventHandler, useState } from "react";
 import { State } from "@/app/lib/types/models";
 import { LucideCircleDot } from "lucide-react";
 import useIssueDetail from "@/app/lib/hooks/projects/useIssueDetail";

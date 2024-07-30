@@ -1,14 +1,12 @@
 import logging
-from datetime import UTC, datetime
 from typing import Sequence
 
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from pinnacle.core.auth.users import get_current_user
-from pinnacle.core.defaults import DEFAULT_STATES
 from pinnacle.core.dependencies.db import get_async_session
-from pinnacle.core.models import Project, State, User, Workflow
+from pinnacle.core.models import Project, User
 from pinnacle.core.repositories.project import ProjectRepository
 from pinnacle.core.repositories.state import StateRepository
 from pinnacle.core.repositories.workflow import WorkflowRepository
@@ -17,7 +15,7 @@ from pinnacle.core.schemas.project_schema import (
     ProjectUpdateSchema,
 )
 from pinnacle.core.services.abstract_generic_service import AbstractGenericService
-from pinnacle.utils.text import generate_project_name_key, generate_workflow_name
+from pinnacle.utils.text import generate_project_name_key
 
 logger = logging.getLogger(__name__)
 
@@ -34,18 +32,26 @@ class ProjectService(AbstractGenericService):
         self.workflow_repository = WorkflowRepository(self.session)
         self.state_repository = StateRepository(self.session)
 
-    async def create(self, schema: ProjectCreateSchema) -> Project:
-        schema_dict = schema.model_dump(exclude={"enable_default_workflow_and_states"})
-        schema_dict["name_key"] = generate_project_name_key(schema.name)
+    async def create(
+        self,
+        project_schema: ProjectCreateSchema,
+    ) -> Project:
+        # excludes the enable_defaults retrieved from the schema
+        project_schema_dict = project_schema.model_dump(exclude={"enable_defaults"})
+        project_schema_dict["name_key"] = generate_project_name_key(project_schema.name)
 
-        project = Project(**schema_dict)
+        project = Project(**project_schema_dict)
         project.users.append(self.current_user)
         new_project = self.project_repository.generics.save(project)
 
         await self.session.flush()
 
-        if schema.enable_default_workflow_and_states:
-            await self.create_default_workflow_and_states(new_project)
+        # Create a default board if enabled by user
+        if project_schema.enable_defaults:
+            from pinnacle.core.services.board_service import BoardService
+
+            board_service = BoardService(self.current_user, self.session)
+            # await board_service.create(project_schema_dict["id"], board_schema)
 
         await self.session.refresh(new_project)
         await self.session.commit()
@@ -99,26 +105,6 @@ class ProjectService(AbstractGenericService):
         project = await self.get_by_id_or_none(project_id)
         await self.project_repository.generics.delete(project)
         await self.session.commit()
-
-    async def create_default_workflow_and_states(self, project: Project):
-        default_workflow_name = generate_workflow_name(str(project.name_key))
-        workflow = Workflow(
-            name=default_workflow_name,
-            start_date=datetime.now(UTC),
-            is_active=True,
-            project_id=project.id,
-        )
-
-        self.workflow_repository.generics.save(workflow)
-        await self.session.flush()
-
-        for state_data in DEFAULT_STATES:
-            state_data["workflow_id"] = workflow.id
-            if "is_final_state" not in state_data:
-                state_data["is_final_state"] = False
-            state = State(**state_data)
-            self.state_repository.generics.save(state)
-        await self.session.flush()
 
 
 def get_project_service(

@@ -1,16 +1,16 @@
 import { FC } from "react";
-import BaseModal from "../../data-display/base-modal";
 import { State } from "@/app/lib/types/models";
 import { LucideX } from "lucide-react";
-import Button from "../button";
 import useStateDelete from "@/app/lib/hooks/projects/useStateDelete";
+import BaseModal from "../../data-display/base-modal";
+import Button from "../button";
 
 const StateConfirmDeleteModal: FC<{
-  state: State;
+  state: State | undefined;
   showModal: boolean;
   onClose: () => void;
 }> = ({ state, showModal, onClose }) => {
-  const { mutation } = useStateDelete(state.id);
+  const { mutation } = useStateDelete(state?.id);
 
   const handleConfirmDelete = () => {
     mutation.mutate();
@@ -26,7 +26,7 @@ const StateConfirmDeleteModal: FC<{
         </button>
       </div>
       <p className="mb-5 text-text-light-300 dark:text-text-light-700">
-        This will permanently delete {state.name}.
+        This will permanently delete {state?.name}.
       </p>
       <div onClick={handleConfirmDelete} className="flex justify-end">
         <Button padding="sm" value="Confirm" />

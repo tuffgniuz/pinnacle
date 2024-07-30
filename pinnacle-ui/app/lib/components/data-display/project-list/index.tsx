@@ -1,8 +1,8 @@
 "use client";
 import { FC } from "react";
+import { LucideSettings } from "lucide-react";
 import useProjects from "@/app/lib/hooks/projects/useProjects";
 import Link from "next/link";
-import { LucideSettings } from "lucide-react";
 
 const ProjectList: FC = () => {
   const { data: projects, isLoading } = useProjects();
@@ -11,7 +11,7 @@ const ProjectList: FC = () => {
     return <p>Loading projects...</p>;
   }
 
-  return projects ? (
+  return projects!.length > 0 ? (
     <div className="mt-10">
       <table className="w-full text-left">
         <thead className="bg-neutral-light dark:bg-background-dark transition-all duration-300 ease-in-out">
@@ -22,7 +22,7 @@ const ProjectList: FC = () => {
           </tr>
         </thead>
         <tbody>
-          {projects.map((project) => (
+          {projects?.map((project) => (
             <tr
               key={project.id}
               className="border-b border-b-neutral-light dark:border-b-background-dark transition-all duration-300 ease-in-out"
@@ -55,7 +55,9 @@ const ProjectList: FC = () => {
       </table>
     </div>
   ) : (
-    <p>No projects</p>
+    <div className="min-h-screen flex justify-center items-center -m-28">
+      <p className="text-xl">Wow! Such empty</p>
+    </div>
   );
 };
 

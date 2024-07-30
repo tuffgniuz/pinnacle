@@ -93,6 +93,9 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     oauth_accounts: Mapped[list["OAuthAccount"]] = relationship(
         "OAuthAccount", lazy="joined"
     )
+    boards: Mapped[list["Board"]] = relationship(
+        "Board", secondary=user_board_association, back_populates="users"
+    )
 
 
 class SecurityTopic(Base):
@@ -220,8 +223,8 @@ class Board(Base):
     users: Mapped[list["User"]] = relationship(
         "User", secondary=user_board_association, back_populates="boards"
     )
-    workflows: Mapped[list["Workflow"]] = relationship(
-        "Workflow", back_populates="board", cascade="all, delete-orphan"
+    workflow: Mapped[list["Workflow"]] = relationship(
+        "Workflow", back_populates="board", uselist=False, cascade="all, delete-orphan"
     )
 
 
@@ -247,7 +250,7 @@ class Workflow(Base):
     board_id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("board.id", ondelete="CASCADE"), nullable=True
     )
-    board: Mapped["Board"] = relationship("Board", back_populates="workflows")
+    board: Mapped["Board"] = relationship("Board", back_populates="workflow", uselist=False)
 
 
     states: Mapped[list["State"]] = relationship(

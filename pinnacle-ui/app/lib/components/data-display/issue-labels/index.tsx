@@ -9,13 +9,18 @@ const IssueLabels: FC<{
     return null;
   }
 
+  const handleClick = () => {
+    console.log("Label clicked");
+  };
+
   return (
     <div className={`flex flex-wrap gap-2 -m-1 ${className}`}>
       {issue?.labels?.length &&
         issue?.labels?.length > 0 &&
         issue?.labels?.map((label) => (
-          <span
-            className="border rounded-lg px-4 py-1"
+          <button
+            onClick={handleClick}
+            className="border rounded-lg px-2"
             style={{
               borderColor: label.color,
             }}
@@ -23,7 +28,7 @@ const IssueLabels: FC<{
             <p className="font-semibold" style={{ color: label.color }}>
               {label.name}
             </p>
-          </span>
+          </button>
         ))}
     </div>
   );

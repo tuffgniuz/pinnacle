@@ -54,7 +54,7 @@ const Navbar: FC<{
               <UserNavItems project={project} />
             )}
           </ul>
-          <span>|</span>
+          {showProjectLinks && <span>|</span>}
           <GeneralSearchModal />
           <ul className="flex items-center gap-3">
             <li>

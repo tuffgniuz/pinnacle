@@ -4,7 +4,7 @@ export type ProjectCreateRequest = {
   name: string;
   has_backlog: boolean;
   description?: string;
-  enable_default_workflow_and_states: boolean;
+  enable_defaults: boolean;
 };
 
 export type ProjectPartialUpdateRequest = Partial<{

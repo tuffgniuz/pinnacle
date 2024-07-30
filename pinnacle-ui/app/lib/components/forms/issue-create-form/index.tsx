@@ -37,7 +37,7 @@ const IssueCreateForm: FC<{
     <form onSubmit={handleSubmit} className="mb-10">
       <TextInput
         ref={ref}
-        placeholder="What do I need to work on..."
+        placeholder="What needs to be done?"
         fullWidth
         autoFocus
         style={{ outlineWidth: 1, outlineColor: state?.color }}
