@@ -20,7 +20,7 @@ const StateQuickCreateForm: FC<{ workflowId: string | undefined }> = ({
   };
 
   return (
-    <div className="mb-10">
+    <div>
       {isVisible ? (
         <form onSubmit={handleSubmit} ref={ref} onBlur={handleBlur}>
           <TextInput

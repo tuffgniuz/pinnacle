@@ -1,16 +1,16 @@
 "use client";
 import { NextPage } from "next";
 import { useParams } from "next/navigation";
-
-import useProjectWithActiveWorkfow from "@/app/lib/hooks/projects/useProjectWithActiveWorkflow";
+import { LucideFrown } from "lucide-react";
 import withAuth from "@/app/lib/hocs/withAuth";
+import useProjectWithBoard from "@/app/lib/hooks/projects/useProjectWithBoard";
 import Navbar from "@/app/lib/components/navigation/navbar";
 import Link from "next/link";
-import { LucideFrown } from "lucide-react";
 
 const SecurityControls: NextPage = () => {
   const { key } = useParams<{ key: string }>();
-  const { data: project } = useProjectWithActiveWorkfow(key);
+  const { data: project } = useProjectWithBoard(key);
+
   return (
     <>
       <Navbar project={project} showProjectLinks title={project?.name} />

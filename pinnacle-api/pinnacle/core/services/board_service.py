@@ -1,4 +1,5 @@
 from datetime import UTC, datetime
+from typing import Sequence
 
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -56,6 +57,9 @@ class BoardService:
 
         return board
 
+    async def get_boards_for_project_id(self, project_id: str) -> Sequence[Board]:
+        return await self.board_repo.generics.find_all_by(project_id=project_id)
+
     async def __create_default_workflow_and_states(
         self, project: Project, board: Board
     ):
@@ -78,3 +82,10 @@ class BoardService:
             state = State(**state_data)
             self.state_repo.generics.save(state)
         await self.session.flush()
+
+
+def get_board_service(
+    current_user: User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_async_session),
+) -> BoardService:
+    return BoardService(current_user=current_user, session=session)

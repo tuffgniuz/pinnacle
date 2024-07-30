@@ -1,12 +1,12 @@
 "use client";
 import { NextPage } from "next";
 import { useParams } from "next/navigation";
-import useProjectWithActiveWorkfow from "@/app/lib/hooks/projects/useProjectWithActiveWorkflow";
+import useProjectWithBoard from "@/app/lib/hooks/projects/useProjectWithBoard";
 import ProjectSettingsContainer from "@/app/lib/components/layout/project-settings-container";
 
 const ProjectSetingsContributors: NextPage = () => {
   const { key } = useParams<{ key: string }>();
-  const { data: project, isLoading } = useProjectWithActiveWorkfow(key);
+  const { data: project, isLoading } = useProjectWithBoard(key);
 
   return (
     <ProjectSettingsContainer

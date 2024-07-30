@@ -16,16 +16,21 @@ const IssueAssigneePickerDropDown: FC<{ issue: Issue | undefined }> = ({
   const { mutation } = useAddAssignee(issue?.id);
 
   const handleAddAssignee = (user: User) => {
-    if (!issue?.assignees.some((assignee) => assignee.id === user.id)) {
+    if (!issue?.assignees!.some((assignee) => assignee.id === user.id)) {
       mutation.mutate(user.id);
     }
   };
 
   return (
     <BaseDropDown
-      icon={<LucidePlus size={20} />}
+      title={
+        <div className="flex items-center gap-2">
+          <LucideUserPlus size={18} />
+          Add assignee
+        </div>
+      }
       backgroundColor="bg-background-dark-800 dark:bg-accent-dark-400"
-      buttonClassName="flex items-center justify-center dark:bg-accent-dark-400 h-10 w-10 rounded-full"
+      buttonClassName="flex items-center justify-center bg-accent-light-300 text-text-light-900 rounded-lg px-4 py-1"
       className="bg-background-light dark:bg-accent-dark-500 w-80 border dark:border-accent-light-500"
     >
       <form>

@@ -3,17 +3,12 @@ import { NextPage } from "next";
 import { useParams } from "next/navigation";
 import Navbar from "@/app/lib/components/navigation/navbar";
 import withAuth from "@/app/lib/hocs/withAuth";
-import useProjectWithActiveWorkfow from "@/app/lib/hooks/projects/useProjectWithActiveWorkflow";
 import Container from "@/app/lib/components/layout/container";
+import useProjectWithBoard from "@/app/lib/hooks/projects/useProjectWithBoard";
 
 const ProjectOverview: NextPage = () => {
   const { key } = useParams<{ key: string }>();
-  const {
-    data: project,
-    isLoading,
-    isError,
-    error,
-  } = useProjectWithActiveWorkfow(key);
+  const { data: project, isLoading, isError, error } = useProjectWithBoard(key);
 
   return (
     <>

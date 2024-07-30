@@ -1,7 +1,7 @@
 "use client";
 import { NextPage } from "next";
 import { useParams } from "next/navigation";
-import useProjectWithActiveWorkfow from "@/app/lib/hooks/projects/useProjectWithActiveWorkflow";
+import useProjectWithActiveWorkfow from "@/app/lib/hooks/projects/useProjectWithBoard";
 import ProjectGeneralSettings from "@/app/lib/components/data-display/project-general-settings";
 import ProjectSettingsContainer from "@/app/lib/components/layout/project-settings-container";
 

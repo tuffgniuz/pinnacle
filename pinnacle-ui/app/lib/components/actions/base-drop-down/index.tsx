@@ -10,7 +10,7 @@ import {
 
 const BaseDropDown: FC<{
   icon?: ReactNode | string;
-  title?: string | undefined;
+  title?: ReactNode | string | undefined;
   children: ReactNode;
   backgroundColor?: string;
   buttonClassName?: string | undefined;

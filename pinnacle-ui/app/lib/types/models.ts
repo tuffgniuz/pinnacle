@@ -51,7 +51,7 @@ export type Project = {
 };
 
 export type Board = {
-  is: string;
+  id: string;
   name: string;
   description?: string;
   is_default: boolean;
