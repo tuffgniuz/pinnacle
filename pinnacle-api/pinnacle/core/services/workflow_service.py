@@ -1,5 +1,3 @@
-from typing import TYPE_CHECKING
-
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -8,9 +6,7 @@ from pinnacle.core.dependencies.db import get_async_session
 from pinnacle.core.models import User, Workflow
 from pinnacle.core.repositories.workflow import WorkflowRepository
 from pinnacle.core.services.abstract_generic_service import AbstractGenericService
-
-if TYPE_CHECKING:
-    from pinnacle.core.services.project_service import ProjectService
+from pinnacle.core.services.project_service import ProjectService
 
 
 class WorkflowService(AbstractGenericService):
@@ -28,10 +24,10 @@ class WorkflowService(AbstractGenericService):
     async def create(self, workflow_data: dict, project_id: str) -> Workflow:
         project = await self.project_service.get_by_id_or_none(project_id)
 
-        workflow_data["project_id"] = project.id  # type: ignore
+        workflow_data["project_id"] = project.id
         new_workflow = Workflow(**workflow_data)
 
-        return await self.workflow_repository.generics.save(new_workflow)
+        return self.workflow_repository.generics.save(new_workflow)
 
     async def get_by_id_or_none(self, id: str) -> Workflow | None:
         workflow = await self.workflow_repository.generics.find_by_id(id)

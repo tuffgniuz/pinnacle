@@ -10,6 +10,7 @@ from pinnacle.core.models import Project, User
 from pinnacle.core.repositories.project import ProjectRepository
 from pinnacle.core.repositories.state import StateRepository
 from pinnacle.core.repositories.workflow import WorkflowRepository
+from pinnacle.core.schemas.board_schemas import BoardCreateSchema
 from pinnacle.core.schemas.project_schema import (
     ProjectCreateSchema,
     ProjectUpdateSchema,
@@ -51,7 +52,17 @@ class ProjectService(AbstractGenericService):
             from pinnacle.core.services.board_service import BoardService
 
             board_service = BoardService(self.current_user, self.session)
-            # await board_service.create(project_schema_dict["id"], board_schema)
+            default_board_name = project_schema_dict["name_key"] + " DEV"
+
+            board_schema = BoardCreateSchema(
+                name=default_board_name,
+                description="Default board",
+                is_default=True,
+                project_id="",
+                workflow_id="",  # leave empty here but will be set inside BoardService.create
+            )
+
+            await board_service.create(str(new_project.id), board_schema)
 
         await self.session.refresh(new_project)
         await self.session.commit()

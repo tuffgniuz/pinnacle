@@ -1,5 +1,4 @@
 from datetime import UTC, datetime
-from typing import TYPE_CHECKING
 
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -35,13 +34,14 @@ class BoardService:
         project = await self.project_service.get_by_id_or_none(project_id)
 
         data = board_schema.model_dump()
+        data = board_schema.model_dump(exclude={"project_id"})
 
         board = Board(project_id=project_id, **data)
         new_board = self.board_repo.generics.save(board)
 
         await self.session.flush()
 
-        await self.__create_default_workflow_and_states(project)
+        await self.__create_default_workflow_and_states(project, new_board)
 
         await self.session.commit()
         await self.session.refresh(new_board)
@@ -56,16 +56,19 @@ class BoardService:
 
         return board
 
-    async def __create_default_workflow_and_states(self, project: Project):
+    async def __create_default_workflow_and_states(
+        self, project: Project, board: Board
+    ):
         default_workflow_name = generate_workflow_name(str(project.name_key))
-        workflow = Workflow(
-            name=default_workflow_name,
-            start_date=datetime.now(UTC),
-            is_active=True,
-            project_id=project.id,
-        )
+        workflow_data = {
+            "name": default_workflow_name,
+            "start_date": datetime.now(UTC),
+            "is_active": True,
+            "project_id": project.id,
+            "board_id": board.id,
+        }
 
-        await self.workflow_service.create(workflow, str(project.id))
+        workflow = await self.workflow_service.create(workflow_data, str(project.id))
         await self.session.flush()
 
         for state_data in DEFAULT_STATES:

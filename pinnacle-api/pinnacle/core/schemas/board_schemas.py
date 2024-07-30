@@ -6,4 +6,3 @@ class BoardCreateSchema(BaseModel):
     description: str | None = None
     is_default: bool = False
     project_id: str
-    workflow_id: str
