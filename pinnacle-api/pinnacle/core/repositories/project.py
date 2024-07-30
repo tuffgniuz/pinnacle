@@ -40,7 +40,7 @@ class ProjectRepository:
         result = await self.session.execute(stmt)
         return result.scalars().first()
 
-    async def find_project_with_active_workflow(self, name_key: str) -> Project | None:
+    async def find_project_default_board(self, name_key: str) -> Project | None:
         stmt = (
             select(Project)
             .options(

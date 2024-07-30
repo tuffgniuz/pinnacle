@@ -97,8 +97,8 @@ class ProjectService(AbstractGenericService):
     async def get_all_projects_for_current_user(self) -> Sequence[Project]:
         return await self.project_repository.find_all_by_user(self.current_user)
 
-    async def get_project_with_active_workflow(self, name_key: str) -> Project | None:
-        return await self.project_repository.find_project_with_active_workflow(name_key)
+    async def get_project_with_board(self, name_key: str) -> Project | None:
+        return await self.project_repository.find_project_default_board(name_key)
 
     async def update(
         self, project_id: str, update_schema: ProjectUpdateSchema

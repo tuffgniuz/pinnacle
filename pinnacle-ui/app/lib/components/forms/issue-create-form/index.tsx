@@ -24,7 +24,7 @@ const IssueCreateForm: FC<{
   useEffect(() => {
     setProjectId(project?.id);
     setStateId(state?.id);
-    setWorkflowId(project?.workflows[0].id);
+    setWorkflowId(project?.default_board.workflow.id);
   }, [project, state]);
 
   const handleSubmit = (e: FormEvent) => {

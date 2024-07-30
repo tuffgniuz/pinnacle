@@ -1,9 +1,8 @@
-import { formatError, getHeaders, handleResponse } from "../services/helpers";
+import { handleResponse } from "../services/helpers";
 import {
   IssueCreateRequest,
   IssueLabelRemovalRequest,
   PartialIssueUpdate,
-  ProjectCreateRequest,
 } from "../types/requests";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;

@@ -2,16 +2,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../stores/store";
 import { useQuery } from "@tanstack/react-query";
 
-import { getProjectWithActiveWorkflow } from "../../actions";
 import { Project } from "../../types/models";
+import { getProjectWithDefaultBoard } from "../../services/project";
 
-const useProjectWithActiveWorkfow = (projectNameKey: string) => {
+const useProjectWithBoard = (projectNameKey: string) => {
   const token = useSelector((state: RootState) => state.auth.token);
 
   const { data, isLoading, isError, error } = useQuery<Project, Error>({
     queryKey: ["workflow"],
     queryFn: async () => {
-      return await getProjectWithActiveWorkflow(token, projectNameKey);
+      return await getProjectWithDefaultBoard(token, projectNameKey);
     },
     enabled: !!token,
   });
@@ -19,4 +19,4 @@ const useProjectWithActiveWorkfow = (projectNameKey: string) => {
   return { data, isLoading, isError, error };
 };
 
-export default useProjectWithActiveWorkfow;
+export default useProjectWithBoard;

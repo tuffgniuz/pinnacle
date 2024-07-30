@@ -42,6 +42,7 @@ export type Project = {
   methodology: ProjectMethodology;
   security_level: SecurityLevel;
   boards: Board[];
+  default_board: Board;
   workflows: Workflow[];
   issues: Issue[];
   users: User[];

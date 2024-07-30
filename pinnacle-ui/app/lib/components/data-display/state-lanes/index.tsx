@@ -7,11 +7,9 @@ const StateLanes: FC<{
   project: Project | undefined;
   states: State[] | undefined;
 }> = ({ project, states }) => {
-  const workflowId = project?.workflows[0].id;
-
   return (
     <>
-      <StateQuickCreateForm workflowId={workflowId} />
+      <StateQuickCreateForm workflowId={project?.default_board.workflow.id} />
       <div className="flex gap-10">
         {states?.map((state) => (
           <StateLane key={state.id} project={project} state={state} />

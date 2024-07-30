@@ -24,6 +24,25 @@ export const createProject = async (
   }
 };
 
+export const getProjectWithDefaultBoard = async (
+  token: string | null,
+  nameKey: string,
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/api/v1/projects/${nameKey}/board`,
+      {
+        headers: getHeaders(token),
+      },
+    );
+
+    return await handleResponse(response);
+  } catch (error) {
+    const errorMsg = formatError(error);
+    throw new Error(errorMsg);
+  }
+};
+
 export const updateProject = async (
   token: string | null,
   projectId: string,

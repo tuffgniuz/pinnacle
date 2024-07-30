@@ -45,8 +45,8 @@ async def delete_project(
     await project_service.delete(project_id)
 
 
-@router.get("/projects/active-workflow/{name_key}")
+@router.get("/projects/{name_key}/board")
 async def get_project_with_active_workflow(
     name_key: str, service: ProjectService = Depends(get_project_service)
 ):
-    return await service.get_project_with_active_workflow(name_key)
+    return await service.get_project_with_board(name_key)

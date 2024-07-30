@@ -29,7 +29,7 @@ const UserNavItems: FC<{ project?: Project }> = ({ project }) => {
             <>
               Board{" "}
               <span className="bg-accent-light-100 text-text-light-900 dark:bg-neutral-dark-200 px-2 rounded-full">
-                {project?.workflows[0].issues.length}
+                {project?.default_board.workflow.issues.length}
               </span>
             </>
           }

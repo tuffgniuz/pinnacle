@@ -24,7 +24,16 @@ const ProjectBoard: NextPage = () => {
     <>
       <Navbar title={project?.name} project={project} showProjectLinks />
       <Container className="h-full px-5">
-        <StateLanes project={project} states={project?.workflows[0].states} />
+        {project?.default_board !== undefined ? (
+          <>
+            <StateLanes
+              project={project}
+              states={project?.default_board.workflow.states}
+            />
+          </>
+        ) : (
+          <p>You don't have board yet</p>
+        )}
       </Container>
     </>
   );
