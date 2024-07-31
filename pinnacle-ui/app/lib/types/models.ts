@@ -16,6 +16,7 @@ export type SecurityTopic = {
   name: string;
   summary: string;
   sections: SecuritySection[];
+  application: string;
 };
 
 export type SecuritySection = {

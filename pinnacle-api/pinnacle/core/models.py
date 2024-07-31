@@ -108,6 +108,7 @@ class SecurityTopic(Base):
     id: Mapped[UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, unique=True, default=uuid.uuid4
     )
+    application: Mapped[str] = mapped_column(String(280), nullable=True)
     topic_id: Mapped[str] = mapped_column(String(10), unique=True, nullable=False)
     name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     summary: Mapped[str] = mapped_column(String(500), nullable=True)

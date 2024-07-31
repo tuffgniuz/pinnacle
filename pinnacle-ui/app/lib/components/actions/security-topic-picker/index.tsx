@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import { LucideShield } from "lucide-react";
 import { SecurityTopic } from "@/app/lib/types/models";
 import Button from "../button";
 import Card from "../../data-display/card";
@@ -24,16 +23,28 @@ const SecurityTopicPicker: FC<{
 
   return (
     <>
-      <div className="flex justify-end gap-5 mb-5">
+      <div className="flex justify-end gap-2 mb-5">
         <Button padding="sm" value="Select all" />
-        <Button padding="sm" value="Continue" onClick={handleContinue} />
+        <button
+          onClick={handleContinue}
+          className="
+            border border-accent-light-300 
+            hover:bg-accent-light-300
+            hover:bg-opacity-10
+            transition-all duration-300 ease-in-out
+            p-2 
+            rounded-lg
+          "
+        >
+          Continue
+        </button>
       </div>
       <div className="grid grid-cols-3 gap-4">
         {topics?.map((topic) => (
           <Card
             key={topic.id}
             onClick={() => handleAddTopic(topic.id)}
-            padding="lg"
+            padding="md"
             className={`
                 cursor-pointer 
                 outline outline-1
@@ -48,7 +59,9 @@ const SecurityTopicPicker: FC<{
             <h1 className="text-lg flex items-center gap-2 font-medium mb-2">
               {topic.name}
             </h1>
-            <p className="text-sm dark:text-text-dark-700">{topic.summary}</p>
+            <p className="text-sm dark:text-text-dark-700">
+              {topic.application}
+            </p>
           </Card>
         ))}
       </div>

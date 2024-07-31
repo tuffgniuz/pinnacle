@@ -1,6 +1,7 @@
 [
-    {
+    {asvs_
         "summary": "Integrates security into application architecture and design from the ground up. Essential during the initial design phase and throughout the development lifecycle.",
+        "application": "I will need to consider security from the design phase through to deployment because I will be handling sensitive user data and want to prevent security vulnerabilities from being introduced early on.",
         "security_topic_id": "V1",
         "security_topic_name": "Architecture, Design and Threat Modeling",
         "security_sections": [
@@ -481,6 +482,7 @@
         ]
     },
     {
+        "application": "I will need to authenticate users because my app will have user accounts that need secure login functionality.",
         "summary": "Ensures users are properly authenticated to prevent impersonation. Critical for applications with user logins and access to sensitive information.",
         "security_topic_id": "V2",
         "security_topic_name": "Authentication",
@@ -1152,6 +1154,7 @@
         ]
     },
     {
+        "application": "I will need to manage user sessions securely because my app will maintain user sessions to keep users logged in across multiple requests.",
         "summary": "Manages user sessions securely to prevent hijacking and fixation. Necessary for any application that maintains user sessions.",
         "security_topic_id": "V3",
         "security_topic_name": "Session Management",
@@ -1407,7 +1410,8 @@
             }
         ]
     },
-    {
+    { 
+        "application": "I will need to control and restrict access based on user roles and permissions because my app will have different levels of access for different types of users (e.g., admin vs regular user)",
         "summary": "Ensures users can only access resources they are authorized to use. Relevant for applications with multiple user roles and permissions.",
         "security_topic_id": "V4",
         "security_topic_name": "Access Control",
@@ -1526,6 +1530,7 @@
         ]
     },
     {
+        "application": "I will need to validate, sanitize, and encode user inputs because my app will accept user inputs through forms, search queries, and file uploads, which need to be protected from injection attacks.",
         "summary": "Validates and sanitizes input to prevent injection and other attacks. Crucial for applications that accept user input.",
         "security_topic_id": "V5",
         "security_topic_name": "Validation, Sanitization and Encoding",
@@ -1868,6 +1873,7 @@
         ]
     },
     {
+        "application": "I will need to securely store sensitive data because my app will handle user credentials, payment information, or personal data that needs to be protected from unauthorized access.",
         "summary": "Protects sensitive data at rest using strong encryption. Important for applications storing sensitive information like passwords or personal data.",
         "security_topic_id": "V6",
         "security_topic_name": "Stored Cryptography",
@@ -2063,6 +2069,7 @@
         ]
     },
     {
+        "application": "I will need secure error handling and logging mechanisms because my app will need to monitor and respond to security incidents without exposing sensitive information.",
         "summary": "Handles errors securely and logs events without revealing sensitive data. Necessary for all applications, especially those dealing with sensitive operations.",
         "security_topic_id": "V7",
         "security_topic_name": "Error Handling and Logging",
@@ -2218,6 +2225,7 @@
         ]
     },
     {
+        "application": "I will need to protect sensitive data in storage and transit because my app will transfer and store confidential user information that must be kept secure.",
         "summary": "Safeguards sensitive information from unauthorized access and alteration. Essential for applications handling sensitive or personal data.",
         "security_topic_id": "V8",
         "security_topic_name": "Data Protection",
@@ -2416,6 +2424,7 @@
         ]
     },
     {
+        "application": "I will need to secure communication channels between my app's components because my app will exchange data between client and server or between different services.",
         "summary": "Secures data in transit to prevent interception and tampering. Relevant for applications transmitting sensitive data over networks.",
         "security_topic_id": "V9",
         "security_topic_name": "Communication",
@@ -2517,6 +2526,7 @@
         ]
     },
     {
+        "application": "I will need to protect against malicious code because my app will be exposed to potential threats like malware and need to maintain secure coding practices.",
         "summary": "Protects applications from malicious code and ensures code integrity. Important for all applications, particularly those with complex or third-party dependencies.",
         "security_topic_id": "V10",
         "security_topic_name": "Malicious Code",
@@ -2645,6 +2655,7 @@
         ]
     },
     {
+        "application": "I will need to ensure the security of my app's business logic because my app will have critical operations that must not be exploited or abused by users.",
         "summary": "Secures application-specific business logic against exploitation. Critical for applications with complex business rules and workflows.",
         "security_topic_id": "V11",
         "security_topic_name": "Business Logic",
@@ -2739,6 +2750,7 @@
         ]
     },
     {
+        "application": "I will need to securely manage file uploads and downloads because my app will allow users to upload and download files which need to be protected from attacks.",
         "summary": "Ensures secure handling of files and resources within the application. Necessary for applications managing file uploads, downloads, or resource access.",
         "security_topic_id": "V12",
         "security_topic_name": "Files and Resources",
@@ -2938,6 +2950,7 @@
         ]
     },
     {
+        "application": "I will need to secure my app's APIs and web services because my app will expose functionality through APIs that need protection from unauthorized access and abuse.",
         "summary": "Secures APIs and web services against unauthorized access and attacks. Relevant for applications exposing APIs or web services.",
         "security_topic_id": "V13",
         "security_topic_name": "API and Web Service",
@@ -3103,6 +3116,7 @@
         ]
     },
     {
+        "application": "I will need to ensure secure configuration settings because my app will run in production environments that need to be hardened against security threats.",
         "summary": "Ensures secure application setup and deployment configurations. Critical during the deployment and maintenance phases of the application lifecycle.",
         "security_topic_id": "V14",
         "security_topic_name": "Configuration",

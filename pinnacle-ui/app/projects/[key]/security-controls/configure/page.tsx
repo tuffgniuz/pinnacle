@@ -33,11 +33,13 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
         title={`Configure Project Security Checklist`}
       />
 
-      <Container width="w-3/6">
+      <Container width="w-4/6">
         <div className="mb-10 text-center">
-          <h1 className="text-4xl font-medium mb-5">Security Topics</h1>
+          <h1 className="text-4xl font-medium mb-5">
+            Security Controls Configuration
+          </h1>
           <p className="dark:text-text-dark-600">
-            Choose which security topics apply to your project.
+            Choose what applies to your project.
           </p>
         </div>
         {!showSections && (
