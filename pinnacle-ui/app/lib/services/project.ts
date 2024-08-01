@@ -1,6 +1,7 @@
 import { BASE_URL } from "./config";
 import { formatError, getHeaders, handleResponse } from "./helpers";
 import {
+  ProjectAddSecurityControlsRequest,
   ProjectCreateRequest,
   ProjectPartialUpdateRequest,
 } from "../types/requests";
@@ -54,6 +55,28 @@ export const updateProject = async (
       headers: getHeaders(token),
       body: JSON.stringify(requestBody),
     });
+
+    return await handleResponse(response);
+  } catch (error) {
+    const errorMsg = formatError(error);
+    throw new Error(errorMsg);
+  }
+};
+
+export const addProjectSecurityControls = async (
+  token: string | null,
+  projectId: string | undefined,
+  requestBody: ProjectAddSecurityControlsRequest,
+) => {
+  try {
+    const response = await fetch(
+      `${BASE_URL}/api/v1/projects/${projectId}/security-controls`,
+      {
+        method: "PATCH",
+        headers: getHeaders(token),
+        body: JSON.stringify(requestBody),
+      },
+    );
 
     return await handleResponse(response);
   } catch (error) {

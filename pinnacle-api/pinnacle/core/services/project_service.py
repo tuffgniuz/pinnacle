@@ -6,12 +6,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from pinnacle.core.auth.users import get_current_user
 from pinnacle.core.dependencies.db import get_async_session
-from pinnacle.core.models import Project, User
+from pinnacle.core.models import Project, SecuritySection, SecurityTopic, User
 from pinnacle.core.repositories.project import ProjectRepository
 from pinnacle.core.repositories.state import StateRepository
 from pinnacle.core.repositories.workflow import WorkflowRepository
 from pinnacle.core.schemas.board_schemas import BoardCreateSchema
 from pinnacle.core.schemas.project_schema import (
+    ProjectAddSecurityControlsSchema,
     ProjectCreateSchema,
     ProjectUpdateSchema,
 )
@@ -99,6 +100,23 @@ class ProjectService(AbstractGenericService):
 
     async def get_project_with_board(self, name_key: str) -> Project | None:
         return await self.project_repository.find_project_default_board(name_key)
+
+    async def add_security_controls(
+        self, project_id: str, schema: ProjectAddSecurityControlsSchema
+    ):
+        project = await self.get_by_id_or_none(project_id)
+
+        for topic in schema.security_topics:
+            project.security_topics.append(topic)  # type: ignore
+
+        if schema.security_sections is not None:
+            for section in schema.security_sections:
+                project.security_sections.append(section)  # type: ignore
+
+        await self.session.commit()
+        await self.session.refresh(project)
+
+        return project
 
     async def update(
         self, project_id: str, update_schema: ProjectUpdateSchema

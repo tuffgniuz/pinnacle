@@ -7,25 +7,26 @@ import {
   useRef,
   useState,
 } from "react";
+import { LucideChevronDown } from "lucide-react";
 
 const BaseDropDown: FC<{
-  icon?: ReactNode | string;
-  title?: ReactNode | string | undefined;
+  btnNode?: ReactNode | string;
   children: ReactNode;
   backgroundColor?: string;
   buttonClassName?: string | undefined;
   className?: string | undefined;
+  showChevron?: boolean;
   zIndex?: number;
   style?: CSSProperties | undefined;
   btnStyle?: CSSProperties | undefined;
 }> = ({
-  icon,
-  title,
+  btnNode,
   children,
   buttonClassName,
   className,
   style,
   btnStyle,
+  showChevron,
   backgroundColor = "bg-background-light dark:bg-accent-dark-500",
   zIndex = 10,
 }) => {
@@ -62,12 +63,19 @@ const BaseDropDown: FC<{
       <button
         onClick={handleDropDown}
         btnStyle={{ ...btnStyle }}
-        className={`transition-all duration-300 ease-in-out ${
-          title && icon ? "flex items-center gap-2" : ""
-        } ${buttonClassName}`}
+        className={`
+          flex items-center 
+          dark:hover:bg-opacity-80 hover:bg-opacity-90 
+          transition-all duration-300 ease-in-out 
+          ${buttonClassName}
+        `}
       >
-        {icon}
-        {title && <span>{title}</span>}
+        <span className="px-4 py-2">{btnNode}</span>
+        {showChevron && (
+          <span className="border-l border-l-accent-dark-600 px-4 py-2">
+            <LucideChevronDown size={18} />
+          </span>
+        )}
       </button>
       {isOpen && (
         <div
@@ -79,7 +87,7 @@ const BaseDropDown: FC<{
             border-1
             dark:border-accent-light-400
             mt-3 -ml-2
-            drop-shadow-lg
+            drop-shadow-2xl
             rounded-lg 
             ${backgroundColor}
             ${className}`}

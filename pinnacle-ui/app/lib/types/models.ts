@@ -1,7 +1,7 @@
 import { IssuePriority, ProjectMethodology, SecurityLevel } from "./enums";
 
 export type User = {
-  id: any;
+  id: string;
   fullname?: string;
   email: string;
   is_active: boolean;

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from pinnacle.core.schemas.project_schema import (
+    ProjectAddSecurityControlsSchema,
     ProjectCreateSchema,
     ProjectUpdateSchema,
 )
@@ -36,6 +37,15 @@ async def project_update(
     project_service: ProjectService = Depends(get_project_service),
 ):
     return await project_service.update(project_id, update_schema)
+
+
+@router.patch("/projects/{project_id}/security-controls")
+async def add_security_controls(
+    project_id: str,
+    schema: ProjectAddSecurityControlsSchema,
+    project_service: ProjectService = Depends(get_project_service),
+):
+    return await project_service.add_security_controls(project_id, schema)
 
 
 @router.delete("/projects/{project_id}")

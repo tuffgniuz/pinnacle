@@ -1,13 +1,13 @@
 import { FC } from "react";
-import { Board, Project } from "@/app/lib/types/models";
-import useProjectBoards from "@/app/lib/hooks/projects/useProjectBoards";
-import BaseDropDown from "../base-drop-down";
 import {
   LucideArrowLeft,
-  LucideKanban,
+  LucideKanbanSquare,
   LucidePlus,
   LucideSquareKanban,
 } from "lucide-react";
+import { Project } from "@/app/lib/types/models";
+import useProjectBoards from "@/app/lib/hooks/projects/useProjectBoards";
+import BaseDropDown from "../base-drop-down";
 
 const BoardPickerDropDown: FC<{ project: Project | undefined }> = ({
   project,
@@ -16,20 +16,31 @@ const BoardPickerDropDown: FC<{ project: Project | undefined }> = ({
 
   return (
     <BaseDropDown
-      icon={<LucideKanban size={18} />}
-      title={
-        <span className="flex gap-2">
-          <span className="flex items-center justify-center bg-background-light h-5 w-5 rounded-full text-text-dark-100 text-sm">
+      showChevron
+      btnNode={
+        <span className="flex items-center gap-4">
+          <LucideKanbanSquare size={18} />
+          {project?.default_board.name}
+          <span
+            className="
+              bg-neutral-light-700 
+              text-text-light-100
+              flex items-center justify-center 
+              h-5 w-5 
+              rounded-full 
+            "
+          >
             {project?.boards.length}
           </span>
-          {project?.default_board.name}
         </span>
       }
-      buttonClassName="bg-accent-light-300 dark:bg-accent-dark-500 text-text-dark-900 py-2 px-4 rounded-lg"
+      buttonClassName="bg-accent-light-300 dark:bg-background-dark text-text-dark-900 rounded-lg"
       className="w-80 border dark:border-accent-light-500"
     >
-      <h1 className="p-4 font-semibold border-b">Switch to another board</h1>
-      <ul className="border-b">
+      <h1 className="p-4 font-semibold border-b border-accent-light-500">
+        Switch to another board
+      </h1>
+      <ul className="border-b border-accent-light-500">
         {boards?.map((board) => (
           <li
             key={board.id}
@@ -47,8 +58,15 @@ const BoardPickerDropDown: FC<{ project: Project | undefined }> = ({
           </li>
         ))}
       </ul>
-      <div className="p-4 text-center flex justify-center">
-        <button className="flex items-center gap-2 text-center">
+      <div className="p-2 text-center flex justify-center">
+        <button
+          className="
+            flex items-center gap-2 
+            text-center 
+            dark:bg-background-dark
+            p-2 rounded-lg
+          "
+        >
           <LucidePlus size={18} />
           Create board
         </button>

@@ -1,4 +1,5 @@
 import { IssuePriority, SecurityLevel } from "./enums";
+import { SecuritySection, SecurityTopic } from "./models";
 
 export type ProjectCreateRequest = {
   name: string;
@@ -13,6 +14,11 @@ export type ProjectPartialUpdateRequest = Partial<{
   has_backlog: boolean;
   security_level: SecurityLevel;
 }>;
+
+export type ProjectAddSecurityControlsRequest = {
+  security_topics: SecurityTopic[];
+  security_sections?: SecuritySection[];
+};
 
 export type IssueCreateRequest = {
   title: string | undefined;

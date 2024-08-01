@@ -27,6 +27,8 @@ const Button: FC<{
     text-center 
     text-text-light-900
     dark:text-text-dark-900
+    dark:hover:bg-opacity-80
+    transition-all duration-300 ease-in-out
     ${padding === "sm" ? "p-2" : padding === "md" ? "p-4" : ""}
     ${icon && value ? "flex items-center justify-center gap-2" : ""} 
     rounded-${rounded} 

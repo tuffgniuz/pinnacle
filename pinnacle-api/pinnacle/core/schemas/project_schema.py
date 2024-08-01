@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 from pinnacle.core.enums import ProjectSecurityLevel
+from pinnacle.core.models import SecuritySection, SecurityTopic
 from pinnacle.core.schemas.user_schemas import UserRead
 
 
@@ -14,6 +15,11 @@ class ProjectUpdateSchema(BaseModel):
     name: str | None = None
     description: str | None = None
     has_backlog: bool | None = None
+
+
+class ProjectAddSecurityControlsSchema(BaseModel):
+    security_topics: list
+    security_sections: list | None = None
 
 
 class ProjectReadSchema(BaseModel):

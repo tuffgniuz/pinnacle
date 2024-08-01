@@ -18,7 +18,7 @@ const Navlink: FC<{
         dark:hover:bg-neutral-light-100 
         p-2 rounded-lg 
         transition-all duration-300 ease-in-out 
-        ${isActive ? "border-b border-b-sky_magenta" : ""}
+        ${isActive ? "dark:bg-neutral-light-100" : ""}
         ${icon && value ? "flex items-center gap-2" : ""} 
         ${className}
       `}
