@@ -47,6 +47,7 @@ const SecurityTopicPicker: FC<{
               outline outline-1
               hover:outline-sky_magenta
               hover:bg-opacity-40
+              dark:hover:bg-opacity-70
               dark:hover:outline-sky_magenta
               transition-all duration-300 ease-in-out ${
                 selectedTopics.includes(topic)
@@ -58,6 +59,7 @@ const SecurityTopicPicker: FC<{
               {topic.name}
             </h1>
             <p className="dark:text-text-dark-700 mb-5">{topic.application}</p>
+            {/***
             <div className="flex justify-end">
               <Button
                 padding="sm"
@@ -65,6 +67,7 @@ const SecurityTopicPicker: FC<{
                 value="Learn more"
               />
             </div>
+            ***/}
           </Card>
         ))}
       </div>

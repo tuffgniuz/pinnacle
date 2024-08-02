@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { Issue } from "@/app/lib/types/models";
+import { getRgbaColor } from "@/app/lib/utils";
+import { LucideTag } from "lucide-react";
 
 const IssueLabels: FC<{
   issue: Issue | undefined;
@@ -20,12 +22,14 @@ const IssueLabels: FC<{
         issue?.labels?.map((label) => (
           <button
             onClick={handleClick}
-            className="border rounded-lg px-2"
+            className="flex items-center gap-2 border rounded-lg px-2"
             style={{
+              background: getRgbaColor(label.color, 0.15),
               borderColor: label.color,
             }}
           >
-            <p className="font-semibold" style={{ color: label.color }}>
+            <LucideTag size={14} style={{ color: label.color }} />
+            <p className="font-medium" style={{ color: label.color }}>
               {label.name}
             </p>
           </button>

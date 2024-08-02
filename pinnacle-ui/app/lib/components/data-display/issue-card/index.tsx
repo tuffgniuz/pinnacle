@@ -56,7 +56,13 @@ const IssueCard: FC<{
         </div>
         <h1
           onClick={() => setShowIssueDetailModal(true)}
-          className="hover:cursor-pointer hover:text-sky_magenta-600 hover:underline hover:underline-offset-1 mb-4"
+          className="
+            hover:cursor-pointer 
+            hover:text-sky_magenta-600 
+            hover:underline 
+            hover:underline-offset-1 
+            mb-5
+          "
         >
           {issue?.title}
         </h1>

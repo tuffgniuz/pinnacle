@@ -58,7 +58,7 @@ const StateLane: FC<{
           )}
         </div>
         <div className="min-h-5 mb-5">
-          <p>{state?.description}</p>
+          <p className="text-text-dark-600">{state?.description}</p>
         </div>
         <IssueCreateForm project={project} state={state} />
         <div className="flex flex-col gap-5">
