@@ -12,6 +12,7 @@ import Container from "@/app/lib/components/layout/container";
 import Footer from "@/app/lib/components/layout/footer";
 import SecurityTopicPicker from "@/app/lib/components/actions/security-topic-picker";
 import SecuritySectionPicker from "@/app/lib/components/actions/security-section-picker";
+import SecurityReviewSelection from "@/app/lib/components/actions/security-review-selection";
 
 const ProjectSecurityControlsConfigure: NextPage = () => {
   const { key } = useParams<{ key: string }>();
@@ -31,10 +32,10 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
     setStep(2);
   };
 
-  // const handleSelectSections = (selectedSections: string[]) => {
-  //   setSelectedSections(selectedSections);
-  //   setStep(3);
-  // };
+  const handleSelectSections = (selectedSections: SecuritySection[]) => {
+    setSelectedSections(selectedSections);
+    setStep(3);
+  };
 
   const handleGoBack = () => {
     setStep(step - 1);
@@ -59,13 +60,18 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
         {step === 1 && (
           <SecurityTopicPicker
             topics={topics}
+            selectedTopics={selectedTopics}
+            setSelectedTopics={setSelectedTopics}
             onContinue={handleSelectTopics}
           />
         )}
         {step === 2 && (
           <SecuritySectionPicker
             topics={selectedTopics}
+            selectedSections={selectedSections}
+            setSelectedSections={setSelectedSections}
             onGoBack={handleGoBack}
+            onContinue={handleSelectSections}
           />
         )}
         <Footer />

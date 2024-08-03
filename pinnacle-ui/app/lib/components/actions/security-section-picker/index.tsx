@@ -11,10 +11,17 @@ import Card from "../../data-display/card";
 
 const SecuritySectionPicker: FC<{
   topics: SecurityTopic[] | undefined;
-  selectedSections: SecuritySection[];
+  selectedSections: SecuritySection[] | undefined;
   setSelectedSections: (sections: SecuritySection[]) => void;
   onGoBack: () => void;
-}> = ({ topics, selectedSections, setSelectedSections, onGoBack }) => {
+  onContinue: (selectedSections: SecuritySection[]) => void;
+}> = ({
+  topics,
+  selectedSections = [],
+  setSelectedSections,
+  onGoBack,
+  onContinue,
+}) => {
   const [expandedTopics, setExpandedTopics] = useState<{
     [key: string]: boolean;
   }>({});
@@ -40,18 +47,22 @@ const SecuritySectionPicker: FC<{
   };
 
   const handleAddSection = (section: SecuritySection) => {
-    setSelectedSections((prevSections) =>
+    setSelectedSections((prevSections = []) =>
       prevSections.includes(section)
         ? prevSections.filter((s) => s.id !== section.id)
         : [...prevSections, section],
     );
   };
 
+  const handleContinue = () => {
+    onContinue(selectedSections);
+  };
+
   return (
     <>
       <div className="flex gap-2 justify-end mb-5">
         <Button padding="sm" value="Go Back" onClick={onGoBack} />
-        <Button padding="sm" value="Next" />
+        <Button padding="sm" value="Next" onClick={handleContinue} />
       </div>
       {topics?.map((topic) => (
         <div key={topic.id}>
@@ -79,9 +90,26 @@ const SecuritySectionPicker: FC<{
             style={{ overflow: "hidden" }}
             transition={{ duration: 0.5 }}
           >
-            <div className="grid grid-cols-3 gap-4 mb-10">
+            {/* Security Section Cards */}
+            <div className="grid grid-cols-3 gap-4 mb-10 p-1">
               {topic.sections.map((section) => (
-                <Card key={section.id} padding="lg">
+                <Card
+                  key={section.id}
+                  onClick={() => handleAddSection(section)}
+                  padding="lg"
+                  className={`
+                    cursor-pointer 
+                    outline outline-1
+                    hover:outline-sky_magenta
+                    hover:bg-opacity-40
+                    dark:hover:bg-opacity-70
+                    dark:hover:outline-sky_magenta
+                    transition-all duration-300 ease-in-out ${
+                      selectedSections.includes(section)
+                        ? "outline-sky_magenta dark:outline-sky_magenta bg-opacity-40"
+                        : "outline-transparent"
+                    }`}
+                >
                   <h1 className="text-lg font-medium mb-2">{section.name}</h1>
                   <p className="text-sm dark:text-text-dark-700">
                     {section.summary}

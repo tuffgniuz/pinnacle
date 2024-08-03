@@ -1,15 +1,20 @@
 import { FC, useState } from "react";
-import { LucideLightbulb } from "lucide-react";
+import {
+  LucideGrid,
+  LucideLightbulb,
+  LucideTable,
+  LucideTable2,
+} from "lucide-react";
 import { SecurityTopic } from "@/app/lib/types/models";
 import Button from "../button";
 import Card from "../../data-display/card";
 
 const SecurityTopicPicker: FC<{
   topics: SecurityTopic[] | undefined;
+  selectedTopics: SecurityTopic[];
+  setSelectedTopics: (topics: SecurityTopic[]) => void;
   onContinue: (selectedTopics: SecurityTopic[]) => void;
-}> = ({ topics, onContinue }) => {
-  const [selectedTopics, setSelectedTopics] = useState<SecurityTopic[]>([]);
-
+}> = ({ topics, selectedTopics, setSelectedTopics, onContinue }) => {
   const handleAddTopic = (topic: SecurityTopic) => {
     setSelectedTopics((prevTopics) =>
       prevTopics.includes(topic)
@@ -32,9 +37,19 @@ const SecurityTopicPicker: FC<{
 
   return (
     <>
-      <div className="flex justify-end gap-2 mb-5">
-        <Button onClick={handleSelectAll} padding="sm" value="Select all" />
-        <Button onClick={handleContinue} padding="sm" value="Next" />
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex justify-start gap-2">
+          <button className="">
+            <LucideGrid size={20} />
+          </button>
+          <button>
+            <LucideTable2 size={20} />
+          </button>
+        </div>
+        <div className="flex justify-end gap-2 ">
+          <Button onClick={handleSelectAll} padding="sm" value="Select all" />
+          <Button onClick={handleContinue} padding="sm" value="Next" />
+        </div>
       </div>
       <div className="grid grid-cols-3 gap-4">
         {topics?.map((topic) => (
