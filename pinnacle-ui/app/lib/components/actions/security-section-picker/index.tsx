@@ -7,7 +7,7 @@ import {
 import { motion } from "framer-motion";
 import { SecuritySection, SecurityTopic } from "@/app/lib/types/models";
 import Button from "../button";
-import Card from "../../data-display/card";
+import SelectableCard from "../../data-display/SelectableCard";
 
 const SecuritySectionPicker: FC<{
   topics: SecurityTopic[] | undefined;
@@ -25,12 +25,13 @@ const SecuritySectionPicker: FC<{
   const [expandedTopics, setExpandedTopics] = useState<{
     [key: string]: boolean;
   }>({});
+  const [expandAll, setExpandAll] = useState<boolean>(false);
 
   useEffect(() => {
-    if (topics) {
+    if (topics && topics.length > 0) {
       const initialExpandedState = topics.reduce(
-        (acc, topic) => {
-          acc[topic.id] = true;
+        (acc, topic, index) => {
+          acc[topic.id] = index === 0; // Expand only the first topic
           return acc;
         },
         {} as { [key: string]: boolean },
@@ -40,10 +41,33 @@ const SecuritySectionPicker: FC<{
   }, [topics]);
 
   const toggleExpand = (topicId: string) => {
-    setExpandedTopics((prev) => ({
-      ...prev,
-      [topicId]: !prev[topicId],
-    }));
+    if (expandAll) return;
+    setExpandedTopics((prev) => {
+      const newExpandedTopics = Object.keys(prev).reduce(
+        (acc, id) => {
+          acc[id] = false;
+          return acc;
+        },
+        {} as { [key: string]: boolean },
+      );
+      return {
+        ...newExpandedTopics,
+        [topicId]: !prev[topicId],
+      };
+    });
+  };
+
+  const handleExpandAll = () => {
+    setExpandAll((prev) => !prev);
+    setExpandedTopics((prev) =>
+      Object.keys(prev).reduce(
+        (acc, topicId) => {
+          acc[topicId] = !expandAll;
+          return acc;
+        },
+        {} as { [key: string]: boolean },
+      ),
+    );
   };
 
   const handleAddSection = (section: SecuritySection) => {
@@ -60,9 +84,19 @@ const SecuritySectionPicker: FC<{
 
   return (
     <>
-      <div className="flex gap-2 justify-end mb-5">
-        <Button padding="sm" value="Go Back" onClick={onGoBack} />
-        <Button padding="sm" value="Next" onClick={handleContinue} />
+      <div className="flex justify-between mb-5">
+        <Button
+          padding="sm"
+          icon={
+            expandAll ? (
+              <LucideChevronsDownUp size={18} />
+            ) : (
+              <LucideChevronsUpDown size={18} />
+            )
+          }
+          value={expandAll ? "Collapse all" : "Expand all"}
+          onClick={handleExpandAll}
+        />
       </div>
       {topics?.map((topic) => (
         <div key={topic.id}>
@@ -70,6 +104,15 @@ const SecuritySectionPicker: FC<{
             <h1 className="flex items-center gap-2 text-2xl mb-5">
               <LucideTags size={18} />
               {topic.name}
+              <span className="bg-accent-dark-900 h-5 w-5 text-sm rounded-full flex items-center justify-center">
+                {
+                  selectedSections.filter((section) =>
+                    topic.sections.some(
+                      (topicSection) => topicSection.id === section.id,
+                    ),
+                  ).length
+                }
+              </span>
             </h1>
             {/* Button to expand or collapse the section cards */}
             <button
@@ -91,35 +134,26 @@ const SecuritySectionPicker: FC<{
             transition={{ duration: 0.5 }}
           >
             {/* Security Section Cards */}
-            <div className="grid grid-cols-3 gap-4 mb-10 p-1">
+            <div className="grid grid-cols-3 gap-4 mb-10 p-2">
               {topic.sections.map((section) => (
-                <Card
+                <SelectableCard
                   key={section.id}
                   onClick={() => handleAddSection(section)}
                   padding="lg"
-                  className={`
-                    cursor-pointer 
-                    outline outline-1
-                    hover:outline-sky_magenta
-                    hover:bg-opacity-40
-                    dark:hover:bg-opacity-70
-                    dark:hover:outline-sky_magenta
-                    transition-all duration-300 ease-in-out ${
-                      selectedSections.includes(section)
-                        ? "outline-sky_magenta dark:outline-sky_magenta bg-opacity-40"
-                        : "outline-transparent"
-                    }`}
+                  isSelected={selectedSections.includes(section)}
                 >
-                  <h1 className="text-lg font-medium mb-2">{section.name}</h1>
-                  <p className="text-sm dark:text-text-dark-700">
-                    {section.summary}
-                  </p>
-                </Card>
+                  <h1 className="font-medium mb-2">{section.name}</h1>
+                  <p className="text-text-light-300">{section.summary}</p>
+                </SelectableCard>
               ))}
             </div>
           </motion.div>
         </div>
       ))}
+      <div className="flex gap-2 justify-end">
+        <Button padding="sm" value="Go Back" onClick={onGoBack} />
+        <Button padding="sm" value="Next" onClick={handleContinue} />
+      </div>
     </>
   );
 };

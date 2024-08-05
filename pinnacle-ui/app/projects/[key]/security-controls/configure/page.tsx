@@ -13,6 +13,7 @@ import Footer from "@/app/lib/components/layout/footer";
 import SecurityTopicPicker from "@/app/lib/components/actions/security-topic-picker";
 import SecuritySectionPicker from "@/app/lib/components/actions/security-section-picker";
 import SecurityReviewSelection from "@/app/lib/components/actions/security-review-selection";
+import ProjectSecurityControlsPicker from "@/app/lib/components/data-display/project-security-controls-picker";
 
 const ProjectSecurityControlsConfigure: NextPage = () => {
   const { key } = useParams<{ key: string }>();
@@ -51,10 +52,10 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
       <Container width="w-4/6">
         <div className="mb-10 text-center">
           <h1 className="text-4xl font-medium mb-5">
-            Security Controls Configuration
+            Create a Security Checklist
           </h1>
           <p className="dark:text-text-dark-600">
-            Choose what applies to your project.
+            Choose what is relevant to {project?.name}
           </p>
         </div>
         {step === 1 && (
@@ -72,6 +73,14 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
             setSelectedSections={setSelectedSections}
             onGoBack={handleGoBack}
             onContinue={handleSelectSections}
+          />
+        )}
+        {step === 3 && (
+          <SecurityReviewSelection
+            topics={selectedTopics}
+            sections={selectedSections}
+            onGoBack={handleGoBack}
+            onConfirm={() => console.log("clicked")}
           />
         )}
         <Footer />
