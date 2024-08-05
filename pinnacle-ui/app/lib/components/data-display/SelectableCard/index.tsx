@@ -25,12 +25,13 @@ const SelectableCard: FC<SelectableCardProps> = ({
         outline outline-1
         hover:outline-sky_magenta
         hover:bg-opacity-10
+        dark:hover:bg-opacity-10
         hover:bg-sky_magenta
-        dark:hover:bg-opacity-70
+        dark:hover:bg-sky_magenta
         dark:hover:outline-sky_magenta
         transition-all duration-300 ease-in-out ${
           isSelected
-            ? "outline-sky_magenta dark:outline-sky_magenta bg-sky_magenta bg-opacity-10"
+            ? "outline-sky_magenta dark:outline-sky_magenta bg-sky_magenta dark:bg-sky_magenta bg-opacity-10 dark:bg-opacity-10"
             : "outline-transparent"
         }`}
     >

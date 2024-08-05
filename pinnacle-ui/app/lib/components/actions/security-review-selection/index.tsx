@@ -71,23 +71,33 @@ const SecurityReviewSelection: FC<{
             style={{ overflow: "hidden" }}
             transition={{ duration: 0.5 }}
           >
-            {topic.sections.map((section) => (
-              <div key={section.id}>
-                <h2 className="text-lg font-semibold mb-3">{section.name}</h2>
-                <div className="grid grid-cols-3 gap-2 mb-5">
-                  {section.controls.map((control) => (
-                    <Card key={control.id} padding="lg">
-                      <h1 className="text-lg font-medium mb-2">
-                        {control.control_id}
-                      </h1>
-                      <p className="text-sm dark:text-text-dark-700">
-                        {control.description}
-                      </p>
-                    </Card>
-                  ))}
+            {topic.sections
+              .filter((section) =>
+                sections?.some(
+                  (selectedSection) => selectedSection.id === section.id,
+                ),
+              )
+              .map((section) => (
+                <div key={section.id}>
+                  <h1 className="text-lg font-medium mb-2">{section.name}</h1>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {section.controls.map((control) => (
+                        <tr>
+                          <td>{control.control_id}</td>
+                          <td>{control.description}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              </div>
-            ))}
+              ))}
           </motion.div>
         </div>
       ))}
