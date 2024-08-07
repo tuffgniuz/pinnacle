@@ -35,12 +35,12 @@ const BoardPickerDropDown: FC<{ project: Project | undefined }> = ({
         </span>
       }
       buttonClassName="bg-accent-light-300 dark:bg-background-dark text-text-dark-900 rounded-lg"
-      className="w-80 border dark:border-accent-light-500"
+      className="w-80 border border-accent-light-900 dark:border-accent-light-500"
     >
-      <h1 className="p-4 font-semibold border-b border-accent-light-500">
+      <h1 className="p-4 font-semibold border-b border-accent-light-900">
         Switch to another board
       </h1>
-      <ul className="border-b border-accent-light-500">
+      <ul className="border-b border-accent-light-900">
         {boards?.map((board) => (
           <li
             key={board.id}

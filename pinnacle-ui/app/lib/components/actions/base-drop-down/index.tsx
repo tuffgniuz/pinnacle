@@ -87,7 +87,7 @@ const BaseDropDown: FC<{
             border-1
             dark:border-accent-light-400
             mt-3 -ml-2
-            drop-shadow-2xl
+            drop-shadow-lg
             rounded-lg 
             ${backgroundColor}
             ${className}`}

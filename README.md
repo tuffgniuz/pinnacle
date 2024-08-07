@@ -2,9 +2,9 @@
 
 <img src="/res/pinnacle.svg" height="250" width="250" />
 
-# Pinnacle - Secure Development From The Ground Up
+# Pynakl - Secure Development From The Ground Up
 
-Simplifying the integration of ASVS into your SDLC, making it easy to customize security standards and map controls to user stories, ensuring secure development from the ground up.
+Pynakl is a security-focused project management tool that ensures secure software development by managing security requirements and adhering to security standards.
 
 </div>
 
@@ -14,4 +14,4 @@ Simplifying the integration of ASVS into your SDLC, making it easy to customize 
 
 </div>
 
-Pinnacle is a project management tool that simplifies the integration of ASVS into the SDLC by enabling customizable security standards and mapping security controls to specific project features and issues.
+Pynakl addresses the challenge of secure software development by providing a platform that seamlessly incorporates security requirements and industry standards into every phase of the project management lifecycle, enabling development teams to proactively identify and mitigate security risks, ensure compliance, and build secure software from the ground up.

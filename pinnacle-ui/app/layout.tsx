@@ -21,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`
+          text-sm
           bg-background-light 
           dark:bg-accent-dark-500 
           text-text-light-100 

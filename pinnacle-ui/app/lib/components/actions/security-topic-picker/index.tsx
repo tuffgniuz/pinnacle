@@ -43,6 +43,7 @@ const SecurityTopicPicker: FC<{
       <div className="grid grid-cols-3 gap-4 mb-10">
         {topics?.map((topic) => (
           <SelectableCard
+            key={topic.id}
             onClick={() => handleAddTopic(topic)}
             padding="lg"
             isSelected={selectedTopics.includes(topic)}
