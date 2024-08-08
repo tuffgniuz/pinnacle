@@ -26,7 +26,7 @@ const Card: FC<{
         rounded-lg 
         flex flex-col 
         transition-all duration-300 ease-in-out
-        ${!transparent ? "bg-background-dark-500 dark:bg-accent-dark-400" : ""}
+        ${!transparent ? "bg-background-dark-600 dark:bg-accent-dark-400" : ""}
         ${padding === "sm" ? "p-2" : padding === "md" ? "p-4" : padding === "lg" ? "p-6" : ""}
         ${className}
       `}

@@ -9,11 +9,10 @@ import useProjectAddSecurityControls from "@/app/lib/hooks/projects/useProjectAd
 import useProjectDetail from "@/app/lib/hooks/projects/useProjectDetail";
 import FormPageHeader from "@/app/lib/components/navigation/form-page-header";
 import Container from "@/app/lib/components/layout/container";
-import Footer from "@/app/lib/components/layout/footer";
 import SecurityTopicPicker from "@/app/lib/components/actions/security-topic-picker";
 import SecuritySectionPicker from "@/app/lib/components/actions/security-section-picker";
 import SecurityReviewSelection from "@/app/lib/components/actions/security-review-selection";
-import ProjectSecurityControlsPicker from "@/app/lib/components/data-display/project-security-controls-picker";
+import StepTracker from "@/app/lib/components/actions/step-tracker";
 
 const ProjectSecurityControlsConfigure: NextPage = () => {
   const { key } = useParams<{ key: string }>();
@@ -42,22 +41,40 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
     setStep(step - 1);
   };
 
+  const steps = [
+    {
+      stepCount: 1,
+      isCurrentStep: step === 1,
+      completed: step > 1,
+      label: "Security Topics",
+    },
+    {
+      stepCount: 2,
+      isCurrentStep: step === 2,
+      completed: step > 2,
+      label: "Security Sections",
+    },
+    {
+      stepCount: 3,
+      isCurrentStep: step === 3,
+      completed: false,
+      label: "Review and Confirm",
+    },
+  ];
+
   return (
     <>
       <FormPageHeader
         height="md"
-        title={`Configure Project Security Checklist`}
+        title="Create Your Project's Security Checklist"
       />
 
       <Container width="w-4/6">
-        <div className="mb-10 text-center">
-          <h1 className="text-4xl font-medium mb-5">
-            Create a Security Checklist
-          </h1>
-          <p className="dark:text-text-dark-600">
-            Choose what is relevant to {project?.name}
-          </p>
+        {/* Step indication */}
+        <div className="mb-10">
+          <StepTracker steps={steps} />
         </div>
+        {/* End step indication */}
         {step === 1 && (
           <SecurityTopicPicker
             topics={topics}
@@ -83,7 +100,6 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
             onConfirm={() => console.log("clicked")}
           />
         )}
-        <Footer />
       </Container>
     </>
   );
