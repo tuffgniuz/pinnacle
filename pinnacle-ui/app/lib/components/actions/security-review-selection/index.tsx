@@ -8,7 +8,6 @@ import {
 import { motion } from "framer-motion";
 import { SecuritySection, SecurityTopic } from "@/app/lib/types/models";
 import Button from "../button";
-import Card from "../../data-display/card";
 import TransitionWrapper from "../../wrappers/transition-wrapper";
 
 const SecurityReviewSelection: FC<{
@@ -101,7 +100,7 @@ const SecurityReviewSelection: FC<{
                     </div>
                     <table className="w-full">
                       <thead className="text-left">
-                        <tr className="border-b last:border-none">
+                        <tr className="border-b">
                           <th className="p-4">ID</th>
                           <th className="p-4">Description</th>
                           <th className="p-4">L1</th>
@@ -110,11 +109,14 @@ const SecurityReviewSelection: FC<{
                         </tr>
                       </thead>
                       {section.controls.map((control) => (
-                        <tr className="border-b">
+                        <tr className="border-b last:border-none transition-all duration-300 ease-in-out hover:bg-background-dark-600 cursor-pointer">
                           <td className="p-4 font-light">
                             {control.control_id}
                           </td>
                           <td className="p-4">{control.description}</td>
+                          <td className="p-4"></td>
+                          <td className="p-4"></td>
+                          <td className="p-4"></td>
                         </tr>
                       ))}
                     </table>

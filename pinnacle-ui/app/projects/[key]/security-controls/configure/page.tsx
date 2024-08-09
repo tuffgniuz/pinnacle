@@ -23,8 +23,9 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
     setTopics: setSelectedTopics,
     sections: selectedSections,
     setSections: setSelectedSections,
+    errorMsg,
     handleMutation,
-  } = useProjectAddSecurityControls(project?.id);
+  } = useProjectAddSecurityControls(project);
   const [step, setStep] = useState(1);
 
   const handleSelectTopics = (selectedTopics: SecurityTopic[]) => {
@@ -39,6 +40,10 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
 
   const handleGoBack = () => {
     setStep(step - 1);
+  };
+
+  const handleOnConfirm = () => {
+    handleMutation();
   };
 
   const steps = [
@@ -68,8 +73,8 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
         height="md"
         title="Create Your Project's Security Checklist"
       />
-
       <Container width="w-4/6">
+        {errorMsg !== undefined && <p>{errorMsg.toString()}</p>}
         {/* Step indication */}
         <div className="mb-10">
           <StepTracker steps={steps} />
@@ -97,7 +102,7 @@ const ProjectSecurityControlsConfigure: NextPage = () => {
             topics={selectedTopics}
             sections={selectedSections}
             onGoBack={handleGoBack}
-            onConfirm={() => console.log("clicked")}
+            onConfirm={handleOnConfirm}
           />
         )}
       </Container>
